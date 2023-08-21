@@ -31,32 +31,22 @@ function App() {
 
   return (
     <Router>
+        <Switch>
     <div className="App">
+  
       <ToastContainer/>
-    <Route
-                exact
-                path="/"
-                render={() => {
-                    return (
-                      user ?
-                      <Redirect to={{
-                        pathname : '/addbid',
-                      }} />  : 
-                      <Redirect to="/home" /> 
-                   
-                    )
-                }}
-              />
     <Route path='/addbid'>
 <Postbid/>
     </Route>
-    <Route path='/home'>
+    <Route exact path='/'>
       <LoginForm/>
     </Route>
     <Route path='/location'>
       <Demo/>
     </Route>
+   
     </div>
+    </Switch>
     </Router>
   );
 }

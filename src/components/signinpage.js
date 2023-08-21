@@ -1,5 +1,5 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid, Typography } from '@mui/material';
 import { auth, firestoredb } from "../index";
 import { doc, setDoc, getFirestore,addDoc, collection, getDoc } from "firebase/firestore"; 
@@ -19,6 +19,8 @@ import {
   } from "firebase/auth";
 import Phonenumber from "../Login/Phonenumber.js";
 import { setMobileValue } from "../reduxslice";
+import { toast } from "react-toastify";
+import { SubscribeUser } from '../subscription.js';
 
 export const gettoken = (setTokenFound) => {
   return getToken(messaging, {vapidKey: 'BGv0240OnB9TXCS1EnZSRkTDc31iMchcnB4StYyTjKV0VNnmQnauwLkK-n3xV3aY9g5lNff5-b31ymOsesZAMW8'}).then((currentToken) => {
@@ -49,7 +51,7 @@ function setUpRecaptha(number) {
   // var appVerifier = new RecaptchaVerifier('recaptcha-container');
      const recaptchaVerifier = new RecaptchaVerifier(
        "recaptcha-container",
-       {},
+       {"size" : "invisible"},
        auth
      );
      recaptchaVerifier.render();
@@ -86,16 +88,27 @@ function LoginForm() {
   const [loggedin, setloggedin] = useState(false);
   const [docid, setdocid] = useState('');
   const dispatch = useDispatch();
-gettoken(setTokenFound);
-
-onMessageListener().then(payload => {
-  setShow(true);
-  setNotification({title: "hello partner", body: "new quote available"})
-  console.log(payload);
-  console.log("hello");
-}).catch(err => console.log('failed: ', err));
-
   const history = useHistory();
+
+  useEffect(() => {
+    const isloggedin = localStorage.getItem('partnerid');
+if(isloggedin){
+  history.push({
+    pathname : '/addbid',
+ });
+ toast.success("already logged in");
+}
+  }, []);
+// gettoken(setTokenFound);
+
+// onMessageListener().then(payload => {
+//   setShow(true);
+//   setNotification({title: "hello partner", body: "new quote available"})
+//   console.log(payload);
+//   console.log("hello");
+// }).catch(err => console.log('failed: ', err));
+
+
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -114,35 +127,50 @@ onMessageListener().then(payload => {
     dispatch(setnameValue(name));
     dispatch(setemailValue(email));
     e.preventDefault();
-    const docRef = doc(firestoredb, "Partners", number);
+  //  const docRef = doc(firestoredb, "Partners", number);
     const data = {
                "email" : email,
                "name" : name,
                "address" : address,
                "number" : number,
-               "rating" : Math.floor(Math.random() * 5),
-               "percentage" : Math.floor(Math.random() * 100),
-               "partnerid" : Math.floor(Math.random() * 10000),
+               "rating" : Math.floor(Math.random() * 3)+2,
+               "percentage" : Math.floor(Math.random() * 50)+50,
                }
-   dispatch(setallValue(data));
-   localStorage.setItem('partnerdata', JSON.stringify(data));
-   setDoc(docRef, data)
-   .then(() => {
-       console.log("Document has been added successfully");
-       setdocid(docRef.id);
-   })
-   .catch(error => {
-       console.log(error);
-   })
+
+      fetch(process.env.REACT_APP_BACKEND + 'partner', {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json'
+                }, 
+                body : JSON.stringify(data),   
+              })
+              .then(response => response.json())
+              .then(json => {  
+                localStorage.setItem('partnerid', JSON.stringify(json['id'])) ;
+                SubscribeUser(json['id']);
+               history.push({
+       pathname : '/addbid',
+        })
+                })  
+          
+  // dispatch(setallValue(data));
+
+  //  setDoc(docRef, data)
+  //  .then(() => {
+  //      console.log("Document has been added successfully");
+  //      setdocid(docRef.id);
+  //  })
+  //  .catch(error => {
+  //      console.log(error);
+  //  })
     // const docRef = await setDoc(collection(firestoredb, "Partners",number), {
     //          "email" : email,
     //          "name" : name,
     //          "address" : address,
     //          });
     // console.log('signin successful')
-    history.push({
-       pathname : '/addbid',
-        })
+   
     // createUserWithEmailAndPassword(auth, email, password)
     // .then(async(userCredential) => {
     //     const user = userCredential.user;
@@ -206,23 +234,23 @@ onMessageListener().then(payload => {
 //       setDoc(docRef, data);
 // console.log('signin successful')
       console.log(number);
-      const docRef = doc(firestoredb, "Partners", number);
-      console.log(docRef);
-      const docSnap = await getDoc(docRef);   
-      if(docSnap.exists()){
-        console.log(docSnap.data()['address']);
-        dispatch(setAddressValue(docSnap.data()['address']));
-        dispatch(setnameValue(docSnap.data()['name']));
-        dispatch(setemailValue(docSnap.data()['email']));
-        console.log('signin successful');
-        history.push({
-           pathname : '/addbid',
-           state : {number : number}
-        })
-      }
-      else{
+      // const docRef = doc(firestoredb, "Partners", number);
+      // console.log(docRef);
+      // const docSnap = await getDoc(docRef);   
+      // if(docSnap.exists()){
+      //   console.log(docSnap.data()['address']);
+      //   dispatch(setAddressValue(docSnap.data()['address']));
+      //   dispatch(setnameValue(docSnap.data()['name']));
+      //   dispatch(setemailValue(docSnap.data()['email']));
+      //   console.log('signin successful');
+      //   history.push({
+      //      pathname : '/addbid',
+      //      state : {number : number}
+      //   })
+      // }
+      // else{
         setloggedin(true);
-      }
+    //  }
       // const auth= getAuth();
       // const user = auth.currentUser;
       // var uid;

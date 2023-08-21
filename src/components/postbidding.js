@@ -59,33 +59,64 @@ export default function Postbid(){
     const history = useHistory();
     const quote1 = []
     const quote2 =[]
-    const number = location.state.number;
-    console.log(number);
+    const partnerid  = JSON.parse(localStorage.getItem('partnerid'));
+   // const number = location.state.number;
+   // console.log(number);
     const [all, setalldata] = useState('');
 
 
-    useEffect(()=>{
-      if(number){
-        async function start(){
-          const docRef = doc(firestoredb, "Partners", number);
-          const docSnap = await getDoc(docRef);
-           
-    if (docSnap.exists()) {
-     setalldata(docSnap.data());
-    } else {
-      // docSnap.data() will be undefined in this case
-      console.log("No such document!");
-    }
+    const fetchcode = async() => {
+      try{
+        await fetch(process.env.REACT_APP_BACKEND + `users/getquotes?id=${partnerid}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          }, 
+         // body : JSON.stringify(data),   
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error('Network error');
+          }
+          return response.json();
         }
-        start();
+       )
+        .then(json =>  setquotesall(json['objects'])).catch(error => {
+         toast.error("Error while retreiving data");
+        });
+        
+      }
+      catch (error) {
+        toast.error("Error while retreiving data");
+      }
+    }
+
+    useEffect(()=>{
+      fetchcode();  
+    }, [])
+
+    // useEffect(()=>{
+    //   if(number){
+    //     async function start(){
+    //       const docRef = doc(firestoredb, "Partners", number);
+    //       const docSnap = await getDoc(docRef);
+           
+    // if (docSnap.exists()) {
+    //  setalldata(docSnap.data());
+    // } else {
+    //   // docSnap.data() will be undefined in this case
+    //   console.log("No such document!");
+    // }
+    //     }
+    //     start();
     
   
-      }
-      else{
-       setalldata(JSON.parse(localStorage.getItem('partnerdata')));
-      }
-     console.log(all);
-    }, [])
+    //   }
+    //   else{
+    //    setalldata(JSON.parse(localStorage.getItem('partnerdata')));
+    //   }
+    //  console.log(all);
+    // }, [])
   
 
     //const docid = location.state.docid || '';
@@ -109,7 +140,7 @@ quote2.push(doc.id);
 
     useEffect(() => {
         console.log('hello')
-        handledata();
+       // handledata();
     //     const dbRef = ref(getDatabase());
     //     get(dbRef)
     //   .then((snapshot) => {
@@ -140,9 +171,9 @@ quote2.push(doc.id);
         setValue2(e.target.value);
         console.log(e.target.value)
       }
-      const handleopenmodel = (dat, id1) => {
-        setmodelname(dat);
-        setquoteid1(id1);
+      const handleopenmodel = (dat) => {
+      setmodelname(dat['device']-dat['model']);
+      setquoteid1(dat['_id']);
         setOpen(true);
        
       }
@@ -156,7 +187,7 @@ quote2.push(doc.id);
         else{
           const id1 = quoteid1;
           console.log(id1);
-          const response = await fetch('http://localhost:8003/submitquote', {
+          const response = await fetch(process.env.REACT_APP_BACKEND + 'users/submitquote', {
             method: 'POST',
             headers: {
               'Accept': 'application/json, text/plain, */*',
@@ -181,7 +212,7 @@ quote2.push(doc.id);
       }
 
       const handlesendmessage = async() => {
-        const response = await fetch('http://localhost:8000/message/', {
+        const response = await fetch(process.env.REACT_APP_BACKEND + 'users/message/', {
           method: 'POST',
           headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -198,26 +229,27 @@ quote2.push(doc.id);
       const handleadddata = async() => {
         const id1 = quoteid1;
         console.log(id1);
+      //  console.log(json.parse(localStorage.getitem('partnerid')));
         //console.log("helllooooji")
-        const response = await fetch('http://localhost:8003/submitquote', {
+        const response = await fetch(process.env.REACT_APP_BACKEND + 'users/submitquote', {
           method: 'POST',
           headers: {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
           }, 
           body : JSON.stringify({
-            "docid" : "1",
-            "alldata" : all,
-            "uid" : id1,
+            "id" : quoteid1,
             "amount" : amount,
             "delivery" : value,
             "warranty" : value2,  
+            "partnerid" :  partnerid,
           }),   
         });
         const json = await response.json();
         console.log(json);
         toast.success(json['message']);
         setOpen(false);
+        fetchcode();
       }
         return(
         <Grid>
@@ -291,12 +323,23 @@ quote2.push(doc.id);
                 quotesall.length > 0 ?
                 quotesall.map((quote, index)=> (
                 <Card key={index} elevation={2} sx={{margin:'8px', padding:'8px'}} >       
-                        <Typography>{quote['issue']}</Typography>
+                    
+                        <Typography>{quote['device']}</Typography>
                         <Typography>{quote['model']}</Typography>
+                        <Typography variant='h5'> Customer requirements</Typography>
+                        <Typography>Selected Issues</Typography>
+                        {
+                          quote['issu'].map((quo)=>(
+                            <Typography>{quo}</Typography>
+                          ))
+                        }
+                        <Typography>Quality : {quote['quality']}</Typography>
+                        <Typography>Warranty : {quote['warranty']}</Typography>
+                        <Typography>Service : {quote['service']}</Typography>
                         {/* <Typography>{quotedata[quote]['mod']}</Typography> */}
                         {/* <TextField label="Enter the amount here" variant='outlined' value={amount
                         } onChange={(e)=>setamount(e.target.value)}/> */}
-                        <Button onClick={()=> handleopenmodel(quote['model'], quotedata[index])}> Add quote </Button>
+                        <Button onClick={()=> handleopenmodel(quote)}> Add quote </Button>
                 </Card>
 
                 ))
