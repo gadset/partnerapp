@@ -16,7 +16,9 @@ import { collection, doc, setDoc ,getDocs} from "firebase/firestore";
 import { firestoredb } from '.';
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
-
+// akarsh-footer
+import Footer from './Navbar/Footer';
+//
 function App() {
   const auth= getAuth();
   var user;
@@ -44,9 +46,11 @@ function App() {
     <Route path='/location'>
       <Demo/>
     </Route>
-   
+
     </div>
     </Switch>
+       {/* akarsh-footer */}
+           <Footer />
     </Router>
   );
 }
