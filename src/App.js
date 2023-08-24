@@ -16,6 +16,7 @@ import { collection, doc, setDoc ,getDocs} from "firebase/firestore";
 import { firestoredb } from '.';
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
+import Home from './Home/Home';
 
 function App() {
   const auth= getAuth();
@@ -31,22 +32,30 @@ function App() {
 
   return (
     <Router>
-        <Switch>
-    <div className="App">
-  
-      <ToastContainer/>
-    <Route path='/addbid'>
-<Postbid/>
-    </Route>
-    <Route exact path='/'>
-      <LoginForm/>
-    </Route>
-    <Route path='/location'>
-      <Demo/>
-    </Route>
-   
-    </div>
-    </Switch>
+
+      <Switch>
+        <div className="App">
+          <ToastContainer/>
+          <Route path='/addbid'>
+            <Postbid/>
+          </Route>
+          <Route exact path='/'>
+            <LoginForm/>
+          </Route>
+          <Route path='/location'>
+            <Demo/>
+          </Route>
+
+          {/* Praveen links */}
+
+          <Route path='/home'>
+            <Home />
+          </Route>
+
+          {/* Link ends */}
+      
+        </div>
+      </Switch>
     </Router>
   );
 }
