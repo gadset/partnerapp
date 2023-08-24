@@ -16,6 +16,7 @@ import { collection, doc, setDoc ,getDocs} from "firebase/firestore";
 import { firestoredb } from '.';
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
+import Orders from './Orders/Orders';
 
 function App() {
   const auth= getAuth();
@@ -43,6 +44,11 @@ function App() {
     </Route>
     <Route path='/location'>
       <Demo/>
+    </Route>
+
+    {/* venkatesh links */}
+    <Route path='/orders'>
+      <Orders/>
     </Route>
    
     </div>
