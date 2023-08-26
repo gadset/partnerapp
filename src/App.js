@@ -14,13 +14,18 @@ import Demo from './components/getlocation';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, doc, setDoc ,getDocs} from "firebase/firestore"; 
 import { firestoredb } from '.';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Orders from './Orders/Orders';
 
 function App() {
   const auth= getAuth();
   var user;
+  const [width, setWidth] = useState(window.innerWidth);
+
+  function handleWindowSizeChange() {
+      setWidth(window.innerWidth);
+  }
   useEffect(()=>{
     user = auth.currentUser;
   //  console.log(auth['currentUser']);
@@ -30,10 +35,19 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    //  subscribe();
+    
+          window.addEventListener('resize', handleWindowSizeChange);
+          return () => {
+              window.removeEventListener('resize', handleWindowSizeChange);
+          }
+      }, []);
+      const isMobile = width <= 768;
   return (
     <Router>
         <Switch>
-    <div className="App">
+    <div style={{justifyContent:'center', display:'flex', flexDirection:'column', width : isMobile ? '100%' : '400px'}}>
   
       <ToastContainer/>
     <Route path='/addbid'>
