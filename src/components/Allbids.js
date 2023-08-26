@@ -2,7 +2,6 @@ import { Box, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Grid  from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { Start } from '@mui/icons-material';
 import Timerr from './Timerr';
 export default function Allbids() {
     const [width, setWidth] = useState(window.innerWidth);
