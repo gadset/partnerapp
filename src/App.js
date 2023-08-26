@@ -14,20 +14,17 @@ import Demo from './components/getlocation';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, doc, setDoc ,getDocs} from "firebase/firestore"; 
 import { firestoredb } from '.';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
-import Home from './Home/Home';
-import Navbar from './Navbar/Navbar';
-import CancelledBids from './components/CancelledBids';
-import awaitingConformation from './components/awaitingConformation';
-import ConfirmedBids from './components/ConfirmedBids';
-import NewBid from './NewBid/NewBid';
-import otherBidding from './components/otherBidding';
-import PendingOrders from './components/PendingOrders';
 
 function App() {
   const auth= getAuth();
   var user;
+  const [width, setWidth] = useState(window.innerWidth);
+
+  function handleWindowSizeChange() {
+      setWidth(window.innerWidth);
+  }
   useEffect(()=>{
     user = auth.currentUser;
   //  console.log(auth['currentUser']);
@@ -37,39 +34,33 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    //  subscribe();
+    
+          window.addEventListener('resize', handleWindowSizeChange);
+          return () => {
+              window.removeEventListener('resize', handleWindowSizeChange);
+          }
+      }, []);
+      const isMobile = width <= 768;
   return (
     <Router>
-
-      <Switch>
-        <div className="App">
-          <ToastContainer/>
-          <Route path='/addbid'>
-            <Postbid/>
-          </Route>
-          <Route exact path='/'>
-            <LoginForm/>
-          </Route>
-          <Route path='/location'>
-            <Demo/>
-          </Route>
-
-          {/* Praveen links */}
-
-          <Route path='/home'>
-            <Home />
-          </Route>
-          <Route path='/newbid' component={NewBid} />
-          <Route path='/navbar' component={Navbar} />
-          <Route path='/cancelledBids' component={CancelledBids} />
-          <Route path='/awaitingConformation' component={awaitingConformation} />
-          <Route path='/confirmedbids' component={ConfirmedBids} />
-          <Route path='/otherbidding' component={otherBidding} />
-          <Route path='/pendingorders' component={PendingOrders} />
-
-          {/* Link ends */}
-      
-        </div>
-      </Switch>
+        <Switch>
+    <div className="App">
+  
+      <ToastContainer/>
+    <Route path='/addbid'>
+<Postbid/>
+    </Route>
+    <Route exact path='/'>
+      <LoginForm/>
+    </Route>
+    <Route path='/location'>
+      <Demo/>
+    </Route>
+   
+    </div>
+    </Switch>
     </Router>
   );
 }
