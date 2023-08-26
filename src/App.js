@@ -17,6 +17,13 @@ import { firestoredb } from '.';
 import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Home from './Home/Home';
+import Navbar from './Navbar/Navbar';
+import CancelledBids from './components/CancelledBids';
+import awaitingConformation from './components/awaitingConformation';
+import ConfirmedBids from './components/ConfirmedBids';
+import NewBid from './NewBid/NewBid';
+import otherBidding from './components/otherBidding';
+import PendingOrders from './components/PendingOrders';
 
 function App() {
   const auth= getAuth();
@@ -51,6 +58,13 @@ function App() {
           <Route path='/home'>
             <Home />
           </Route>
+          <Route path='/newbid' component={NewBid} />
+          <Route path='/navbar' component={Navbar} />
+          <Route path='/cancelledBids' component={CancelledBids} />
+          <Route path='/awaitingConformation' component={awaitingConformation} />
+          <Route path='/confirmedbids' component={ConfirmedBids} />
+          <Route path='/otherbidding' component={otherBidding} />
+          <Route path='/pendingorders' component={PendingOrders} />
 
           {/* Link ends */}
       
