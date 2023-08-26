@@ -13,7 +13,7 @@ import { IconContext } from 'react-icons';
 export default function Footer() {
     const Mobile = useMediaQuery('(max-width:400px)');
   return (
-    <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width: '100%' }}>
+    <Box sx={{ zIndex: 999, width: '100%' }}>
       <Paper>
         <BottomNavigation
           sx={{

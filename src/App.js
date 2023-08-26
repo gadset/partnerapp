@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Orders from './Orders/Orders';
 import Allbids from '../../src/Components/Allbids';
-import Footer from '../../src/Components/Footer';
+import Footer from './Navbar/Footer';
 
 function App() {
   const auth= getAuth();
@@ -70,10 +70,11 @@ function App() {
     <Route path='/Allbids'>
       <Allbids/>
     </Route>
+
     </div>
     </Switch>
-    {/* akarsh kinks */}
-    <Footer />
+       {/* akarsh-footer */}
+           <Footer />
     </Router>
   );
 }
