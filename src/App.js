@@ -17,6 +17,8 @@ import { firestoredb } from '.';
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Orders from './Orders/Orders';
+import Allbids from '../../src/Components/Allbids';
+import Footer from '../../src/Components/Footer';
 
 function App() {
   const auth= getAuth();
@@ -64,9 +66,14 @@ function App() {
     <Route path='/orders'>
       <Orders/>
     </Route>
-   
+    {/* akarsh kinks */}
+    <Route path='/Allbids'>
+      <Allbids/>
+    </Route>
     </div>
     </Switch>
+    {/* akarsh kinks */}
+    <Footer />
     </Router>
   );
 }
