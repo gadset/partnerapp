@@ -8,8 +8,8 @@ import './style.css';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { IconButton, Radio, RadioGroup } from '@mui/material';
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
+import { IconButton, Radio, RadioGroup } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
@@ -129,7 +129,7 @@ function NewBid(props) {
                 <Grid item style={{padding: '5px 0', display: 'flex', justifyContent: 'flex-start', margin: '5px 0'}} >
                     <Typography style={{fontWeight: '600', fontSize: '16px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1'}}>Final bid Amount : ₹9350</Typography>
                 </Grid>
-                <SubmitButtom variant='contained' sx={{backgroundColor: '#505050', borderRadius: 5, border: '1px solid #C5C5C5', fontSize: 16, '&:hover': { backgroundColor: '#505050'},}}>submit</SubmitButtom>
+                <SubmitButtom onClick={props.handleSubmit} variant='contained' sx={{backgroundColor: '#505050', borderRadius: 5, border: '1px solid #C5C5C5', fontSize: 16, '&:hover': { backgroundColor: '#505050'},}}>submit</SubmitButtom>
             </Grid>
         </Box>
     );

@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import Grid  from '@mui/material/Grid';
-import { Typography } from '@mui/material';
+import { Modal, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ConfirmationBox from './confirmationBox';
+import PersonOtherBid from './personOtherBid';
+import CancelBidAwaiting from './CancelBidAwaiting';
+import ChangeBidAwaiting from './ChangeBidAwaiting';
 
-function awaitingConformation() {
+function AwaitingConformation() {
+
+ 
 
     const dataNewBids = [
         {phone: 'iPhone X', issue: 'Camera not working, Battery replacement , ', bid: 7500, biddate : '2023-08-27T00:00:00'},
@@ -32,7 +37,7 @@ function awaitingConformation() {
         <Grid container style={{display: 'flex', flexDirection: 'column', margin: '0'}} >
             {dataNewBids.map((data, index) => (
                 // <Link to='/'>
-                    <ConfirmationBox key={index} textDecorationNone={true}  phone={data.phone} issue={data.issue} bid={data.bid} date={data.biddate}/>
+                    <ConfirmationBox key={index}  phone={data.phone} issue={data.issue} bid={data.bid} date={data.biddate} />
                 // </Link>
             ))}
         </Grid>
@@ -40,4 +45,4 @@ function awaitingConformation() {
   )
 }
 
-export default awaitingConformation
+export default AwaitingConformation
