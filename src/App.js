@@ -24,6 +24,7 @@ import ConfirmedBids from './components/ConfirmedBids';
 import NewBid from './NewBid/NewBid';
 import otherBidding from './components/otherBidding';
 import PendingOrders from './components/PendingOrders';
+import OrderEntry from './components/OrderEntry';
 
 function App() {
   const auth= getAuth();
@@ -65,6 +66,7 @@ function App() {
           <Route path='/confirmedbids' component={ConfirmedBids} />
           <Route path='/otherbidding' component={otherBidding} />
           <Route path='/pendingorders' component={PendingOrders} />
+          <Route path='/OrderEntry' component={OrderEntry} />
 
           {/* Link ends */}
       
