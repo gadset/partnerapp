@@ -3,9 +3,10 @@ import Box from '@mui/material/Box';
 import Grid  from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import awaitngConfirmationBox2 from './confirmationBox';
+import ConfirmationBox from './confirmationBox';
+import AwaitingConformation2Box from './AwaitingConformation2Box';
 
-function awaitingConformation() {
+function AwaitingConformation2() {
 
     const dataNewBids = [
         {phone: 'iPhone X', issue: 'Camera not working, Battery replacement , ', bid: 7500, biddate : '2023-08-27T00:00:00'},
@@ -32,7 +33,7 @@ function awaitingConformation() {
         <Grid container style={{display: 'flex', flexDirection: 'column', margin: '0'}} >
             {dataNewBids.map((data, index) => (
                 // <Link to='/'>
-                    <ConfirmationBox key={index} textDecorationNone={true}  phone={data.phone} issue={data.issue} bid={data.bid} date={data.biddate}/>
+                    <AwaitingConformation2Box key={index} textDecorationNone={true}  phone={data.phone} issue={data.issue} bid={data.bid} date={data.biddate}/>
                 // </Link>
             ))}
         </Grid>
@@ -40,4 +41,4 @@ function awaitingConformation() {
   )
 }
 
-export default awaitingConformation
+export default AwaitingConformation2;

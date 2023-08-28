@@ -1,44 +1,200 @@
-import React from 'react'
+
+
+import React, {useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Grid  from '@mui/material/Grid';
-import { Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
-import ConfirmationBox from './confirmationBox';
-import AwaitingConformationPage2 from './AwaitingConformation2Box';
+import { Typography , Button} from '@mui/material';
+import Timer from './Timer';
+import styled from '@emotion/styled';
 
-function AwaitingConformation2() {
+const ButtonDelivery = styled(Button) `
+    text-transform: none;
+    background-color: #333333;
+    color: #FFFFFF;
+    border: 1px solid #C5C5C5;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    font-family: Work Sans;
+    padding: '10px 5px';
+`
 
-    const dataNewBids = [
-        {phone: 'iPhone X', issue: 'Camera not working, Battery replacement , ', bid: 7500, biddate : '2023-08-27T00:00:00'},
-        {phone: 'Oppo A52', issue: 'Display broken, Battery replacement', bid: 4500, biddate : '2023-08-27T00:00:00'},
-        {phone: 'oneplus Nord c', issue: 'Display broken, touch not working', bid: 6500, biddate : '2023-08-28T00:00:00'},
-        {phone: 'iPhone 14 pro max', issue: 'Camera not working, Battery replacement', bid: 10000, biddate : '2023-08-29T00:00:00'},
-        {phone: 'Samsung Z flip', issue: 'Display broken, Battery replacement', bid: 12000, biddate : '2023-08-30T00:00:00'}
-    ];
-    
+const ButtonCancel = styled(Button) `
+    text-transform: none;
+    background-color: #C0C0C0;
+    color: #333333;
+    border: 1px solid #C5C5C5;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    font-family: Work Sans;
+    padding: '10px 5px';
+    border: 1px solid #333333
+`
 
-  return (
-    <Box style={{display: 'flex', flexDirection: 'column', padding: '10px 30px', backgroundColor: '#FFFFFF'}}>
-        <Grid item sx={{padding: 0, margin: '10px 0 5px 0'}}>
-            <Typography
-                fontFamily='Work Sans'
-                fontSize='16px'
-                fontWeight= '400'
-                lineHeight='18.77px'
-                textAlign='left'
-            >
-                Awaiting Confirmation
-            </Typography>
-        </Grid>
-        <Grid container style={{display: 'flex', flexDirection: 'column', margin: '0'}} >
-            {dataNewBids.map((data, index) => (
-                // <Link to='/'>
-                    <AwaitingConformationPage2 key={index} textDecorationNone={true}  phone={data.phone} issue={data.issue} bid={data.bid} date={data.biddate}/>
-                // </Link>
-            ))}
-        </Grid>
-    </Box>
-  )
+
+
+const AwaitingConformation2Box = ({phone,issue,bid, date, textDecorationNone}) => {
+
+    const bidend = date;
+
+    return (
+        <Box container sx={{ margin: '25px 0'}}>
+            <Grid container style={{display: 'flex', minHeight: '125px',justifyContent:'center' ,flexDirection: 'column', padding: '15px 10px', border: '1px solid #A19F9F' ,backgroundColor: '#DEDEDE', borderRadius: '5px', position: 'relative', textDecorationNone}}>
+                <Grid style={{padding: "5px 10px", backgroundColor: '#FFFFFF', border: '1px solid #333333', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '22px', position: 'absolute', float:'right', right: '5px', top: '-10px'}}>
+                    <Typography
+                        fontFamily='Work Sans'
+                        fontWeight='400'
+                        fontSize='10px'
+                        lineHeight='11.73px'
+                        color='#333333'
+                        textDecorationNone
+
+                    >
+                        Bid ends in
+                    </Typography>
+                    <Typography
+                        fontFamily='Work Sans'
+                        fontWeight='400'
+                        fontSize='10px'
+                        lineHeight='11.73px'
+                        color='#333333'
+                        paddingLeft='3px'
+                    >
+                        <Timer bidEndDate={bidend} />
+                    </Typography>
+
+                </Grid >
+                <Grid container style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '22px', position: 'absolute', right: 0, left: 0, margin: '0 auto', bottom: '-10px'}}>
+                    <Grid item xs={4} style={{padding: 0}}>
+                        <ButtonCancel sx={{backgroundColor: '#C0C0C0', '&:hover': {backgroundColor: '#C0C0C0'}}} variant='contained'>Cancel bid</ButtonCancel>
+                    </Grid>
+                    <Grid item xs={4} style={{padding: 0}}>
+                        <ButtonDelivery sx={{backgroundColor: '#333333', '&:hover': {backgroundColor: '#333333'}}} variant='contained'>Others bid</ButtonDelivery>
+                    </Grid>
+                    <Grid item xs={4} style={{padding: 0}}>
+                        <ButtonDelivery sx={{backgroundColor: '#333333', '&:hover': {backgroundColor: '#333333'}}} variant='contained'>change bid</ButtonDelivery>
+                    </Grid>
+                </Grid>
+                <Grid container style={{display: 'flex', flexDirection: 'row', margin: '3px 0'}}>
+                    <Grid item xs={2.2}>
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                            textDecorationNone={true}
+                        >
+                            Device 
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={0.5} style={{display:'flex', justifyContent: 'center', alignItems: 'top'}}>
+                        <Typography
+                                fontFamily='Work Sans'
+                                fontWeight='400'
+                                fontSize='14px'
+                                lineHeight='16.42px'
+                                color='#333333'
+                                textAlign='left'
+                            >
+                            :
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={9.3}>
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                        >
+                            {phone}
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid container style={{display: 'flex', flexDirection: 'row', margin: '3px 0'}}>
+                    <Grid item xs={2.2}>
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                        >
+                            Issue 
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={0.5} style={{display:'flex', justifyContent: 'center', alignItems: 'top'}}>
+                        <Typography
+                                fontFamily='Work Sans'
+                                fontWeight='400'
+                                fontSize='14px'
+                                lineHeight='16.42px'
+                                color='#333333'
+                                textAlign='left'
+                            >
+                            :
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={9.3}>
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                        >
+                            {issue}
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid container style={{display: 'flex', flexDirection: 'row', margin: '3px 0'}}>
+                    <Grid item xs={2.2} >
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                        >
+                            Your Bid
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={0.5} style={{display:'flex', justifyContent: 'center', alignItems: 'top'}}>
+                        <Typography
+                                fontFamily='Work Sans'
+                                fontWeight='400'
+                                fontSize='14px'
+                                lineHeight='16.42px'
+                                color='#333333'
+                                textAlign='left'
+                            >
+                            :
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={9.3}>
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                        >
+                            ₹{bid}
+                        </Typography>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </Box>
+    )
 }
 
-export default AwaitingConformation2;
+export default AwaitingConformation2Box;

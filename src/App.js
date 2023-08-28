@@ -25,6 +25,7 @@ import NewBid from './NewBid/NewBid';
 import otherBidding from './components/otherBidding';
 import PendingOrders from './components/PendingOrders';
 import OrderEntry from './components/OrderEntry';
+import AwaitingConformation2 from './components/awaitingConformationPage2';
 
 function App() {
   const auth= getAuth();
@@ -67,6 +68,7 @@ function App() {
           <Route path='/otherbidding' component={otherBidding} />
           <Route path='/pendingorders' component={PendingOrders} />
           <Route path='/OrderEntry' component={OrderEntry} />
+          <Route path='/awaitingpage2' component={AwaitingConformation2} />
 
           {/* Link ends */}
       
