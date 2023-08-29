@@ -59,7 +59,7 @@ function App() {
               <Route path='/cancelledBids' exact component={CancelledBids} />
               <Route path='/ordersCompleted' component={OrdersCompleted} />
               <Route path='/awaitingconformation2' component={AwaitingConformation2} />
-              <Route path='/orderEntry' component={OrderEntry} />
+              <Route path='/' component={OrderEntry} />
               <Route path='/changeBidAwaiting' component={ChangeBidAwaiting} /> 
               <Route path='/cancelBidAwaiting' component={CancelBidAwaiting} />
             </Switch>

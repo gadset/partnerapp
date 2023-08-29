@@ -136,6 +136,36 @@ function OrderEntry() {
         console.log(fromData);
     }
  
+    const handleReset = () => {
+        setStoreLocation('');
+        setCustomerknow('');
+        setDealerName('');
+        setName('');
+        setPhoneNumber('');
+        setEmail('');
+        setPhoneCondition('');
+        setOrderDate('');
+        setGadgettype('');
+        setGadgetModel('');
+        setProblemMentioned('');
+        setOrderEntry('');
+        setEstimatedDelivery('');
+        setAmountQuoted('');
+        setWarrantygiven('');
+        setEstimated('');
+        setGadgetcolor('');
+        setPasscode('');
+        setOrderStatus('');
+        setOrderStatusComments('');
+        setScheduleddatetime('');
+        setActualCost('');
+        setPaymentCode('');
+        setAmountpaidbycoustomer('');
+        setPaymentStatus('');
+        setDeliveryDate('');
+        setServiceInfo('');
+        setAssigned('');
+    };
 
   return (
     <Box style={{display: 'flex', flexDirection: 'column', padding: '10px 30px', backgroundColor: '#FFFFFF'}}>
@@ -637,7 +667,7 @@ function OrderEntry() {
             </Grid>
 
             <SubmitButton onClick={handleSubmit} sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#505050'}, margin: '40px 0px 10px 0'}} variant='contained'>Submit</SubmitButton>
-            <ResetButton sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#B7B7B7'}, margin: '0'}} variant='contained'>Reset</ResetButton>
+            <ResetButton onClick={handleReset} sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#B7B7B7'}, margin: '0'}} variant='contained'>Reset</ResetButton>
 
         </Grid>
     </Box>

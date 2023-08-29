@@ -26,11 +26,11 @@ const OrdersCompletedBox = ({phone,issue,delivery,}) => {
             <Grid container style={{display: 'flex',justifyContent:'center' ,flexDirection: 'column', padding: '15px 10px', border: '1px solid #A19F9F' ,backgroundColor: '#DEDEDE', borderRadius: '5px', position: 'relative',}}>
                 <Grid container xs={14} style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '22px', position: 'absolute', right: 0, left: 0, margin: '0 auto', bottom: '-10px'}}>
             
-                    <Grid item xs={5} style={{padding: 0}}>
+                    <Grid item xs={6} style={{padding: 0}}>
                         <ButtonDelivery variant='contained' sx={{backgroundColor: '#333333' , '&:hover' : {backgroundColor: '#333333'}}}>Fill Delivery Form</ButtonDelivery>
                     </Grid>
                 
-                    <Grid item xs={5} style={{padding: 0}}>
+                    <Grid item xs={6} style={{padding: 0}}>
                         <ButtonDelivery sx={{backgroundColor: '#333333' , '&:hover' : {backgroundColor: '#333333'}}} variant='contained'>Fill Exit Form</ButtonDelivery>
                     </Grid>
 
