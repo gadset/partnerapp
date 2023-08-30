@@ -19,6 +19,7 @@ import { ToastContainer } from 'react-toastify';
 import Orders from './Orders/Orders';
 import Allbids from '../../src/Components/Allbids';
 import Footer from './Navbar/Footer';
+import Deliveryform from './components/Deliveryform';
 
 function App() {
   const auth= getAuth();
@@ -67,8 +68,11 @@ function App() {
       <Orders/>
     </Route>
     {/* akarsh kinks */}
-    <Route path='/Allbids'>
+    <Route path='/allbids'>
       <Allbids/>
+    </Route>
+    <Route path='/deliveryform'>
+      <Deliveryform/>
     </Route>
 
     </div>
