@@ -1,0 +1,155 @@
+import React, {useState, useEffect, useRef, forwardRef} from 'react';
+import Box from '@mui/material/Box';
+import Grid  from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Navbar from './Navbar';
+import HomeBox from './HomeBox';
+import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
+import { IconButton } from '@mui/material';
+import NewBid from './NewBid';
+import Popover from '@mui/material/Popover';
+import {TweenMax, Power3} from 'gsap';
+import Footer from './Footer';
+import ButtonSubmit from '../SubmitBox/submitButton';
+import Modal from '@mui/material/Modal';
+import styled from '@emotion/styled';
+import './Home.css';
+
+const Container = styled(Grid) `
+    position: 'absolute',
+    transform: 'translated(-50%, -50%)',
+    bgcolor: 'background.paper'
+`
+
+
+
+function Home() {
+
+    const [shownewBid, setShowNewBid] = useState(false);
+    const [winheight, setWinHeight] = useState(window.innerHeight);
+    const [newBidClick, setNewBidClick] = useState(false);
+    const [successButton, setSuccessButton] = useState(false);
+
+    function handledWindowSizeChange() {
+        setWinHeight(window.innerHeight);
+    }
+
+    useEffect(() => {
+        window.addEventListener('resize', handledWindowSizeChange);
+        return () => {
+            window.addEventListener('resize', handledWindowSizeChange);
+        }
+    }, [])
+
+
+    const bids = 10;
+    const names = 'pending';
+
+    const open = Boolean(newBidClick);
+    const id = open ? 'simple-popover' : undefined;
+
+    const [width, setWidth] = useState(window.innerWidth);
+
+    function handledWindowSizeChange() {
+        setWidth(window.innerWidth);
+    }
+
+    useEffect(()=> {
+        window.addEventListener('resize', handledWindowSizeChange);
+        return () => {
+        window.removeEventListener('resize', handledWindowSizeChange);
+        }
+    }, [])
+
+
+    const isMobile = width <= 768;
+
+    const data1 = [
+        { number: 1, names: "Confirmed" , link: '/ConfirmedOrders'},
+        { number: 2, names: "Awaiting Conformation", link: '/awaitingConfirmation' },
+        { number: 3, names: "All bids", link: '/confirmedBids' },
+        { number: 4, names: "Pending" , link: '/pendingorders'},
+        { number: 5, names: "Cancelled Bids" , link: '/cancelledBids'},
+        { number: 6, names: "Order Completed" , link: '/ordersCompleted'},
+        { number: 7, names: "Delivery Pending" , link: '/confirmedBids'},
+        { number: 8, names: "Delivered", link: '/confirmedBids' },
+        { number: 9, names: "Confirmed Payment", link: '/confirmedBids' },
+        { number: 10, names: "After Service Payments", link: '/confirmedBids' },
+        { number: 11, names: "Warranty Clame", link: '/confirmedBids' },
+    ]
+
+    const handleOpenNewBid = (event) => {
+        setNewBidClick(true)
+        console.log("Button clicked")
+    }
+
+    const handleCloseNewBid = (e) => {
+        setNewBidClick(false)
+    }
+
+    const handleSuccessSubmit = (e) => {
+        setSuccessButton(true);
+        console.log('click button on submit')
+    }
+    const handleCloseSubmit = (e) => {
+        setSuccessButton(false);
+        setNewBidClick(false);
+    }
+
+    const customScrollbarStyle = {
+        msOverflowStyle: 'none', // Hide scrollbar for Internet Explorer
+        scrollbarWidth: 'none', // Hide scrollbar for Firefox
+    };
+
+  return (
+        <Grid container sx={{ ...customScrollbarStyle ,display: 'flex', position: 'relative' ,flexDirection: 'column', justifyContent: 'center', alignItems:'center', width: '100%', margin: '0px auto'}}>
+            <Grid container spacing={2} sx={{overflowX: 'hidden', width: '90%', margin: '30px auto' ,  opacity: 1}}>
+                <Grid item style={{width:'100%', border: '1px solid #B7B7B7', borderRadius: '5px', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: '5px' }}>
+                    <Grid container style={{display: 'flex', flexDirection: 'column', width: '80%', justifyContent: 'center', alignItems: 'flex-start', padding: '10px 10px 10px 20px' }}>
+                        <Typography style={{fontWeight: '500', fontSize: '24px', color: '#333333', fontFamily: 'Work Sans', lineHeight: '1'}} >
+                            New Bid Arrived
+                        </Typography>
+                        <Typography  onClick={handleOpenNewBid} style={{fontWeight: 300, fontSize: '21px', color: '#333333', fontFamily: 'Work sans', lineHeight: '1', cursor: 'pointer'}}>
+                            Click here to view
+                        </Typography>
+                    </Grid>
+                    <Grid style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '20%'}}>
+                        <IconButton
+                            size='large'
+                        >
+                            <NotificationsActiveOutlinedIcon  style={{height: '40px', width: '40px'}} />
+                        </IconButton>
+                    </Grid>
+                </Grid>
+                <Grid container columnSpacing={2} columns={12.5} rowSpacing={2}   sx={{width: '100%', margin: '5px auto', display: 'flex', justifyContent: 'space-between'}} >
+                    {data1.map((bids, index) => (
+                        <Grid key={index} item style={{padding: '0px'}} xs={6}><HomeBox count={bids.number} boxname={bids.names} link={bids.link} /></Grid>
+                    ))}
+
+                </Grid>
+            </Grid>
+            <Grid container aria-describedby={id} sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
+                <Footer />
+            </Grid>
+
+            <Modal
+                open={open}
+                onClose={handleCloseNewBid}
+            >
+                <Grid sx={{padding: '0', width: isMobile ? '90%' : '370px',display: 'flex', justifyContent: 'center', margin: 'auto', border: '0px', position: "absolute", bottom: '60px', right: '0', left: '0', border: '1px solid #FFFFFF', borderRadius: '5px'}}>
+                    <NewBid handleSubmit={handleSuccessSubmit} />
+                </Grid>
+            </Modal>
+            <Modal
+                open={successButton}
+                onClose={handleCloseSubmit}
+            >
+                <Grid sx={{padding: '0', width: isMobile ? '90%' : '370px',display: 'flex', justifyContent: 'center', margin: 'auto', border: '0px', position: "absolute", bottom: '42%', right: '0', left: '0', border: '1px solid #FFFFFF', borderRadius: '5px'}}>
+                    <ButtonSubmit buttonClick={handleCloseSubmit} />
+                </Grid>
+            </Modal>
+        </Grid>
+    )
+}
+
+export default Home

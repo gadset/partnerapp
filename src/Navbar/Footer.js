@@ -38,7 +38,7 @@ export default function Footer() {
                 minWidth:Mobile? '60px':'80px', 
                 fontFamily: 'Work Sans, sans-serif',
                 fontWeight: 400,
-                size:'12px'
+                size:'23px'
             }}
           />
           <BottomNavigationAction
@@ -50,7 +50,8 @@ export default function Footer() {
                 minWidth:Mobile? '60px':'80px', 
                 fontFamily: 'Work Sans, sans-serif',
                 fontWeight: 400,
-                size:'12px'
+                size:'23px'
+
             }}
           />
           <BottomNavigationAction
@@ -66,7 +67,8 @@ export default function Footer() {
                 minWidth:Mobile? '60px':'80px', 
                 fontFamily: 'Work Sans, sans-serif',
                 fontWeight: 400,
-                size:'12px'
+                size:'23px'
+
             }}
           />
           <BottomNavigationAction
@@ -78,7 +80,8 @@ export default function Footer() {
                 minWidth:Mobile? '60px':'80px', 
                 fontFamily: 'Work Sans, sans-serif',
                 fontWeight: 400,
-                size:'12px'
+                size:'23px'
+
             }}
           />
           <BottomNavigationAction
@@ -94,7 +97,8 @@ export default function Footer() {
                 minWidth:Mobile? '60px':'80px',
                 fontFamily: 'Work Sans, sans-serif',
                 fontWeight: 400,
-                size:'12px'
+                size:'23px'
+
             }}
           />
         </BottomNavigation>
