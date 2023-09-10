@@ -6,7 +6,7 @@ import NotificationCount from './components/NotificationCount';
 import Home from './components/Home';
 import { Grid } from '@mui/material';
 import NewBid from './components/NewBid';
-import submitButton from './SubmitBox/submitButton';
+import submitButton from './components/SubmitBox/submitBUtton';
 import awaitingConformation from './components/awaitingConformation';
 import Footer from './components/Footer';
 import ConfirmationBox from './components/confirmationBox';
@@ -37,9 +37,10 @@ import { collection, doc, setDoc ,getDocs} from "firebase/firestore";
 import { firestoredb } from '.';
 import { ToastContainer } from 'react-toastify';
 import Orders from './Orders/Orders';
-import Allbids from '../../src/Components/Allbids';
-import Footer from './Navbar/Footer';
+import Allbids from './components/Allbids';
+//import Footer from './Navbar/Footer';
 import Deliveryform from './components/Deliveryform';
+import OrderForm from './Orders/OrderNew';
 
 function App() {
 
@@ -61,7 +62,7 @@ function App() {
   return (
     <Router>
         <Switch>
-    <div style={{justifyContent:'center', display:'flex', flexDirection:'column', width : isMobile ? '100%' : '400px'}}>
+    <div style={{justifyContent:'center', display:'flex', flexDirection:'column', width : isMobile ? '100%' : '400px', marginBottom : '100px'}}>
   
       <ToastContainer/>
     <Route path='/addbid'>
@@ -76,15 +77,15 @@ function App() {
 
     {/* venkatesh links */}
     <Route path='/orders'>
-      <Orders/>
+      <OrderForm/>
     </Route>
     {/* akarsh kinks */}
     <Route path='/allbids'>
       <Allbids/>
     </Route>
-    <Route path='/deliveryform'>
+    {/* <Route path='/deliveryform'>
       <Deliveryform/>
-    </Route>
+    </Route> */}
 
        <Route exact path='/home' component = {Home} />
               <Route exact path='/navbar' component={Navbar} />
@@ -98,7 +99,7 @@ function App() {
               <Route path='/cancelledBids' exact component={CancelledBids} />
               <Route path='/ordersCompleted' component={OrdersCompleted} />
               <Route path='/awaitingconformation2' component={AwaitingConformation2} />
-              <Route path='/' component={OrderEntry} />
+              {/* <Route path='/' component={OrderEntry} /> */}
               <Route path='/changeBidAwaiting' component={ChangeBidAwaiting} /> 
               <Route path='/cancelBidAwaiting' component={CancelBidAwaiting} />
 

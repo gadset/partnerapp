@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Grid  from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import Timer from './Timer';
-
+import {Link} from 'react-router-dom';
 
 const ConfirmBidsBox = ({phone,issue, textDecorationNone}) => {
 
@@ -13,17 +13,18 @@ const ConfirmBidsBox = ({phone,issue, textDecorationNone}) => {
         <Box container sx={{ margin: '10px 0'}}>
             <Grid container style={{display: 'flex',justifyContent:'center' ,flexDirection: 'column', padding: '15px 10px', border: '1px solid #A19F9F' ,backgroundColor: '#DEDEDE', borderRadius: '5px', position: 'relative', textDecorationNone}}>
                 <Grid style={{padding: "5px 10px", backgroundColor: '#333333', border: '1px solid #333333', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '22px', position: 'absolute', float:'right', right: '20px', bottom: '-10px'}}>
-                    <Typography
+                    <Link to='/orders'>
+					<Typography
                         fontFamily='Work Sans'
                         fontWeight='400'
                         fontSize='10px'
                         lineHeight='11.73px'
                         color='#FFFFFF'
-                        textDecorationNone
+                        textDecorationNone		
                     >
                         Start Reparing
                     </Typography>
-
+</Link>
                 </Grid>
                 <Grid container style={{display: 'flex', flexDirection: 'row', margin: '3px 0'}}>
                     <Grid item xs={2.2}>

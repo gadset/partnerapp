@@ -15,6 +15,8 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from 'firebase/auth';
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -40,7 +42,9 @@ export const messaging = getMessaging(app);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider> 
   </Provider>
 
 );
@@ -49,6 +53,6 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-serviceWorker.register();
+// serviceWorker.register();
 
-SubscribeUser();
+// SubscribeUser();
