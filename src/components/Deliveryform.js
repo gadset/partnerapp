@@ -17,6 +17,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { BiLink } from "react-icons/bi";
 import { ToastContainer, toast } from 'react-toastify';
 import CancelSharpIcon from '@mui/icons-material/CancelSharp';
+import SignatureCanvas from 'react-signature-canvas';
+import { useForm, Controller } from 'react-hook-form';
+import {  InputLabel, Container, FormControlLabel, Switch } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 import './deliveryform.css';
 export default function Deliveryform() {
@@ -37,7 +40,7 @@ export default function Deliveryform() {
     const [url, setURL] = useState('');
     const [data, setData] = useState(null);
     const [formData, setFormData] = useState(null);
-    const [signatureImage, setSignatureImage] = useState(null);
+    const signatureRef = React.useRef();
     function handledWindowSizeChange() {
         setWidth(window.innerWidth);
     }
@@ -48,7 +51,13 @@ export default function Deliveryform() {
         }
     }, [])
   const isMobile = width <= 768;
+  const [signatureData, setSignatureData] = useState(null);
 
+  const clearSignature = () => {
+    signatureRef.current.clear();
+    setSignatureData(null);
+  };
+  
   const StyledSelect = styled(Select)`
   background-color: #F7F7F7;
   border: 1px solid #B7B7B7;
@@ -175,20 +184,18 @@ const handleDateChange = (newDate) => {
   const handleFileRemove = (fileToRemove) => {
     setSelectedFiles((prevFiles) => prevFiles.filter(file => file !== fileToRemove));
   };
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSignatureImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => {
+  //       setSignatureImage(e.target.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
-  const handleClearSignature = () => {
-    setSignatureImage(null);
-  };
+  
   const handleNameChange = (event) => {
     const newValue = event.target.value;
     setName(newValue); 
@@ -210,6 +217,9 @@ const handleDateChange = (newDate) => {
     toast.info('Changes discarded', { autoClose: 2500 });
   };
   const handleSubmit = () => {
+    const signatureImage = signatureRef.current.toDataURL();
+
+    setSignatureData(signatureImage);
     const newData = {
       selectedValue,
       gadgetType,
@@ -224,12 +234,12 @@ const handleDateChange = (newDate) => {
       amount,
       gadgetModel,
       serviceDone,
-      signatureImage,
+      signatureData,
     };
     setFormData(newData);
     console.log(formData);
     toast.success('Form submitted successfully', { autoClose: 3000 });
-    // clearForm();
+    clearForm();
   };
 
   const handleReset = () => {
@@ -250,7 +260,8 @@ const handleDateChange = (newDate) => {
     setAmount('');
     setGadgetmodel('');
     setServicedone('');
-    setSignatureImage(null);
+    setSignatureData(null);
+    signatureRef.current.clear();
     setFormData(null);
     handleCancel();
   };
@@ -569,28 +580,21 @@ const handleDateChange = (newDate) => {
                                 fontWeight: 400,
                                 lineHeight: '14px',
                                 textTransform:'none !important',
-                                letterSpacing: '0em',background:'none',color:'#000'}} onClick={handleClearSignature}>
+                                letterSpacing: '0em',background:'none',color:'#000'}} onClick={clearSignature}>
                               Clear
                             </Button>
                            </Grid>
                         </Grid>
-                        <Grid>
-                                
-      {signatureImage && (
-        <img
-          src={signatureImage}
-          alt="Signature"
-          style={{ width: '100%', marginTop: '10px',height:'100px' }}
-        />
-      )}
+                        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',borderBottom:'1px solid #000' }}>
+                         
+                        <SignatureCanvas
+                          ref={signatureRef}
+                          penColor="black"
+                          canvasProps={{ height: 180, width:width<=335?220:width<=405?250:300 }}
+                          sx={{borderBottom:'1px solid #000'}}
+                        />
+                    </Grid>
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageUpload}
-        style={{ marginTop: '10px' }}
-      />
-                        </Grid>
                     </Box>
                 </Grid>
               </Grid>
