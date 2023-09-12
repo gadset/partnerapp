@@ -1,0 +1,7 @@
+.Grid {
+    width: 100%;
+}
+
+.customScrollbar::-webkit-scrollbar {
+    width: 0;
+}

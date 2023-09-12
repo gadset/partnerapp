@@ -3,11 +3,12 @@ import { makeStyles } from "@mui/styles";
 import { Box, Typography, TextField, Divider, Button, InputAdornment } from '@mui/material';
 import { useState } from 'react';
 import { styled } from '@mui/system';
-import upload from '../images/upload.svg';
-import link from '../images/link.svg';
-import working from '../images/working.svg';
+import upload from '../Images/upload.svg';
+import link from '../Images/link.svg';
+import working from '../Images/working.svg';
 import { BorderHorizontal } from '@mui/icons-material';
-
+import Switch from '@mui/material/Switch';
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 const StyledTextField = styled(TextField)`
   background-color: #F4F4F4;
   border-radius: 5px;
@@ -131,13 +132,13 @@ setBrand(e.target.value);
 </Box>
 <Typography variant='h4'>What's Working and what's not</Typography>
 <Box sx={{display : 'flex', flexWrap : 'wrap'}} >
-    <Box className={classes.powerbtn}> <Typography variant='body1'>Power</Typography> <img src={working} alt='working'/></Box>
+    <Box className={classes.powerbtn}> <Typography variant='body1'>Power</Typography> <Switch {...label} /></Box>
 
-    <Box className={classes.powerbtn}> <Typography variant='body1'>Network</Typography> <img src={working} alt='working'/></Box>
-    <Box className={classes.powerbtn}> <Typography variant='body1'>Ear speaker</Typography> <img src={working} alt='working'/></Box>
-    <Box className={classes.powerbtn}> <Typography variant='body1'>Volume down button</Typography> <img src={working} alt='working'/></Box>
-    <Box className={classes.powerbtn}> <Typography variant='body1'>Network</Typography> <img src={working} alt='working'/></Box>
-    <Box className={classes.powerbtn}> <Typography variant='body1'>Network</Typography> <img src={working} alt='working'/></Box>
+    <Box className={classes.powerbtn}> <Typography variant='body1'>Network</Typography>  <Switch {...label} /></Box>
+    <Box className={classes.powerbtn}> <Typography variant='body1'>Ear speaker</Typography>  <Switch {...label} /></Box>
+    <Box className={classes.powerbtn}> <Typography variant='body1'>Volume down button</Typography>  <Switch {...label} /></Box>
+    <Box className={classes.powerbtn}> <Typography variant='body1'>Network</Typography>  <Switch {...label} /></Box>
+    <Box className={classes.powerbtn}> <Typography variant='body1'>Network</Typography>  <Switch {...label} /></Box>
 </Box>
 </Box>
     )

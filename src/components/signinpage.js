@@ -94,7 +94,7 @@ function LoginForm() {
     const isloggedin = localStorage.getItem('partnerid');
 if(isloggedin){
   history.push({
-    pathname : '/addbid',
+    pathname : '/home',
  });
  toast.success("already logged in");
 }
@@ -150,7 +150,7 @@ if(isloggedin){
                 localStorage.setItem('partnerid', JSON.stringify(json['id'])) ;
                 SubscribeUser(json['id']);
                history.push({
-       pathname : '/addbid',
+       pathname : '/home',
         })
                 })  
           
