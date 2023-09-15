@@ -17,7 +17,7 @@ const MaterialUISwitch = styled(Switch) (({ theme }) => ({
         color: '#fff',
         transform: 'translateX(22px)',
         '& .MuiSwitch-thumb:before': {
-          // backgroundImage: `url('/photos/like.png')`,
+          backgroundImage: `url('/photos/like.png')`,
         },
         '& + .MuiSwitch-track': {
           opacity: 1,

@@ -1,7 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import './App.css';
-import { BrowserRouter as Router , Switch, Route, Link} from 'react-router-dom';
 import Navbar from './components/Navbar';
 import NotificationCount from './components/NotificationCount';
 import Home from './components/Home';
@@ -19,6 +18,20 @@ import AwaitingConformation2 from './components/AwaitingConfirmation2';
 import OrderEntry from './components/OrderEntry';
 import ChangeBidAwaiting from './components/ChangeBidAwaiting';
 import CancelBidAwaiting from './components/CancelBidAwaiting';
+import { PostAdd } from '@mui/icons-material';
+import Postbid from './components/postbidding';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
+import LoginForm from './components/signinpage';
+import Demo from './components/getlocation';
+import { ToastContainer } from 'react-toastify';
+import Allbids from './components/Allbids';
+import Deliveryform from './components/Deliveryform';
 import EntryInspection from './components/EntryInspection';
 import theme from './theme';
 import ExitInspection from './components/ExitInspection';
@@ -48,6 +61,16 @@ function App() {
             <Grid style={{width: '100%', position: 'sticky' , top: '0', zIndex: '0'}}>
               <Navbar />
               <Switch>
+                {/* <ToastContainer /> */}
+                <Route path='/addbid'>
+                    <Postbid/>
+                </Route>
+                <Route exact path='/loginform'>
+                  <LoginForm/>
+                </Route>
+                {/* <Route path='/location'>
+                  <Demo/>
+                </Route> */}
                 <Route exact path='/' component = {Home} />
                 <Route exact path='/navbar' component={Navbar} />
                 <Route exact path='/newBid' component={NewBid} />
@@ -65,13 +88,27 @@ function App() {
                 <Route path='/cancelBidAwaiting' component={CancelBidAwaiting} />
                 <Route path='/entryInspection' component={EntryInspection} />
                 <Route path='/exitInspection' exact component={ExitInspection} />
+
+                {/* venkatesh links */}
+                {/* <Route path='/orders'>
+                  <Orders/>
+                </Route> */}
+
+
+                {/* akarsh kinks */}
+                <Route path='/allbids'>
+                  <Allbids/>
+                </Route>
+                <Route path='/deliveryform'>
+                  <Deliveryform/>
+                </Route>
+
+
               </Switch>
-              {/* <Grid style={{position: 'sticky' , bottom: '0'}}>
-                <Footer />
-              </Grid> */}
             </Grid>
           </Grid>
         </ThemeProvider>
+
       </center>
     </Router>
   );

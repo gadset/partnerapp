@@ -51,6 +51,7 @@ export default function Footer() {
                 fontFamily: 'Work Sans, sans-serif',
                 fontWeight: 400,
                 size:'23px'
+
             }}
           />
           <BottomNavigationAction
@@ -67,6 +68,7 @@ export default function Footer() {
                 fontFamily: 'Work Sans, sans-serif',
                 fontWeight: 400,
                 size:'23px'
+
             }}
           />
           <BottomNavigationAction
@@ -79,6 +81,7 @@ export default function Footer() {
                 fontFamily: 'Work Sans, sans-serif',
                 fontWeight: 400,
                 size:'23px'
+
             }}
           />
           <BottomNavigationAction
@@ -95,6 +98,7 @@ export default function Footer() {
                 fontFamily: 'Work Sans, sans-serif',
                 fontWeight: 400,
                 size:'23px'
+
             }}
           />
         </BottomNavigation>
