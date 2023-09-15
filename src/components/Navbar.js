@@ -9,8 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import './style.css';
 import NotificationCount from './NotificationCount';
-// import { useTheme } from "@emotion/react";
-import theme from '../theme';
+
 
 
 function Navbar() {
@@ -52,13 +51,12 @@ function Navbar() {
                     >
                       <NotificationsActiveOutlinedIcon />
                     </IconButton> */}
-                    <NotificationCount sx={{color : theme.palette.primary.main}} count={notificationCount} />
+                    <NotificationCount  count={notificationCount} />
                   </Grid>
                   <Grid item>
                     <IconButton
                       size='large'
                       color='inherit'
-                      sx={{color : theme.palette.primary.main}}
                     >
                       <MenuIcon style={{height: '30px', width: '30px'}} />
                     </IconButton>

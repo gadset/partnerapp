@@ -2,18 +2,15 @@ import React, {useState, useEffect, useRef, forwardRef} from 'react';
 import Box from '@mui/material/Box';
 import Grid  from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Navbar from './Navbar';
 import HomeBox from './HomeBox';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import { IconButton } from '@mui/material';
 import NewBid from './NewBid';
-import Popover from '@mui/material/Popover';
-import {TweenMax, Power3} from 'gsap';
 import Footer from './Footer';
-import ButtonSubmit from '../SubmitBox/submitButton';
 import Modal from '@mui/material/Modal';
 import styled from '@emotion/styled';
 import './Home.css';
+import submitButton from './SubmitBox/submitButton'
 
 const Container = styled(Grid) `
     position: 'absolute',
@@ -145,7 +142,7 @@ function Home() {
                 onClose={handleCloseSubmit}
             >
                 <Grid sx={{padding: '0', width: isMobile ? '90%' : '370px',display: 'flex', justifyContent: 'center', margin: 'auto', border: '0px', position: "absolute", bottom: '42%', right: '0', left: '0', border: '1px solid #FFFFFF', borderRadius: '5px'}}>
-                    <ButtonSubmit buttonClick={handleCloseSubmit} />
+                    <submitButton buttonClick={handleCloseSubmit} />
                 </Grid>
             </Modal>
         </Grid>

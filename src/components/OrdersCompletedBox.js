@@ -30,9 +30,9 @@ const OrdersCompletedBox = ({phone,issue,delivery,}) => {
                         <ButtonDelivery variant='contained' sx={{backgroundColor: '#333333' , '&:hover' : {backgroundColor: '#333333'}}}>Fill Delivery Form</ButtonDelivery>
                     </Grid>
                 
-                    <Grid item xs={6} style={{padding: 0}}>
+                    {/* <Grid item xs={6} style={{padding: 0}}>
                         <ButtonDelivery sx={{backgroundColor: '#333333' , '&:hover' : {backgroundColor: '#333333'}}} variant='contained'>Fill Exit Form</ButtonDelivery>
-                    </Grid>
+                    </Grid> */}
 
                 </Grid>
                 <Grid container style={{display: 'flex', flexDirection: 'row', margin: '3px 0'}}>
