@@ -64,7 +64,7 @@ function Home() {
     const isMobile = width <= 768;
 
     const data1 = [
-		{ number: 3, names: "All bids", link: '/confirmedBids' },
+		{ number: 3, names: "All bids", link: '/allbids' },
 		{ number: 5, names: "Missed Bids" , link: '/cancelledBids'},
         
         // { number: 2, names: "Awaiting Conformation", link: '/awaitingConfirmation' },
@@ -128,9 +128,7 @@ function Home() {
 
                 </Grid>
             </Grid>
-            <Grid container aria-describedby={id} sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
-                <Footer />
-            </Grid>
+         
 
             <Modal
                 open={open}

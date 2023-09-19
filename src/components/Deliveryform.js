@@ -1,5 +1,10 @@
-import { Box, Grid, Typography, FormControl, TextField, InputBase, Select, MenuItem,InputAdornment } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+import InputBase from '@mui/material/InputBase';
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import { styled } from '@mui/system';
 import dayjs from 'dayjs';
 import {Button } from '@mui/material';
@@ -7,13 +12,23 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
+import { InputAdornment } from '@material-ui/core';
 import CloseIcon from '@mui/icons-material/Close';
 import { BiLink } from "react-icons/bi";
 import { ToastContainer, toast } from 'react-toastify';
 import CancelSharpIcon from '@mui/icons-material/CancelSharp';
+import SignatureCanvas from 'react-signature-canvas';
+import { useForm, Controller } from 'react-hook-form';
+import {  InputLabel, Container, FormControlLabel, Switch } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 import './deliveryform.css';
+
 export default function Deliveryform() {
+	  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
     const [width, setWidth] = useState(window.innerWidth);
     const [selectedValue, setSelectedValue] = useState('Select');
     const [gadgetType, setGadgettype] = useState('Select');
@@ -31,7 +46,7 @@ export default function Deliveryform() {
     const [url, setURL] = useState('');
     const [data, setData] = useState(null);
     const [formData, setFormData] = useState(null);
-    const [signatureImage, setSignatureImage] = useState(null);
+    const signatureRef = React.useRef();
     function handledWindowSizeChange() {
         setWidth(window.innerWidth);
     }
@@ -42,7 +57,13 @@ export default function Deliveryform() {
         }
     }, [])
   const isMobile = width <= 768;
+  const [signatureData, setSignatureData] = useState(null);
 
+  const clearSignature = () => {
+    signatureRef.current.clear();
+    setSignatureData(null);
+  };
+  
   const StyledSelect = styled(Select)`
   background-color: #F7F7F7;
   border: 1px solid #B7B7B7;
@@ -169,20 +190,18 @@ const handleDateChange = (newDate) => {
   const handleFileRemove = (fileToRemove) => {
     setSelectedFiles((prevFiles) => prevFiles.filter(file => file !== fileToRemove));
   };
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSignatureImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => {
+  //       setSignatureImage(e.target.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
-  const handleClearSignature = () => {
-    setSignatureImage(null);
-  };
+  
   const handleNameChange = (event) => {
     const newValue = event.target.value;
     setName(newValue); 
@@ -203,27 +222,50 @@ const handleDateChange = (newDate) => {
     setData(null);
     toast.info('Changes discarded', { autoClose: 2500 });
   };
-  const handleSubmit = () => {
-    const newData = {
-      selectedValue,
-      gadgetType,
-      warantyGiven,
-      paymentMode,
-      deliveredBy,
-      selectedDate,
-      entername,
-      number,
-      email,
-      invoiceno,
-      amount,
-      gadgetModel,
-      serviceDone,
-      signatureImage,
-    };
-    setFormData(newData);
-    console.log(formData);
-    toast.success('Form submitted successfully', { autoClose: 3000 });
-    // clearForm();
+  const onSubmit = async(data) => {
+    const signatureImage = signatureRef.current.toDataURL();
+
+    setSignatureData(signatureImage);
+    // const newData = {
+    //   selectedValue,
+    //   gadgetType,
+    //   warantyGiven,
+    //   paymentMode,
+    //   deliveredBy,
+    //   selectedDate,
+    //   entername,
+    //   number,
+    //   email,
+    //   invoiceno,
+    //   amount,
+    //   gadgetModel,
+    //   serviceDone,
+    //   signatureData,
+    // };
+  //  setFormData(newData);
+    // console.log(newData);
+	await fetch(process.env.REACT_APP_BACKEND + `order/delivery`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          }, 
+          body : JSON.stringify({
+			formdata : {...data , signatureImage},
+			id: "650752e9b0b67fd6b4a7ae50",
+		  })   
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error('Network error');
+          }
+          return response.json();
+        }).then(json => toast.success("successful")).catch(error => {
+         toast.error("Error while retreiving data");
+        });
+	console.log(data);
+	console.log(signatureImage)
+
+    clearForm();
   };
 
   const handleReset = () => {
@@ -244,13 +286,14 @@ const handleDateChange = (newDate) => {
     setAmount('');
     setGadgetmodel('');
     setServicedone('');
-    setSignatureImage(null);
+    setSignatureData(null);
+    signatureRef.current.clear();
     setFormData(null);
     handleCancel();
   };
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow:1,marginBottom:'60px',justifyContent: 'center',alignItems:'center',padding: '14px 23px'}} container >
+        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow:1,marginBottom:'60px',padding: '14px 23px', textAlign : 'left'}} container >
           <Box sx={{width: isMobile ? '100%' : '400px',}}>
              <Grid container>
               <Grid item>
@@ -263,11 +306,12 @@ const handleDateChange = (newDate) => {
                         style={{ height: '30px' }}
                         labelId="order-number"
                         label="Order Number"
-                        value={selectedValue} 
-                        onChange={(event) => setSelectedValue(event.target.value)}
-                        displayEmpty
-                        selectedValue={selectedValue} 
-                        renderValue={() => <span>{selectedValue}</span>}
+						{...register('order')}
+                        // value={selectedValue} 
+                        // onChange={(event) => setSelectedValue(event.target.value)}
+                        // displayEmpty
+                        // selectedValue={selectedValue} 
+                        // renderValue={() => <span>{selectedValue}</span>}
                         >
                         <MenuItem value="Red">Red</MenuItem>
                         <MenuItem value="Black">Black</MenuItem>
@@ -280,20 +324,20 @@ const handleDateChange = (newDate) => {
                 <Grid item sx={{width:'100%',}}>
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Name</Typography>
                     <InputBase className='inputbase'
-                    placeholder="First Name"
+                    placeholder="Name"
                     id="name"
-                    
-                    value={entername}
-                    onChange={handleNameChange}
+                    {...register('name')}
+                    // value={entername}
+                    // onChange={handleNameChange}
                     />
                    {/* <TextField className='txtfield' value={entername} onChange={(e) => setName(e.target.value)} sx={{width: '100%', backgroundColor: '#F4F4F4'}} InputProps={{ style:{height: '30px',fontSize: '12px', fontWeight: 300, fontFamily: 'Work Sans' ,'&:hover': {border: '1px solid #F4F4F4'} , '&:focus': {border: '1px solid #F4F4F4'}}}} placeholder='First Name'/> */}
                 </Grid>
                 <Grid item sx={{width:'100%',}}>
                      <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Phone</Typography>
                      <TextField className='textfeild'
-                     value={number} 
-                     onChange={(event) => setNumber(event.target.value)}
-                     
+                    // value={number} 
+                   //  onChange={(event) => setNumber(event.target.value)}
+                     {...register('number')}
                      placeholder='9900852366'
                         id="standard-start-adornment"
                         InputProps={{
@@ -317,34 +361,38 @@ const handleDateChange = (newDate) => {
                 </Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography  style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Email</Typography>
-                    <InputBase className='inputbase' placeholder="rajkumar@gadset.in" id='email'value={email} 
-                        onChange={(event) => setEmail(event.target.value)} />
+                    <InputBase className='inputbase' placeholder="rajkumar@gadset.in" id='email'
+					// value={email} 
+                    //    onChange={(event) => setEmail(event.target.value)}
+						{...register('email')} />
                 </Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography  style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Date and time</Typography>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <MobileDateTimePicker
                         className='datepicker'
-                        value={selectedDate}
-                        onChange={handleDateChange}
+                        // value={selectedDate}
+                        // onChange={handleDateChange}
+						{...register('date')}
                       />
                     </LocalizationProvider>
                     </Grid>
-                <Grid item sx={{width:'100%',}}>
+                {/* <Grid item sx={{width:'100%',}}>
                     <Typography  style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Invoice no</Typography>
                     <InputBase className='inputbase' placeholder="Enter" id='invoice' value={invoiceno} 
                         onChange={(event) => setInvoice(event.target.value)}/>
-                </Grid>
+                </Grid> */}
                 <Grid item sx={{width:'100%',}}><FormControl fullWidth >
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Gadget Type</Typography>
                     <StyledSelect style={{height:'30px'}}
                         labelId="gadget-type"
                         label="Gadget Type"
-                        value={gadgetType}
-                        onChange={(event) => setGadgettype(event.target.value)}
-                        displayEmpty
-                        selectedValue={gadgetType}
-                        renderValue={() => <span>{gadgetType}</span>}
+						{...register('gadget')}
+                        // value={gadgetType}
+                        // onChange={(event) => setGadgettype(event.target.value)}
+                        // displayEmpty
+                        // selectedValue={gadgetType}
+                        // renderValue={() => <span>{gadgetType}</span>}
                         >
                         <MenuItem value="Mobile">Mobile</MenuItem>
                         <MenuItem value="Watch" >Watch</MenuItem>
@@ -358,11 +406,12 @@ const handleDateChange = (newDate) => {
                     <StyledSelect style={{height:'30px'}}
                         labelId="warranty-given"
                         label="Warranty given"
-                        value={warantyGiven}
-                        onChange={(event) => setWarantygiven(event.target.value)}
+						{...register('warranty')}
+                      //  value={warantyGiven}
+                     //   onChange={(event) => setWarantygiven(event.target.value)}
                         displayEmpty
-                        selectedValue={warantyGiven}
-                        renderValue={() => <span>{warantyGiven}</span>}
+                       // selectedValue={warantyGiven}
+                       //  renderValue={() => <span>{warantyGiven}</span>}
                         >
                         <MenuItem value="3 months">3 months</MenuItem>
                         <MenuItem value="6 months">6 months</MenuItem>
@@ -373,19 +422,23 @@ const handleDateChange = (newDate) => {
                 </FormControl></Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Amount collected</Typography>
-                    <InputBase className='inputbase' placeholder="enter amount" id='amount' value={amount} 
-                        onChange={(event) => setAmount(event.target.value)}/>
+                    <InputBase className='inputbase' placeholder="enter amount" id='amount' 
+					{...register('amount')}
+					// value={amount} 
+                     //   onChange={(event) => setAmount(event.target.value)}
+					 />
                 </Grid>
                 <Grid item sx={{width:'100%',}}><FormControl fullWidth >
                     <Typography sx={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Payment mode</Typography>
                     <StyledSelect style={{height:'30px'}}
                         labelId="payment-mode"
                         label='Payment Mode'
-                        value={paymentMode}
-                        onChange={(event) => setPaymentmode(event.target.value)}
-                        displayEmpty
-                        selectedValue={paymentMode}
-                        renderValue={() => <span>{paymentMode}</span>}
+						{...register('payment')}
+                        // value={paymentMode}
+                        // onChange={(event) => setPaymentmode(event.target.value)}
+                        // displayEmpty
+                        // selectedValue={paymentMode}
+                        // renderValue={() => <span>{paymentMode}</span>}
                         >
                         <MenuItem value="UPI" >UPI</MenuItem>
                         <MenuItem value="Cards">Cards</MenuItem>
@@ -396,19 +449,23 @@ const handleDateChange = (newDate) => {
                 </FormControl></Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Gadget Model</Typography>
-                    <InputBase className='inputbase' placeholder="Select" id='gadgetmodel' value={gadgetModel} 
-                        onChange={(event) => setGadgetmodel(event.target.value)}/>
+                    <InputBase className='inputbase' placeholder="Select" id='gadgetmodel' 
+					{...register('model')}
+				//	value={gadgetModel} 
+                  //      onChange={(event) => setGadgetmodel(event.target.value)}
+						/>
                 </Grid>
                 <Grid item sx={{width:'100%',}}><FormControl fullWidth >
                     <Typography sx={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Delivered by</Typography>
                     <StyledSelect style={{height:'30px'}}
                         labelId="deliveredby"
                         label='Delivered by'
-                        value={deliveredBy}
-                        onChange={(event) => setDeliveredby(event.target.value)}
-                        displayEmpty
-                        selectedValue={deliveredBy}
-                        renderValue={() => <span>{deliveredBy}</span>}
+						{...register('delivery')}
+                        // value={deliveredBy}
+                        // onChange={(event) => setDeliveredby(event.target.value)}
+                        // displayEmpty
+                        // selectedValue={deliveredBy}
+                        // renderValue={() => <span>{deliveredBy}</span>}
                         >
                         <MenuItem value="UPI" >UPI</MenuItem>
                         <MenuItem value="Cards">Cards</MenuItem>
@@ -418,8 +475,11 @@ const handleDateChange = (newDate) => {
                 </FormControl></Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Service done</Typography>
-                    <InputBase className='inputbase' placeholder="Type Issue" id='servicedone' value={serviceDone} 
-                        onChange={(event) => setServicedone(event.target.value)}/>
+                    <InputBase className='inputbase' placeholder="Type Issue" id='servicedone' 
+					{...register('service')}
+					//value={serviceDone} 
+                      //  onChange={(event) => setServicedone(event.target.value)}
+						/>
                 </Grid>
                 <Grid item sx={{width:'100%',marginTop:'2px'}}>
                     <Grid container sx={{display:'flex',flexDirection:'row'}}>
@@ -563,35 +623,28 @@ const handleDateChange = (newDate) => {
                                 fontWeight: 400,
                                 lineHeight: '14px',
                                 textTransform:'none !important',
-                                letterSpacing: '0em',background:'none',color:'#000'}} onClick={handleClearSignature}>
+                                letterSpacing: '0em',background:'none',color:'#000'}} onClick={clearSignature}>
                               Clear
                             </Button>
                            </Grid>
                         </Grid>
-                        <Grid>
-                                
-      {signatureImage && (
-        <img
-          src={signatureImage}
-          alt="Signature"
-          style={{ width: '100%', marginTop: '10px',height:'100px' }}
-        />
-      )}
+                        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',borderBottom:'1px solid #000' }}>
+                         
+                        <SignatureCanvas
+                          ref={signatureRef}
+                          penColor="black"
+                          canvasProps={{ height: 180, width:width<=335?220:width<=405?250:300 }}
+                          sx={{borderBottom:'1px solid #000'}}
+                        />
+                    </Grid>
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageUpload}
-        style={{ marginTop: '10px' }}
-      />
-                        </Grid>
                     </Box>
                 </Grid>
               </Grid>
              </Grid>
              <Grid container style={{display:'flex',flexDirection:'column'}}>
                   <SubmitButton
-              onClick={handleSubmit}
+             onClick={handleSubmit((data) =>onSubmit(data))}
               sx={{ fontSize: 12, '&:hover': { backgroundColor: '#505050' }, margin: '40px 0px 10px 0' }}
               variant='contained'
             >

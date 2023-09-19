@@ -14,8 +14,8 @@
 }
 
 .react-tel-input .form-control {
-  width: 100%;
-  background-color: #f4f4f4;
+  width: 100% !important;
+  background-color: #f4f4f4 !important;
   height: 30px;
   font-size: 12px;
   font-family: 'Work Sans';
@@ -63,3 +63,4 @@
     border-bottom: none !important;
   }
 }
+

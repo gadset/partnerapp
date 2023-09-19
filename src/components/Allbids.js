@@ -2,6 +2,7 @@ import { Box, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Grid  from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+// import Timerr from './Timerr';
 import Timerr from './Timer';
 export default function Allbids() {
     const [width, setWidth] = useState(window.innerWidth);
@@ -19,7 +20,7 @@ export default function Allbids() {
   const avaibleorders=[{'Device':'iPhone 14','Issue':'Screen broken, touch  not working.','Location':'RT Nagar','Ends':'2023-08-27','Active':'4'},{'Device':'iPhone 14','Issue':'Screen broken, touch  not working.','Location':'RT Nagar','Ends':'2023-08-27','Active':'4'},{'Device':'iPhone 14','Issue':'Screen broken, touch  not working.','Location':'RT Nagar','Ends':'2023-08-27','Active':'4'},{'Device':'iPhone 14','Issue':'Screen broken, touch  not working.','Location':'RT Nagar','Ends':'2023-08-27','Active':'4'},{'Device':'iPhone 14','Issue':'Screen broken, touch  not working.','Location':'RT Nagar','Ends':'2023-08-27','Active':'4'}]
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow:1,width: isMobile ? '100%' : '400px',marginBottom:'40px',marginLeft:isMobile ? 'auto' : 'none'}} container >
-    <Grid container sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', padding: '14px 23px' }}>
+    <Grid container sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', padding: '14px' }}>
         <Grid item style={{marginBottom:'20px'}}>
             <Typography style={{ fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans', lineHeight: '18.66px' }}>
                 Bid for the Service
@@ -47,11 +48,11 @@ export default function Allbids() {
                 </Grid>
                 <Grid container item sx={{ display: 'flex', flexDirection: 'row',flexWrap:'nowrap',marginBottom: '15px' }}>
                     <Grid item sx={{ fontWeight: 500, Size: '12px', color: '#000', fontFamily: 'Work sans', lineHeight: '14.08px',minWidth:'82px'}}>Bid Ends in<span style={{float:'right'}}>:</span></Grid>
-                    <Grid item sx={{ fontWeight: 500, Size: '12px', color: '#000', fontFamily: 'Work sans', lineHeight: '14.08px',marginLeft:'5px' }}><Timerr bidEndDate={order.Ends} /></Grid>
+                    {/* <Grid item sx={{ fontWeight: 500, Size: '12px', color: '#000', fontFamily: 'Work sans', lineHeight: '14.08px',marginLeft:'5px' }}><Timerr bidEndDate={order.Ends} /></Grid> */}
                 </Grid>
                 <Grid container item sx={{ display: 'flex', flexDirection: 'row',gap:'5px',flexWrap:'nowrap'}}>
                     <Typography sx={{lineHeight:'1.75',padding:'5px 10px 5px 10px',backgroundColor:'#6A6A6A',borderRadius:'5px',color:'#FFFFFF',fontWeight: 500, fontSize: '12px',fontFamily: 'Work sans',textAlign:'center',alignItems:'center'}}>No of Active bids : {order.Active}</Typography>
-                    <Button sx={{ padding:'5px 10px 5px 10px',backgroundColor: '#333333', borderRadius: '5px', color: '#fff' ,fontWeight: 500, fontSize: '12px',fontFamily: 'Work sans','&:hover': {backgroundColor: '#333333'}}}>Bid Now</Button>
+                    <Button  sx={{ padding:'5px 10px 5px 10px',backgroundColor: '#333333', borderRadius: '5px', color: '#fff' ,fontWeight: 500, fontSize: '12px',fontFamily: 'Work sans','&:hover': {backgroundColor: '#333333'}}}>Bid Now</Button>
                 </Grid>
             </Grid>
         </Grid>

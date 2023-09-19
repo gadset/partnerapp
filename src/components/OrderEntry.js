@@ -55,7 +55,6 @@ const ResetButton = styled(Button) `
     font-weight: 400;
     font-family: Work Sans;
     height: 34px;
-
 `
 
 
@@ -261,9 +260,12 @@ function OrderEntry() {
                 </Grid>
                 <Grid item style={{margin: '3px 0', display: 'flex'}} >
                     <PhoneInput
-                        country={'us'}
+                        country={'in'}
                         value={phoneNumber}
                         onChange={(value) => setPhoneNumber(value)}
+                        sx={{
+                            width: '100%'
+                        }}
                     />
                 </Grid>
             </Grid>
