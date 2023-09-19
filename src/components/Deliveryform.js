@@ -201,7 +201,9 @@ const handleDateChange = (newDate) => {
   //   }
   // };
 
-  
+  const handleClearSignature = () => {
+    setSignatureImage(null);
+  };
   const handleNameChange = (event) => {
     const newValue = event.target.value;
     setName(newValue); 
