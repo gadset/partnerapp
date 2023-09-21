@@ -1,11 +1,33 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Grid  from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import OrdersCompletedBox from './OrdersCompletedBox';
+import axios from 'axios';
 
 
 function OrdersCompleted() {
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const Getdata = async() => {
+            const id = '65074f7ebbca59502d1d2aee';
+
+            try {
+                const res = await axios.get('http://localhost:8003/users/completedquotes', {
+                    params: { id },
+                });
+
+                console.log('Value of res', res);
+                const data = res.data;
+                setData(data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        Getdata();
+    }, [])
 
     const dataNewBids = [
         {phone: 'iPhone X', issue: 'Camera not working, Battery replacement , ', delivery: 'Not deliveried'},
@@ -29,9 +51,22 @@ function OrdersCompleted() {
                 </Typography>
             </Grid>
             <Grid>
-                {dataNewBids.map((data,index) => (
-                    <OrdersCompletedBox key={index} phone={data.phone} issue={data.issue} delivery={data.delivery} />
-                ))}
+                {
+                    data && data.length === 0 ? (
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontSize='20px'
+                            fontWeight= '400'
+                            textAlign='left'
+                        >
+                            No Completed Orders.
+                        </Typography>
+                    ) : (
+                        data.map((data, index) => (
+                            <OrdersCompletedBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate}/>
+                        ))
+                    )
+                }
             </Grid>
         </Box>
     )

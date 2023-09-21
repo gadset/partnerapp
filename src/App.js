@@ -6,7 +6,7 @@ import NotificationCount from './components/NotificationCount';
 import Home from './components/Home';
 import { Grid } from '@mui/material';
 import NewBid from './components/NewBid';
-import submitButton from './components/SubmitBox/submitBUtton';
+import submitButton from './components/SubmitBox/submitButton';
 import awaitingConformation from './components/awaitingConformation';
 import otherBidding from './components/otherBidding';
 import PersonOtherBid from './components/personOtherBid';
@@ -39,6 +39,7 @@ import theme from './theme';
 import ExitInspection from './components/ExitInspection';
 import Footer from './components/Footer';
 
+
 function App() {
 
   const [width, setWidth] = useState(window.innerWidth);
@@ -61,21 +62,21 @@ function App() {
       <center>
         <ThemeProvider theme={theme}>
           <Grid className='App' style={{justifyContent: 'center', display: 'flex', flexDirection:'column', width: isMobile ? '100%' : '400px'}}>
-            <Grid style={{width: '100%', position: 'sticky' , top: '0', zIndex: '0'}}>
+            <Grid style={{width: '100%', top: '0', zIndex: '0'}}>
               <Navbar />
               <Switch>
                 {/* <ToastContainer /> */}
-				<div style={{overflowY : 'scroll'}}>
+				      <div style={{overflowY : 'hidden'}}>
                 <Route path='/addbid'>
                     <Postbid/>
                 </Route>
-                <Route exact path='/loginform'>
+                <Route exact path='/'>
                   <LoginForm/>
                 </Route>
                 {/* <Route path='/location'>
                   <Demo/>
                 </Route> */}
-                <Route exact path='/' component = {Home} />
+                <Route exact path='/home' component = {Home} />
                 <Route exact path='/navbar' component={Navbar} />
                 <Route exact path='/newBid' component={NewBid} />
                 <Route exact path='/submitButton' component={submitButton} />
@@ -106,12 +107,12 @@ function App() {
                 <Route path='/deliveryform'>
                   <Deliveryform/>
                 </Route>   
-				</div>
+				      </div>
 
               </Switch>
-			  <div sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
+			        {/* <div sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
                 <Footer />
-            </div>
+              </div> */}
             </Grid>
           </Grid>
         </ThemeProvider>
