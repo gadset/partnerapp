@@ -7,6 +7,7 @@ import HomeBox from './HomeBox';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import { IconButton } from '@mui/material';
 import NewBid from './NewBid';
+import Popover from '@mui/material/Popover';
 import Footer from './Footer';
 import ButtonSubmit from './SubmitBox/submitButton';
 import Modal from '@mui/material/Modal';
@@ -98,6 +99,7 @@ function Home() {
     const customScrollbarStyle = {
         msOverflowStyle: 'none', // Hide scrollbar for Internet Explorer
         scrollbarWidth: 'none', // Hide scrollbar for Firefox
+        overflow: 'hidden'
     };
 
   return (
@@ -127,9 +129,7 @@ function Home() {
 
                 </Grid>
             </Grid>
-            <Grid container aria-describedby={id} sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
-                <Footer />
-            </Grid>
+         
 
             <Modal
                 open={open}

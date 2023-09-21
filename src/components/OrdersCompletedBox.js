@@ -6,6 +6,7 @@ import Grid  from '@mui/material/Grid';
 import { Button, Typography } from '@mui/material';
 import Timer from './Timer';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 const ButtonDelivery = styled(Button) `
     text-transform: none;
@@ -27,7 +28,9 @@ const OrdersCompletedBox = ({phone,issue,delivery,}) => {
                 <Grid container xs={14} style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '22px', position: 'absolute', right: 0, left: 0, margin: '0 auto', bottom: '-10px'}}>
             
                     <Grid item xs={6} style={{padding: 0}}>
-                        <ButtonDelivery variant='contained' sx={{backgroundColor: '#333333' , '&:hover' : {backgroundColor: '#333333'}}}>Fill Delivery Form</ButtonDelivery>
+						<Link to="/deliveryform">
+							  <ButtonDelivery variant='contained' sx={{backgroundColor: '#333333' , '&:hover' : {backgroundColor: '#333333'}}}>Fill Delivery Form</ButtonDelivery>
+						</Link>
                     </Grid>
                 
                     {/* <Grid item xs={6} style={{padding: 0}}>

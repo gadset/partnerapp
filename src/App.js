@@ -6,7 +6,7 @@ import NotificationCount from './components/NotificationCount';
 import Home from './components/Home';
 import { Grid } from '@mui/material';
 import NewBid from './components/NewBid';
-import submitButton from './components/SubmitBox/submitButton';
+import submitButton from './components/SubmitBox/submitBUtton';
 import awaitingConformation from './components/awaitingConformation';
 import otherBidding from './components/otherBidding';
 import PersonOtherBid from './components/personOtherBid';
@@ -30,11 +30,14 @@ import {
 import LoginForm from './components/signinpage';
 import Demo from './components/getlocation';
 import { ToastContainer } from 'react-toastify';
+import Orders from './Orders/Orders';
 import Allbids from './components/Allbids';
+//import Footer from './Navbar/Footer';
 import Deliveryform from './components/Deliveryform';
 import EntryInspection from './components/EntryInspection';
 import theme from './theme';
 import ExitInspection from './components/ExitInspection';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -62,6 +65,7 @@ function App() {
               <Navbar />
               <Switch>
                 {/* <ToastContainer /> */}
+				<div style={{overflowY : 'scroll'}}>
                 <Route path='/addbid'>
                     <Postbid/>
                 </Route>
@@ -101,10 +105,13 @@ function App() {
                 </Route>
                 <Route path='/deliveryform'>
                   <Deliveryform/>
-                </Route>
-
+                </Route>   
+				</div>
 
               </Switch>
+			  <div sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
+                <Footer />
+            </div>
             </Grid>
           </Grid>
         </ThemeProvider>
