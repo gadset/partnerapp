@@ -1,5 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react'
-import { Box, Grid , Typography, Button, TextField, InputAdornment, Divider,Switch, FormControlLabel, } from '@mui/material'
+import { Box, Grid , Typography, Button, TextField, InputAdornment, Divider,Switch, FormControlLabel,
+Select, InputBase, MenuItem,FormControl
+ } from '@mui/material'
 import OrderEntryAutocomplete from './OrderEntryAutocomplete'
 import './OrderEntry.css'
 import styled from '@emotion/styled';
@@ -13,6 +15,29 @@ import SignatureCanvas from 'react-signature-canvas';
 import CancelSharpIcon from '@mui/icons-material/CancelSharp';
 import { useTheme } from '@mui/material/styles';
 import SwitchButton from './SwitchButton';
+import { useForm, Controller } from 'react-hook-form';
+
+  const StyledSelect = styled(Select)`
+  background-color: #F7F7F7;
+  border: 1px solid #B7B7B7;
+  border-radius: 5px;
+  height: 30px;
+  &:before,
+  &:after {
+    border-bottom: none !important;
+  }
+  
+  & .MuiSelect-select {
+    padding: 6px 10px;
+    font-family: Work Sans;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: ${props => props.selectedValue === 'Select' ? '#33333380' : '#000'};
+  }
+`;
 
 const SubmitButton = styled(Button) `
     text-transform: none;
@@ -185,6 +210,12 @@ const MaterialUISwitch = styled(Switch) (({ theme }) => ({
 }));
 
 function EntryInspection() {
+	const {
+    register,
+    handleSubmit,
+	control,
+    formState: { errors },
+  } = useForm();
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [url, setURL] = useState('');
     const [data, setData] = useState(null);
@@ -271,31 +302,37 @@ function EntryInspection() {
         // handleCancel()
     }
 
-    const handleSwitchToggle = (index) => {
-        const newSwitches = [...switches];
-        newSwitches[index] = !newSwitches[index];
-        setSwitches(newSwitches);
-        console.log('clicked')
+    // const handleSwitchToggle = (index) => {
+    //     const newSwitches = [...switches];
+    //     newSwitches[index] = !newSwitches[index];
+    //     setSwitches(newSwitches);
+    //     console.log('clicked')
+    // }
+
+	const handleSwitchToggle = (name) => {
+   control[name] = !control[name];
     }
 
-    const handleSubmit = (data) => {
+    const onSubmit = (data) => {
         const signatureData = signatureRef.current.toDataURL();
         // const imageFile = imageInputRef.current.files[0];
 
         setSignatureData(signatureData)
         // setURL(imageFile)
 
-        const newData = {
-            orderNo,
-            phoneCondition,
-            inspection,
-            signatureData,
-            url,
-            switches
-        }
-        setFormData(newData);
-        console.log(formData);
-        clearForm()
+        // const newData = {
+        //     orderNo,
+        //     phoneCondition,
+        //     inspection,
+        //     signatureData,
+        //     url,
+        //     switches
+        // }
+        // setFormData(newData);
+		console.log(data);
+	console.log(signatureData)
+     //   console.log(formData);
+        // clearForm()
     };
 
 
@@ -329,11 +366,22 @@ function EntryInspection() {
                         </Typography>
                     </Grid>
                     <Grid>
-                        <OrderEntryAutocomplete options={locations} value={orderNo} setValue={setOrderNo} />
+						  {/* <InputBase className='inputbase' placeholder="enter order" id='order' 
+					{...register('order')}
+					// value={amount} 
+                     //   onChange={(event) => setAmount(event.target.value)}
+					 /> */}
+                        <OrderEntryAutocomplete 
+						options={locations} 
+						{...register('order')}
+						// value={orderNo} 
+						// setValue={setOrderNo}
+						 />
                     </Grid>
                 </Grid>
 
-                <Grid container style={{display: 'flex', flexDirection: 'column'}}>
+                <Grid container style={{display: 'flex', flexDirection: 'column'}} >
+					<FormControl fullWidth>
                     <Grid item sx={{padding: 0}}>
                         <Typography
                             fontFamily='Work Sans'
@@ -345,8 +393,29 @@ function EntryInspection() {
                             Phone Condition
                         </Typography>
                     </Grid>
+					</FormControl>
                     <Grid>
-                        <OrderEntryAutocomplete options={locations} value={phoneCondition} setValue={setPhoneCondition} />
+
+						   {/* <StyledSelect style={{height:'30px'}}
+                        labelId="condition"
+                        label='condition'
+						{...register('condition')}
+                        // value={deliveredBy}
+                        // onChange={(event) => setDeliveredby(event.target.value)}
+                        // displayEmpty
+                        // selectedValue={deliveredBy}
+                        // renderValue={() => <span>{deliveredBy}</span>}
+                        >
+                        <MenuItem value="Dead" >Dead</MenuItem>
+                        <MenuItem value="dead not working">dead not working</MenuItem>
+                        <MenuItem value="ok" >ok</MenuItem>
+                    </StyledSelect> */}
+						 
+                        <OrderEntryAutocomplete options={locations} 
+						{...register('phoneCondition')}
+						// value={phoneCondition} 
+						// setValue={setPhoneCondition} 
+						/>
                     </Grid>
                 </Grid>
 
@@ -487,7 +556,21 @@ function EntryInspection() {
                     >
                         
                         {reparing.map((label, index) => (
-                            <SwitchButton checked={label} onChange={() => handleSwitchToggle(index)} xs={3} md={4} xl={4} key={index} name={label.label} />
+							    <Controller
+        name={label.label} 
+		key={index} // Replace with your desired field name
+        control={control}
+        // defaultValue={false} // Initial value of the Switch
+        render={({ field }) => (
+          <SwitchButton
+            {...field}
+            color="primary"
+			name={label.label}
+			 onChange={() => handleSwitchToggle(label.label)}
+          />
+        )}
+      />
+                            // <SwitchButton checked={label} {...register(`${label.label}`)} onChange={() => handleSwitchToggle(index)} xs={3} md={4} xl={4} key={index} name={label.label} />
                         ))}
 
                     </Grid>
@@ -518,7 +601,12 @@ function EntryInspection() {
                         </Typography>
                     </Grid>
                     <Grid>
-                        <OrderEntryAutocomplete options={locations} value={inspection} setValue={setInspection} />
+                        <OrderEntryAutocomplete 
+						options={locations}
+						{...register('inspectionDone')}
+						//  value={inspection}
+						//   setValue={setInspection} 
+						  />
                     </Grid>
                 </Grid>
 
@@ -555,14 +643,14 @@ function EntryInspection() {
                           penColor="black"
                           canvasProps={{ height: 180, width:width<=335?250:width<=405?250:300 }}
                           sx={{borderBottom:'1px solid #000', marginBottom: '10px'}}
+
                         />
                     </Grid>
                     <Divider variant={'middle'} style={{marginBottom: '15px', backgroundColor: '#000000'}} />
                 </Grid>
 
-                <SubmitButton onClick={handleSubmit}  sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#505050'}, margin: '40px 0px 10px 0'}} variant='contained'>Submit</SubmitButton>
+                <SubmitButton   onClick={handleSubmit((data) =>onSubmit(data))}  sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#505050'}, margin: '40px 0px 10px 0'}} variant='contained'>Submit</SubmitButton>
                 <ResetButton onClick={clearForm} sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#B7B7B7'}, margin: '0'}} variant='contained'>Reset</ResetButton>
-
 
             </Grid>
 
