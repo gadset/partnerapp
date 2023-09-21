@@ -9,11 +9,12 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { ImHome } from 'react-icons/im';
 import { IconContext } from 'react-icons';
+import { width } from '@mui/system';
 
 export default function Footer() {
     const Mobile = useMediaQuery('(max-width:400px)');
   return (
-    <Box sx={{ zIndex: 999, width: '100%' }}>
+    <Box sx={{ zIndex: 999, width: 'auto !important' }}>
       <Paper>
         <BottomNavigation
           sx={{

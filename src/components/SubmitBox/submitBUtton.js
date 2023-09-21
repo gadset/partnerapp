@@ -23,7 +23,7 @@ const SubmitButtom = styled(Button) `
 
 `
 
-const submitButton = ({buttonClick}) => {
+const submitButton = ({buttonClick, link}) => {
   return (
     <Box sx={{padding: '20px' , height: 200, display:'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF', borderRadius: '5px'}}>
         <Grid container  style={{display: 'flex', flexDirection: 'row', padding: 0,}}>
@@ -48,7 +48,7 @@ const submitButton = ({buttonClick}) => {
                     </IconButton>
                 </Grid>
             </Grid>
-            <Link to='/' style={{textDecoration: 'none'}}>
+            <Link to={link} style={{textDecoration: 'none'}}>
                 <SubmitButtom onClick={buttonClick} sx={{'&:hover': {backgroundColor: '#505050'} }} variant='contained'>Back</SubmitButtom>
             </Link>
         </Grid>

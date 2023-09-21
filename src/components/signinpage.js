@@ -131,7 +131,7 @@ if(isloggedin){
     const data = {
                "email" : email,
                "name" : name,
-               "address" : address,
+               "address" : 'IIT Jodhpur',
                "number" : number,
                "rating" : Math.floor(Math.random() * 3)+2,
                "percentage" : Math.floor(Math.random() * 50)+50,
