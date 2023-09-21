@@ -63,17 +63,18 @@ function Home() {
     const isMobile = width <= 768;
 
     const data1 = [
-        { number: 1, names: "Confirmed" , link: '/ConfirmedOrders'},
-        { number: 2, names: "Awaiting Conformation", link: '/awaitingConfirmation' },
+        // { number: 2, names: "Awaiting Conformation", link: '/awaitingConfirmation' },
         { number: 3, names: "All bids", link: '/confirmedBids' },
-        { number: 4, names: "Pending" , link: '/pendingorders'},
-        { number: 5, names: "Cancelled Bids" , link: '/cancelledBids'},
+        { number: 5, names: "Missed Bids" , link: '/cancelledBids'},,
+        { number: 1, names: "Confirmed Orders" , link: '/ConfirmedOrders'},
+        { number: 4, names: "Pending/ Reparing" , link: '/pendingorders'},
+        
         { number: 6, names: "Order Completed" , link: '/ordersCompleted'},
-        { number: 7, names: "Delivery Pending" , link: '/confirmedBids'},
+        // { number: 7, names: "Delivery Pending" , link: '/confirmedBids'},
         { number: 8, names: "Delivered", link: '/confirmedBids' },
-        { number: 9, names: "Confirmed Payment", link: '/confirmedBids' },
-        { number: 10, names: "After Service Payments", link: '/confirmedBids' },
-        { number: 11, names: "Warranty Clame", link: '/confirmedBids' },
+        // { number: 9, names: "Confirmed Payment", link: '/confirmedBids' },
+        // { number: 10, names: "After Service Payments", link: '/confirmedBids' },
+        // { number: 11, names: "Warranty Clame", link: '/confirmedBids' },
     ]
 
     const handleOpenNewBid = (event) => {
