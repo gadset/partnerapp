@@ -131,70 +131,28 @@ if(isloggedin){
     const data = {
                "email" : email,
                "name" : name,
-               "address" : address,
+               "address" : 'IIT JODHPUR',
                "number" : number,
                "rating" : Math.floor(Math.random() * 3)+2,
                "percentage" : Math.floor(Math.random() * 50)+50,
                }
 
-      fetch(process.env.REACT_APP_BACKEND + 'partner', {
+               fetch('http://localhost:8003/partner', {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json, text/plain, */*',
                   'Content-Type': 'application/json'
-                }, 
-                body : JSON.stringify(data),   
+                },
+                body: JSON.stringify(data),
               })
-              .then(response => response.json())
-              .then(json => {  
-                localStorage.setItem('partnerid', JSON.stringify(json['id'])) ;
-                SubscribeUser(json['id']);
-               history.push({
-       pathname : '/home',
-        })
-                })  
-          
-  // dispatch(setallValue(data));
-
-  //  setDoc(docRef, data)
-  //  .then(() => {
-  //      console.log("Document has been added successfully");
-  //      setdocid(docRef.id);
-  //  })
-  //  .catch(error => {
-  //      console.log(error);
-  //  })
-    // const docRef = await setDoc(collection(firestoredb, "Partners",number), {
-    //          "email" : email,
-    //          "name" : name,
-    //          "address" : address,
-    //          });
-    // console.log('signin successful')
-   
-    // createUserWithEmailAndPassword(auth, email, password)
-    // .then(async(userCredential) => {
-    //     const user = userCredential.user;
-    //  const docRef = await addDoc(collection(firestoredb, "Partners"), {
-    //        "email" : email,
-    //        "name" : name,
-    //        "address" : address,
-    //        });
-    // console.log(docRef.id);
-    // history.push({
-    //     pathname : '/addbid',
-    //     state : {name : name, email : email}
-    // })
-    //   // ...
-    //   console.log('signin successful')
-    // })
-    // .catch((error) => {
-    //   const errorCode = error.code;
-    //   const errorMessage = error.message;
-    //   console.log(error);
-    //   // ..
-    // });
-    // console.log('Email:', email);
-    // console.log('Password:', password);
+                .then(response => response.json())
+                .then(json => {
+                  localStorage.setItem('partnerid', JSON.stringify(json.id));
+                  SubscribeUser(json.id);
+                  history.push({
+                    pathname: '/home',
+                  });
+                });
   };
 
   const getOtp = async (e) => {

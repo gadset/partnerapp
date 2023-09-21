@@ -65,17 +65,17 @@ function App() {
               <Navbar />
               <Switch>
                 {/* <ToastContainer /> */}
-				<div style={{overflowY : 'scroll'}}>
+				<div style={{overflowY : 'hidden'}}>
                 <Route path='/addbid'>
                     <Postbid/>
                 </Route>
-                <Route exact path='/loginform'>
+                <Route exact path='/'>
                   <LoginForm/>
                 </Route>
                 {/* <Route path='/location'>
                   <Demo/>
                 </Route> */}
-                <Route exact path='/' component = {Home} />
+                <Route exact path='/home' component = {Home} />
                 <Route exact path='/navbar' component={Navbar} />
                 <Route exact path='/newBid' component={NewBid} />
                 <Route exact path='/submitButton' component={submitButton} />
