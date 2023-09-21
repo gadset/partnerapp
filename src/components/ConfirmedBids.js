@@ -21,16 +21,16 @@ function ConfirmedBids() {
 
     useEffect(()=> {
         const Getdata = async() => {
-            const id = '64dd0c4aa11521155128628a';
+            const id = '65074f7ebbca59502d1d2aee';
 
             try {
                 const res = await axios.get('http://localhost:8003/users/getquotes', {
                     params: { id },
                 });
 
-                console.log('Value of res', res);
-                const data = res.data.objects;
+                const data = res.data;
                 setData(data);
+                console.log(data);
             } catch (error) {
                 console.error(error);
             }
@@ -64,7 +64,7 @@ function ConfirmedBids() {
                         </Typography>
                     ) : (
                         data.map((data, index) => (
-                            <ConfirmedBidsBox key={index} textDecorationNone={true}  phone={data.model} issue={data.issu} bid={data.bid} date={data.biddate}/>
+                            <ConfirmedBidsBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate}/>
                         ))
                     )
                 }

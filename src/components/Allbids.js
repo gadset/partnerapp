@@ -65,11 +65,17 @@ export default function Allbids() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow:1,width: isMobile ? '100%' : '400px',marginBottom:'40px',marginLeft:isMobile ? 'auto' : 'none'}} container >
     <Grid container sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', padding: '14px' }}>
-        <Grid item style={{marginBottom:'20px'}}>
-            <Typography style={{ fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans', lineHeight: '18.66px' }}>
-                Bid for the Service
-            </Typography>
-        </Grid>
+            <Grid item sx={{padding: 0, margin: '10px 0 5px 0'}}>
+                <Typography
+                    fontFamily='Work Sans'
+                    fontSize='16px'
+                    fontWeight= '400'
+                    lineHeight='18.77px'
+                    textAlign='left'
+                >
+                    Missed Bids
+                </Typography>
+            </Grid>
         {avaibleorders.map((order, index) => (
         <Grid container key={index} sx={{ display: 'flex', flexDirection: 'row', border: '1px solid #333333', borderRadius: '10px', padding: '12px',flexWrap:'nowrap',gap:'10px',marginBottom:'15px' }}>
             <Grid item sx={{ backgroundColor: '#D9D9D9', borderRadius: '5px', padding: '10px',maxWidth:'90px',width:'100%' }}>
