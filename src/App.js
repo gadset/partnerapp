@@ -6,7 +6,7 @@ import NotificationCount from './components/NotificationCount';
 import Home from './components/Home';
 import { Grid } from '@mui/material';
 import NewBid from './components/NewBid';
-import submitButton from './components/SubmitBox/submitButton';
+import submitButton from './components/SubmitBox/submitBUtton';
 import awaitingConformation from './components/awaitingConformation';
 import otherBidding from './components/otherBidding';
 import PersonOtherBid from './components/personOtherBid';

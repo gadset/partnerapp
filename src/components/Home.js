@@ -5,7 +5,7 @@ import HomeBox from './HomeBox';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import { IconButton } from '@mui/material';
 import NewBid from './NewBid';
-import ButtonSubmit from './SubmitBox/submitButton';
+import ButtonSubmit from './SubmitBox/submitBUtton';
 import Modal from '@mui/material/Modal';
 import styled from '@emotion/styled';
 import './Home.css';

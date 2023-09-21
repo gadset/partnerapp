@@ -15,43 +15,27 @@
 // import { doc, setDoc, getFirestore,addDoc, collection } from "firebase/firestore"; 
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-// // Add a new document in collection "cities"
-// function setUpRecaptha(number) {
-//  // var appVerifier = new RecaptchaVerifier('recaptcha-container');
-//     const recaptchaVerifier = new RecaptchaVerifier(
-//       "recaptcha-container",
-//       {},
-//       auth
-//     );
-//     recaptchaVerifier.render();
-//     console.log('function called')
-//     return signInWithPhoneNumber(auth, number, recaptchaVerifier);
+// Add a new document in collection "cities"
+function setUpRecaptha(number) {
+    const recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {},
+      auth
+    );
+    recaptchaVerifier.render();
+    console.log('function called')
+    return signInWithPhoneNumber(auth, number, recaptchaVerifier);
+}
 
-//   // let out ;
-//   //   const recaptchaVerifier = new RecaptchaVerifier('sendotp', {
-//   //     'size': 'invisible',
-//   //     'callback': (response) => {
-//   //       // reCAPTCHA solved, allow signInWithPhoneNumber.
-//   //       out = signInWithPhoneNumber(auth, number, recaptchaVerifier);
-//   //     }
-//   //   }, auth);
-//   //   // recaptchaVerifier.render();
-//   //    return out;
-//    ;
-//   }
-
-// const PhoneSignUp = ({total}) => {
-//   const dispatch = useDispatch();
-//   const location = useLocation();
-//   const [error, setError] = useState("");
-//   const [number, setNumber] = useState("");
-//   const [flag, setFlag] = useState(false);
-//   const [otp, setOtp] = useState("");
-//   const [result, setResult] = useState("");
-//   const [useridValue, setUserIdValue] = useState('')
-// //const total = location.state.total;
-//   //const { setUpRecaptha } = useUserAuth();
-//   const history = useHistory();
+const PhoneSignUp = ({total}) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const [error, setError] = useState("");
+  const [number, setNumber] = useState("");
+  const [flag, setFlag] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [result, setResult] = useState("");
+  const history = useHistory();
 
 //   const [width, setWidth] = useState(window.innerWidth);
 

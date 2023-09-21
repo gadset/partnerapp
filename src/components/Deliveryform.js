@@ -18,7 +18,8 @@ import { BiLink } from "react-icons/bi";
 import { ToastContainer, toast } from 'react-toastify';
 import CancelSharpIcon from '@mui/icons-material/CancelSharp';
 import SignatureCanvas from 'react-signature-canvas';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import {  InputLabel, Container, FormControlLabel, Switch } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 import './deliveryform.css';
 
@@ -211,7 +212,6 @@ const handleDateChange = (newDate) => {
   // const handleClearSignature = () => {
   //   setSignatureImage(null);
   // };
-
   const handleSave = () => {
     const newData = {
       selectedFiles: selectedFiles,
@@ -228,11 +228,29 @@ const handleDateChange = (newDate) => {
     setData(null);
     toast.info('Changes discarded', { autoClose: 2500 });
   };
-
   const onSubmit = async(data) => {
     const signatureImage = signatureRef.current.toDataURL();
 
     setSignatureData(signatureImage);
+    // const newData = {
+    //   selectedValue,
+    //   gadgetType,
+    //   warantyGiven,
+    //   paymentMode,
+    //   deliveredBy,
+    //   selectedDate,
+    //   entername,
+    //   number,
+    //   email,
+    //   invoiceno,
+    //   amount,
+    //   gadgetModel,
+    //   serviceDone,
+    //   signatureData,
+    // };
+  //  setFormData(newData);
+    // console.log(newData);
+    
 	await fetch(process.env.REACT_APP_BACKEND + `order/delivery`, {
           method: 'POST',
           headers: {
@@ -283,7 +301,7 @@ const handleDateChange = (newDate) => {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow:1,marginBottom:'60px',padding: '14px 23px', textAlign : 'left'}} container >
-          <Box sx={{width: isMobile ? '100%' : '100%',}}>
+          <Box sx={{width: isMobile ? '100%' : '400px',}}>
              <Grid container>
               <Grid item>
                 <Typography style={{fontWeight: 500, fontSize: '14px', color: '#000', fontFamily: 'Work sans', lineHeight: '16.42px'}}>Order Entry</Typography>
