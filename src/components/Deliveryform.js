@@ -204,10 +204,6 @@ const handleDateChange = (newDate) => {
   // const handleClearSignature = () => {
   //   setSignatureImage(null);
   // };
-  const handleNameChange = (event) => {
-    const newValue = event.target.value;
-    setName(newValue); 
-  };
   const handleSave = () => {
     const newData = {
       selectedFiles: selectedFiles,
@@ -246,6 +242,7 @@ const handleDateChange = (newDate) => {
     // };
   //  setFormData(newData);
     // console.log(newData);
+    
 	await fetch(process.env.REACT_APP_BACKEND + `order/delivery`, {
           method: 'POST',
           headers: {
