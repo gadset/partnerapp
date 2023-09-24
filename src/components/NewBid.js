@@ -27,8 +27,7 @@ const SubmitButtom = styled(Button) `
 `
 
 
-function NewBid({sendDatatoParent}) {
-
+function NewBid({sendDatatoParent,biddata}) {
     const [width, setWidth] = useState(window.innerWidth);
     const [serviceType, setServiceType] = useState("");
     const [warranty, setWarranty] = useState('');
@@ -39,8 +38,6 @@ function NewBid({sendDatatoParent}) {
     function handledWindowSizeChange() {
         setWidth(window.innerWidth);
     }
-
-
 
     useEffect(()=> {
         window.addEventListener('resize', handledWindowSizeChange);
@@ -59,10 +56,10 @@ function NewBid({sendDatatoParent}) {
     const handlSubmit = (e) => {
         console.log(serviceType, warranty, bidAmount, finalAmount )
         const data = {
-            'service-Type' : serviceType,
-            'Warranty' : warranty,
-            'Bid-Amount': bidAmount,
-            'Final Amount' : finalAmount,
+            'service' : serviceType,
+            'warranty' : warranty,
+            'BidAmount': bidAmount,
+            'amount' : finalAmount,
         }
         setData(data);
         sendDatatoParent(data);
@@ -81,15 +78,19 @@ function NewBid({sendDatatoParent}) {
                 </Grid>
                 <Grid item style={{padding: '6px 0', display: 'flex', justifyContent: 'flex-start'}}>
                     <Typography style={{fontWeight: 400, fontSize: '24px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1', cursor: 'pointer'}}>
-                        iPhone 14 pro max
+                        {biddata.device}
                     </Typography>
                 </Grid>
                 <Grid container style={{}}>
-                    <Grid xs={1.75} item style={{padding: '5px 0', display: 'flex', justifyContent: 'flex-start'}}>
+                    <Grid xs={2} item style={{padding: '5px 0', display: 'flex', justifyContent: 'flex-start'}}>
                         <Typography style={{fontWeight: 400, fontSize: '14px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1.25',}}>Issue :</Typography>
                     </Grid>
-                    <Grid xs={10.25} item style={{padding: '5px 0', display: 'flex', justifyContent: 'flex-start'}}>
-                        <Typography style={{fontWeight: 400, fontSize: '14px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1.25', textAlign: 'left'}}>Screen Replacement , Touch is not working</Typography>
+                    <Grid xs={10} item style={{padding: '5px 0', display: 'flex', justifyContent: 'flex-start'}}>
+                        <Grid style={{display:'flex',flexDirection:'column'}}>
+                        {biddata.issu.map((issue, index) => (
+                            <Typography key={index} style={{ fontWeight: 400, fontSize: '14px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1.25', textAlign: 'left' }}>{issue}</Typography>
+                            ))}
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid container style={{display: 'flex', justifyContent: 'flex-start'}}>
