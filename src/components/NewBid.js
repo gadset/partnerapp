@@ -1,7 +1,5 @@
-import  React, {useEffect, useState, forwardRef} from 'react';
+import  React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
 import Grid  from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import './style.css';
@@ -14,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
+
 
 const SubmitButtom = styled(Button) `
     text-transform: none;
@@ -28,10 +27,14 @@ const SubmitButtom = styled(Button) `
 `
 
 
-function NewBid(props) {
-
+function NewBid({sendDatatoParent,biddata}) {
     const [width, setWidth] = useState(window.innerWidth);
-
+    const [serviceType, setServiceType] = useState("");
+    const [warranty, setWarranty] = useState('');
+    const [bidAmount,setBidAmount] = useState('');
+    const [finalAmount, setFinalAmount] = useState(0);
+    const [data, setData] = useState({})
+ 
     function handledWindowSizeChange() {
         setWidth(window.innerWidth);
     }
@@ -43,6 +46,24 @@ function NewBid(props) {
         }
     }, [])
 
+    const handleAmountChange = (e) => {
+        const newBidAmount = e.target.value;
+        const newFinalAmount = parseFloat(e.target.value) + 850;
+        setBidAmount(newBidAmount);
+        setFinalAmount(newFinalAmount);
+    }
+
+    const handlSubmit = (e) => {
+        console.log(serviceType, warranty, bidAmount, finalAmount )
+        const data = {
+            'service' : serviceType,
+            'warranty' : warranty,
+            'BidAmount': bidAmount,
+            'amount' : finalAmount,
+        }
+        setData(data);
+        sendDatatoParent(data);
+    }
 
     const isMobile = width <= 768;
 
@@ -57,15 +78,19 @@ function NewBid(props) {
                 </Grid>
                 <Grid item style={{padding: '6px 0', display: 'flex', justifyContent: 'flex-start'}}>
                     <Typography style={{fontWeight: 400, fontSize: '24px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1', cursor: 'pointer'}}>
-                        iPhone 14 pro max
+                        {biddata.device}
                     </Typography>
                 </Grid>
                 <Grid container style={{}}>
-                    <Grid xs={1.75} item style={{padding: '5px 0', display: 'flex', justifyContent: 'flex-start'}}>
+                    <Grid xs={2} item style={{padding: '5px 0', display: 'flex', justifyContent: 'flex-start'}}>
                         <Typography style={{fontWeight: 400, fontSize: '14px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1.25',}}>Issue :</Typography>
                     </Grid>
-                    <Grid xs={10.25} item style={{padding: '5px 0', display: 'flex', justifyContent: 'flex-start'}}>
-                        <Typography style={{fontWeight: 400, fontSize: '14px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1.25', textAlign: 'left'}}>Screen Replacement , Touch is not working</Typography>
+                    <Grid xs={10} item style={{padding: '5px 0', display: 'flex', justifyContent: 'flex-start'}}>
+                        <Grid style={{display:'flex',flexDirection:'column'}}>
+                        {biddata.issu.map((issue, index) => (
+                            <Typography key={index} style={{ fontWeight: 400, fontSize: '14px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1.25', textAlign: 'left' }}>{issue}</Typography>
+                            ))}
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid container style={{display: 'flex', justifyContent: 'flex-start'}}>
@@ -75,13 +100,15 @@ function NewBid(props) {
                             row
                             aria-labelledby='service-offer-radio-buttons'
                             name='row-radio-button-grp' 
+                            value={serviceType}
+                            onChange={(e) => setServiceType(e.target.value)}
                         >
                             <Grid container>
                                 <Grid style={{display: 'flex', justifyContent: 'flex-start'}} item xs={7}>
-                                    <FormControlLabel style={{padding: '0', fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans'}}  value='Doorstep Service' control={<Radio size='small' sx={{ color: '#CFCFCF', '&.Mui-checked': { color: '#000000'},}} />} label='Doorstep Service' />
+                                    <FormControlLabel value="Door Step Service" style={{padding: '0', fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans'}} control={<Radio size='small' sx={{ color: '#CFCFCF', '&.Mui-checked': { color: '#000000'},}} />} label='Doorstep Service' />
                                 </Grid>
                                 <Grid style={{display: 'flex', justifyContent: 'flex-start'}} item xs={5}>
-                                    <FormControlLabel style={{padding: '0', fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans'}}  value='Visit Store' control={<Radio size='small' sx={{ color: '#CFCFCF','&.Mui-checked': { color: '#000000' }, }} />} label='Visit Store' />
+                                    <FormControlLabel value="Visit Store" style={{padding: '0', fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans'}}   control={<Radio size='small' sx={{ color: '#CFCFCF','&.Mui-checked': { color: '#000000' }, }} />} label='Visit Store' />
                                 </Grid>
                             </Grid>
                         </RadioGroup>
@@ -94,16 +121,18 @@ function NewBid(props) {
                             row
                             aria-labelledby='warranty-radio-button-grp'
                             name='row-radio-button-grp'
+                            value={warranty}
+                            onChange={(e) => setWarranty(e.target.value)}
                         >
                             <Grid container>
                                 <Grid style={{display: 'flex', justifyContent: 'flex-start'}} item xs={7}>
-                                    <FormControlLabel style={{padding: '0', fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans'}}  value='6 Months warranty' control={<Radio size='small' sx={{ color: '#CFCFCF', '&.Mui-checked': { color: '#000000'},}} />} label='6 Months warranty' />
+                                    <FormControlLabel value="6 Month Warranty" style={{padding: '0', fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans'}} control={<Radio size='small' sx={{ color: '#CFCFCF', '&.Mui-checked': { color: '#000000'},}} />} label='6 Months warranty' />
                                 </Grid>
                                 <Grid style={{display: 'flex', justifyContent: 'flex-start'}} item xs={5}>
-                                    <FormControlLabel style={{padding: '0', fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans'}}  value='No warranty' control={<Radio size='small' sx={{ color: '#CFCFCF', '&.Mui-checked': { color: '#000000'},}} />} label='No warranty' />
+                                    <FormControlLabel value="No Warranty" style={{padding: '0', fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans'}} control={<Radio size='small' sx={{ color: '#CFCFCF', '&.Mui-checked': { color: '#000000'},}} />} label='No warranty' />
                                 </Grid>
                                 <Grid style={{display: 'flex', justifyContent: 'flex-start'}} item xs={7}>
-                                    <FormControlLabel style={{padding: '0', fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans'}}  value='3 Months warranty' control={<Radio size='small' sx={{ color: '#CFCFCF', '&.Mui-checked': { color: '#000000'},}} />} label='3 Months warranty' />
+                                    <FormControlLabel value="3 Month Warranty" style={{padding: '0', fontWeight: 400, fontSize: '16px', color: '#000000', fontFamily: 'Work sans'}} control={<Radio size='small' sx={{ color: '#CFCFCF', '&.Mui-checked': { color: '#000000'},}} />} label='3 Months warranty' />
                                 </Grid>
                             </Grid>
                         </RadioGroup>
@@ -123,13 +152,13 @@ function NewBid(props) {
                         <CurrencyRupeeOutlinedIcon sx={{color: '#000000'}} />
                     </IconButton>
                     <Divider sx={{height: 28, m: 0.5, color: '#B7B7B7'}} orientation='vertical' />
-                    <InputBase sx={{m: 1, flex: 1, color: '#000000', fontWeight: '500', fontSize: '16px', fontFamily: 'Work sans'}} inputProps={{'area-label': 'Enter amount'}} />
+                    <InputBase sx={{m: 1, flex: 1, color: '#000000', fontWeight: '500', fontSize: '16px', fontFamily: 'Work sans'}} inputProps={{'area-label': 'Enter amount'}} value={bidAmount} onChange={handleAmountChange} />
                 </Grid>
                 <Typography style={{textAlign: 'left', fontWeight: '500',fontSize: '11px',color: '#000000', fontFamily: 'Work sans' }}>Tamboola commission : ₹850</Typography>
                 <Grid item style={{padding: '5px 0', display: 'flex', justifyContent: 'flex-start', margin: '5px 0'}} >
-                    <Typography style={{fontWeight: '600', fontSize: '16px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1'}}>Final bid Amount : ₹9350</Typography>
+                    <Typography style={{fontWeight: '600', fontSize: '16px', color: '#000000', fontFamily: 'Work sans', lineHeight: '1'}}>Final bid Amount : ₹{finalAmount}</Typography>
                 </Grid>
-                <SubmitButtom onClick={props.handleSubmit} variant='contained' sx={{backgroundColor: '#505050', borderRadius: 5, border: '1px solid #C5C5C5', fontSize: 16, '&:hover': { backgroundColor: '#505050'},}}>submit</SubmitButtom>
+                <SubmitButtom onClick={handlSubmit} variant='contained' sx={{backgroundColor: '#505050', borderRadius: 5, border: '1px solid #C5C5C5', fontSize: 16, '&:hover': { backgroundColor: '#505050'},}}>submit</SubmitButtom>
             </Grid>
         </Box>
     );

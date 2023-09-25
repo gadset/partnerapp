@@ -22,7 +22,13 @@ import { useForm, Controller } from 'react-hook-form';
 import {  InputLabel, Container, FormControlLabel, Switch } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 import './deliveryform.css';
+
 export default function Deliveryform() {
+	  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
     const [width, setWidth] = useState(window.innerWidth);
     const [selectedValue, setSelectedValue] = useState('Select');
     const [gadgetType, setGadgettype] = useState('Select');
@@ -184,22 +190,7 @@ const handleDateChange = (newDate) => {
   const handleFileRemove = (fileToRemove) => {
     setSelectedFiles((prevFiles) => prevFiles.filter(file => file !== fileToRemove));
   };
-  // const handleImageUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = (e) => {
-  //       setSignatureImage(e.target.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
 
-  
-  const handleNameChange = (event) => {
-    const newValue = event.target.value;
-    setName(newValue); 
-  };
   const handleSave = () => {
     const newData = {
       selectedFiles: selectedFiles,
@@ -216,29 +207,32 @@ const handleDateChange = (newDate) => {
     setData(null);
     toast.info('Changes discarded', { autoClose: 2500 });
   };
-  const handleSubmit = () => {
+  const onSubmit = async(data) => {
     const signatureImage = signatureRef.current.toDataURL();
-
     setSignatureData(signatureImage);
-    const newData = {
-      selectedValue,
-      gadgetType,
-      warantyGiven,
-      paymentMode,
-      deliveredBy,
-      selectedDate,
-      entername,
-      number,
-      email,
-      invoiceno,
-      amount,
-      gadgetModel,
-      serviceDone,
-      signatureData,
-    };
-    setFormData(newData);
-    console.log(formData);
-    toast.success('Form submitted successfully', { autoClose: 3000 });
+    console.log(signatureImage);
+    
+	await fetch(process.env.REACT_APP_BACKEND + `order/delivery`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          }, 
+          body : JSON.stringify({
+			formdata : {...data , signatureImage},
+			id: "650752e9b0b67fd6b4a7ae50",
+		  })   
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error('Network error');
+          }
+          return response.json();
+        }).then(json => toast.success("successful")).catch(error => {
+         toast.error("Error while retreiving data");
+        });
+	console.log(data);
+	console.log(signatureImage)
+
     clearForm();
   };
 
@@ -267,7 +261,7 @@ const handleDateChange = (newDate) => {
   };
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow:1,marginBottom:'60px',justifyContent: 'center',alignItems:'center',padding: '14px 23px'}} container >
+        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow:1,marginBottom:'60px',padding: '14px 23px', textAlign : 'left'}} container >
           <Box sx={{width: isMobile ? '100%' : '400px',}}>
              <Grid container>
               <Grid item>
@@ -280,11 +274,12 @@ const handleDateChange = (newDate) => {
                         style={{ height: '30px' }}
                         labelId="order-number"
                         label="Order Number"
-                        value={selectedValue} 
-                        onChange={(event) => setSelectedValue(event.target.value)}
-                        displayEmpty
-                        selectedValue={selectedValue} 
-                        renderValue={() => <span>{selectedValue}</span>}
+						{...register('order')}
+                        // value={selectedValue} 
+                        // onChange={(event) => setSelectedValue(event.target.value)}
+                        // displayEmpty
+                        // selectedValue={selectedValue} 
+                        // renderValue={() => <span>{selectedValue}</span>}
                         >
                         <MenuItem value="Red">Red</MenuItem>
                         <MenuItem value="Black">Black</MenuItem>
@@ -297,20 +292,20 @@ const handleDateChange = (newDate) => {
                 <Grid item sx={{width:'100%',}}>
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Name</Typography>
                     <InputBase className='inputbase'
-                    placeholder="First Name"
+                    placeholder="Name"
                     id="name"
-                    
-                    value={entername}
-                    onChange={handleNameChange}
+                    {...register('name')}
+                    // value={entername}
+                    // onChange={handleNameChange}
                     />
                    {/* <TextField className='txtfield' value={entername} onChange={(e) => setName(e.target.value)} sx={{width: '100%', backgroundColor: '#F4F4F4'}} InputProps={{ style:{height: '30px',fontSize: '12px', fontWeight: 300, fontFamily: 'Work Sans' ,'&:hover': {border: '1px solid #F4F4F4'} , '&:focus': {border: '1px solid #F4F4F4'}}}} placeholder='First Name'/> */}
                 </Grid>
                 <Grid item sx={{width:'100%',}}>
                      <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Phone</Typography>
                      <TextField className='textfeild'
-                     value={number} 
-                     onChange={(event) => setNumber(event.target.value)}
-                     
+                    // value={number} 
+                   //  onChange={(event) => setNumber(event.target.value)}
+                     {...register('number')}
                      placeholder='9900852366'
                         id="standard-start-adornment"
                         InputProps={{
@@ -334,34 +329,38 @@ const handleDateChange = (newDate) => {
                 </Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography  style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Email</Typography>
-                    <InputBase className='inputbase' placeholder="rajkumar@gadset.in" id='email'value={email} 
-                        onChange={(event) => setEmail(event.target.value)} />
+                    <InputBase className='inputbase' placeholder="rajkumar@gadset.in" id='email'
+					// value={email} 
+                    //    onChange={(event) => setEmail(event.target.value)}
+						{...register('email')} />
                 </Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography  style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Date and time</Typography>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <MobileDateTimePicker
                         className='datepicker'
-                        value={selectedDate}
-                        onChange={handleDateChange}
+                        // value={selectedDate}
+                        // onChange={handleDateChange}
+						{...register('date')}
                       />
                     </LocalizationProvider>
                     </Grid>
-                <Grid item sx={{width:'100%',}}>
+                {/* <Grid item sx={{width:'100%',}}>
                     <Typography  style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Invoice no</Typography>
                     <InputBase className='inputbase' placeholder="Enter" id='invoice' value={invoiceno} 
                         onChange={(event) => setInvoice(event.target.value)}/>
-                </Grid>
+                </Grid> */}
                 <Grid item sx={{width:'100%',}}><FormControl fullWidth >
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Gadget Type</Typography>
                     <StyledSelect style={{height:'30px'}}
                         labelId="gadget-type"
                         label="Gadget Type"
-                        value={gadgetType}
-                        onChange={(event) => setGadgettype(event.target.value)}
-                        displayEmpty
-                        selectedValue={gadgetType}
-                        renderValue={() => <span>{gadgetType}</span>}
+						{...register('gadget')}
+                        // value={gadgetType}
+                        // onChange={(event) => setGadgettype(event.target.value)}
+                        // displayEmpty
+                        // selectedValue={gadgetType}
+                        // renderValue={() => <span>{gadgetType}</span>}
                         >
                         <MenuItem value="Mobile">Mobile</MenuItem>
                         <MenuItem value="Watch" >Watch</MenuItem>
@@ -375,11 +374,12 @@ const handleDateChange = (newDate) => {
                     <StyledSelect style={{height:'30px'}}
                         labelId="warranty-given"
                         label="Warranty given"
-                        value={warantyGiven}
-                        onChange={(event) => setWarantygiven(event.target.value)}
+						{...register('warranty')}
+                      //  value={warantyGiven}
+                     //   onChange={(event) => setWarantygiven(event.target.value)}
                         displayEmpty
-                        selectedValue={warantyGiven}
-                        renderValue={() => <span>{warantyGiven}</span>}
+                       // selectedValue={warantyGiven}
+                       //  renderValue={() => <span>{warantyGiven}</span>}
                         >
                         <MenuItem value="3 months">3 months</MenuItem>
                         <MenuItem value="6 months">6 months</MenuItem>
@@ -390,19 +390,23 @@ const handleDateChange = (newDate) => {
                 </FormControl></Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Amount collected</Typography>
-                    <InputBase className='inputbase' placeholder="enter amount" id='amount' value={amount} 
-                        onChange={(event) => setAmount(event.target.value)}/>
+                    <InputBase className='inputbase' placeholder="enter amount" id='amount' 
+					{...register('amount')}
+					// value={amount} 
+                     //   onChange={(event) => setAmount(event.target.value)}
+					 />
                 </Grid>
                 <Grid item sx={{width:'100%',}}><FormControl fullWidth >
                     <Typography sx={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Payment mode</Typography>
                     <StyledSelect style={{height:'30px'}}
                         labelId="payment-mode"
                         label='Payment Mode'
-                        value={paymentMode}
-                        onChange={(event) => setPaymentmode(event.target.value)}
-                        displayEmpty
-                        selectedValue={paymentMode}
-                        renderValue={() => <span>{paymentMode}</span>}
+						{...register('payment')}
+                        // value={paymentMode}
+                        // onChange={(event) => setPaymentmode(event.target.value)}
+                        // displayEmpty
+                        // selectedValue={paymentMode}
+                        // renderValue={() => <span>{paymentMode}</span>}
                         >
                         <MenuItem value="UPI" >UPI</MenuItem>
                         <MenuItem value="Cards">Cards</MenuItem>
@@ -413,19 +417,23 @@ const handleDateChange = (newDate) => {
                 </FormControl></Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Gadget Model</Typography>
-                    <InputBase className='inputbase' placeholder="Select" id='gadgetmodel' value={gadgetModel} 
-                        onChange={(event) => setGadgetmodel(event.target.value)}/>
+                    <InputBase className='inputbase' placeholder="Select" id='gadgetmodel' 
+					{...register('model')}
+				//	value={gadgetModel} 
+                  //      onChange={(event) => setGadgetmodel(event.target.value)}
+						/>
                 </Grid>
                 <Grid item sx={{width:'100%',}}><FormControl fullWidth >
                     <Typography sx={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Delivered by</Typography>
                     <StyledSelect style={{height:'30px'}}
                         labelId="deliveredby"
                         label='Delivered by'
-                        value={deliveredBy}
-                        onChange={(event) => setDeliveredby(event.target.value)}
-                        displayEmpty
-                        selectedValue={deliveredBy}
-                        renderValue={() => <span>{deliveredBy}</span>}
+						{...register('delivery')}
+                        // value={deliveredBy}
+                        // onChange={(event) => setDeliveredby(event.target.value)}
+                        // displayEmpty
+                        // selectedValue={deliveredBy}
+                        // renderValue={() => <span>{deliveredBy}</span>}
                         >
                         <MenuItem value="UPI" >UPI</MenuItem>
                         <MenuItem value="Cards">Cards</MenuItem>
@@ -435,8 +443,11 @@ const handleDateChange = (newDate) => {
                 </FormControl></Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Service done</Typography>
-                    <InputBase className='inputbase' placeholder="Type Issue" id='servicedone' value={serviceDone} 
-                        onChange={(event) => setServicedone(event.target.value)}/>
+                    <InputBase className='inputbase' placeholder="Type Issue" id='servicedone' 
+					{...register('service')}
+					//value={serviceDone} 
+                      //  onChange={(event) => setServicedone(event.target.value)}
+						/>
                 </Grid>
                 <Grid item sx={{width:'100%',marginTop:'2px'}}>
                     <Grid container sx={{display:'flex',flexDirection:'row'}}>
@@ -601,7 +612,7 @@ const handleDateChange = (newDate) => {
              </Grid>
              <Grid container style={{display:'flex',flexDirection:'column'}}>
                   <SubmitButton
-              onClick={handleSubmit}
+             onClick={handleSubmit((data) =>onSubmit(data))}
               sx={{ fontSize: 12, '&:hover': { backgroundColor: '#505050' }, margin: '40px 0px 10px 0' }}
               variant='contained'
             >

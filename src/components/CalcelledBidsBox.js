@@ -12,7 +12,7 @@ const CancelledBidsBox = ({phone,issue, bidEnd}) => {
     return (
         <Box container sx={{ margin: '20px 0 20px 0'}}>
             <Grid container style={{display: 'flex',justifyContent:'center', minHeight: '90px' ,flexDirection: 'column', padding: '15px 10px', border: '1px solid #A19F9F' ,backgroundColor: '#DEDEDE', borderRadius: '5px', position: 'relative'}}>
-                <Grid style={{padding: "5px 10px", backgroundColor: '#FFFFFF', border: '1px solid #333333', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '22px', position: 'absolute', float:'right', right: '5px', top: '-10px'}}>
+                {/* <Grid style={{padding: "5px 10px", backgroundColor: '#FFFFFF', border: '1px solid #333333', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '22px', position: 'absolute', float:'right', right: '5px', top: '-10px'}}>
                     <Typography
                         fontFamily='Work Sans'
                         fontWeight='400'
@@ -34,8 +34,8 @@ const CancelledBidsBox = ({phone,issue, bidEnd}) => {
                     >
                         <Timer bidEndDate={bidEnd} />
                     </Typography>
-                </Grid>
-                <Grid style={{padding: "5px 10px", backgroundColor: '#6B6A6A', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '24px', width: '54px', position: 'absolute', right:0 ,left: 0, margin: '0 auto', bottom: '-10px', boxShadow:'0px 4px 4px 0px #00000040'}}>
+                </Grid> */}
+                {/* <Grid style={{padding: "5px 10px", backgroundColor: '#6B6A6A', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '24px', width: '54px', position: 'absolute', right:0 ,left: 0, margin: '0 auto', bottom: '-10px', boxShadow:'0px 4px 4px 0px #00000040'}}>
                     <Typography
                         fontFamily='Work Sans'
                         fontWeight='400'
@@ -46,7 +46,7 @@ const CancelledBidsBox = ({phone,issue, bidEnd}) => {
                     >
                         Rebid
                     </Typography>
-                </Grid>
+                </Grid> */}
                 <Grid container style={{display: 'flex', flexDirection: 'row', margin: '3px 0'}}>
                     <Grid item xs={3}>
                         <Typography
@@ -112,6 +112,17 @@ const CancelledBidsBox = ({phone,issue, bidEnd}) => {
                         </Typography>
                     </Grid>
                     <Grid item xs={8.5}>
+                        {/* <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                            whiteSpace='pre-line'
+                        >
+                            {issue}
+                        </Typography> */}
                         <Typography
                             fontFamily='Work Sans'
                             fontWeight='400'
@@ -119,6 +130,7 @@ const CancelledBidsBox = ({phone,issue, bidEnd}) => {
                             lineHeight='16.42px'
                             color='#333333'
                             textAlign='left'
+                            whiteSpace='pre-line'
                         >
                             {issue}
                         </Typography>

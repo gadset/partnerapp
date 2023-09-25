@@ -1,16 +1,11 @@
-import React, {useState, useEffect, useRef, forwardRef} from 'react';
-import Box from '@mui/material/Box';
+import React, {useState, useEffect} from 'react';
 import Grid  from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Navbar from './Navbar';
 import HomeBox from './HomeBox';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import { IconButton } from '@mui/material';
 import NewBid from './NewBid';
-import Popover from '@mui/material/Popover';
-import {TweenMax, Power3} from 'gsap';
-import Footer from './Footer';
-import ButtonSubmit from '../SubmitBox/submitButton';
+import ButtonSubmit from './SubmitBox/submitButton';
 import Modal from '@mui/material/Modal';
 import styled from '@emotion/styled';
 import './Home.css';
@@ -25,10 +20,10 @@ const Container = styled(Grid) `
 
 function Home() {
 
-    const [shownewBid, setShowNewBid] = useState(false);
     const [winheight, setWinHeight] = useState(window.innerHeight);
     const [newBidClick, setNewBidClick] = useState(false);
     const [successButton, setSuccessButton] = useState(false);
+    const [newBiddata, setNewBidData] = useState({});
 
     function handledWindowSizeChange() {
         setWinHeight(window.innerHeight);
@@ -65,22 +60,22 @@ function Home() {
     const isMobile = width <= 768;
 
     const data1 = [
-        { number: 1, names: "Confirmed" , link: '/ConfirmedOrders'},
-        { number: 2, names: "Awaiting Conformation", link: '/awaitingConfirmation' },
-        { number: 3, names: "All bids", link: '/confirmedBids' },
-        { number: 4, names: "Pending" , link: '/pendingorders'},
-        { number: 5, names: "Cancelled Bids" , link: '/cancelledBids'},
+        // { number: 2, names: "Awaiting Conformation", link: '/awaitingConfirmation' },
+        { number: 3, names: "All bids", link: '/allbids' },
+        { number: 5, names: "Missed Bids" , link: '/cancelledBids'},,
+        { number: 1, names: "Confirmed Orders" , link: '/ConfirmedOrders'},
+        { number: 4, names: "Pending/ Reparing" , link: '/pendingorders'},
+        
         { number: 6, names: "Order Completed" , link: '/ordersCompleted'},
-        { number: 7, names: "Delivery Pending" , link: '/confirmedBids'},
-        { number: 8, names: "Delivered", link: '/confirmedBids' },
-        { number: 9, names: "Confirmed Payment", link: '/confirmedBids' },
-        { number: 10, names: "After Service Payments", link: '/confirmedBids' },
-        { number: 11, names: "Warranty Clame", link: '/confirmedBids' },
+        // { number: 7, names: "Delivery Pending" , link: '/confirmedBids'},
+        { number: 8, names: "Delivered", link: '/delivery' },
+        // { number: 9, names: "Confirmed Payment", link: '/confirmedBids' },
+        // { number: 10, names: "After Service Payments", link: '/confirmedBids' },
+        // { number: 11, names: "Warranty Clame", link: '/confirmedBids' },
     ]
 
     const handleOpenNewBid = (event) => {
         setNewBidClick(true)
-        console.log("Button clicked")
     }
 
     const handleCloseNewBid = (e) => {
@@ -89,16 +84,21 @@ function Home() {
 
     const handleSuccessSubmit = (e) => {
         setSuccessButton(true);
-        console.log('click button on submit')
     }
     const handleCloseSubmit = (e) => {
         setSuccessButton(false);
         setNewBidClick(false);
     }
 
+    const handleNewBidData = (data) => {
+        setNewBidData(data);
+        handleSuccessSubmit();
+    }
+
     const customScrollbarStyle = {
         msOverflowStyle: 'none', // Hide scrollbar for Internet Explorer
         scrollbarWidth: 'none', // Hide scrollbar for Firefox
+        overflow: 'hidden'
     };
 
   return (
@@ -128,16 +128,14 @@ function Home() {
 
                 </Grid>
             </Grid>
-            <Grid container aria-describedby={id} sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
-                <Footer />
-            </Grid>
+         
 
             <Modal
                 open={open}
                 onClose={handleCloseNewBid}
             >
                 <Grid sx={{padding: '0', width: isMobile ? '90%' : '370px',display: 'flex', justifyContent: 'center', margin: 'auto', border: '0px', position: "absolute", bottom: '60px', right: '0', left: '0', border: '1px solid #FFFFFF', borderRadius: '5px'}}>
-                    <NewBid handleSubmit={handleSuccessSubmit} />
+                    <NewBid  sendDatatoParent={handleNewBidData} />
                 </Grid>
             </Modal>
             <Modal
@@ -145,7 +143,7 @@ function Home() {
                 onClose={handleCloseSubmit}
             >
                 <Grid sx={{padding: '0', width: isMobile ? '90%' : '370px',display: 'flex', justifyContent: 'center', margin: 'auto', border: '0px', position: "absolute", bottom: '42%', right: '0', left: '0', border: '1px solid #FFFFFF', borderRadius: '5px'}}>
-                    <ButtonSubmit buttonClick={handleCloseSubmit} />
+                    <ButtonSubmit buttonClick={handleCloseSubmit} link={'/'}/>
                 </Grid>
             </Modal>
         </Grid>

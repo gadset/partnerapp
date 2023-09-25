@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import { ThemeProvider } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -6,12 +6,9 @@ import NotificationCount from './components/NotificationCount';
 import Home from './components/Home';
 import { Grid } from '@mui/material';
 import NewBid from './components/NewBid';
-import submitButton from './SubmitBox/submitButton';
+import submitButton from './components/SubmitBox/submitButton';
 import awaitingConformation from './components/awaitingConformation';
-import Footer from './components/Footer';
-import ConfirmationBox from './components/confirmationBox';
 import otherBidding from './components/otherBidding';
-import OtherBiddingBox from './components/OtherBiddingBox';
 import PersonOtherBid from './components/personOtherBid';
 import ConfirmedBids from './components/ConfirmedBids';
 import PendingOrders from './components/PendingOrders';
@@ -32,14 +29,15 @@ import {
 } from "react-router-dom";
 import LoginForm from './components/signinpage';
 import Demo from './components/getlocation';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { collection, doc, setDoc ,getDocs} from "firebase/firestore"; 
-import { firestoredb } from '.';
 import { ToastContainer } from 'react-toastify';
 import Orders from './Orders/Orders';
-import Allbids from '../../src/Components/Allbids';
-import Footer from './Navbar/Footer';
+import Allbids from './components/Allbids';
 import Deliveryform from './components/Deliveryform';
+import EntryInspection from './components/EntryInspection';
+import theme from './theme';
+import ExitInspection from './components/ExitInspection';
+import Footer from './components/Footer';
+import Delivery from './components/Delivery';
 
 function App() {
 
@@ -60,54 +58,73 @@ function App() {
 
   return (
     <Router>
-        <Switch>
-    <div style={{justifyContent:'center', display:'flex', flexDirection:'column', width : isMobile ? '100%' : '400px'}}>
-  
-      <ToastContainer/>
-    <Route path='/addbid'>
-<Postbid/>
-    </Route>
-    <Route exact path='/'>
-      <LoginForm/>
-    </Route>
-    <Route path='/location'>
-      <Demo/>
-    </Route>
+      <center>
+        <ThemeProvider theme={theme}>
+          <Grid className='App' style={{justifyContent: 'center', display: 'flex', flexDirection:'column', width: isMobile ? '100%' : '400px'}}>
+            <Grid style={{width: '100%', top: '0', zIndex: '0'}}>
+              <Navbar />
+              <Switch>
+                {/* <ToastContainer /> */}
+				      <div style={{overflowY : 'hidden'}}>
+                <Route path='/addbid'>
+                    <Postbid/>
+                </Route>
+                <Route exact path='/'>
+                  <LoginForm/>
+                </Route>
+                {/* <Route path='/location'>
+                  <Demo/>
+                </Route> */}
+                <Route exact path='/home' component = {Home} />
+                <Route exact path='/navbar' component={Navbar} />
+                <Route exact path='/newBid' component={NewBid} />
+                <Route exact path='/submitButton' component={submitButton} />
+                <Route exact path='/awaitingConfirmation' component={awaitingConformation} />
+                <Route exact path='/otherBidding' component={otherBidding} />
+                <Route path='/personOtherBid' component={PersonOtherBid} />
+                <Route path='/ConfirmedOrders' exact component={ConfirmedBids} />
+                <Route path='/pendingorders' exact component={PendingOrders} />
+                <Route path='/cancelledBids' exact component={CancelledBids} />
+                <Route path='/ordersCompleted' component={OrdersCompleted} />
+                <Route path='/awaitingconformation2' component={AwaitingConformation2} />
+                <Route path='/OrderEntry' component={OrderEntry} />
+                <Route path='/changeBidAwaiting' component={ChangeBidAwaiting} /> 
+                <Route path='/cancelBidAwaiting' component={CancelBidAwaiting} />
+                <Route path='/entryInspection' component={EntryInspection} />
+                <Route path='/exitInspection' exact component={ExitInspection} />
+                <Route path='/delivery' exact component={Delivery} />
 
-    {/* venkatesh links */}
-    <Route path='/orders'>
-      <Orders/>
-    </Route>
-    {/* akarsh kinks */}
-    <Route path='/allbids'>
-      <Allbids/>
-    </Route>
-    <Route path='/deliveryform'>
-      <Deliveryform/>
-    </Route>
+                {/* venkatesh links */}
+                {/* <Route path='/orders'>
+                  <Orders/>
+                </Route> */}
 
-       <Route exact path='/home' component = {Home} />
-              <Route exact path='/navbar' component={Navbar} />
-              <Route exact path='/newBid' component={NewBid} />
-              <Route exact path='/submitButton' component={submitButton} />
-              <Route exact path='/awaitingConfirmation' component={awaitingConformation} />
-              <Route exact path='/otherBidding' component={otherBidding} />
-              <Route path='/personOtherBid' component={PersonOtherBid} />
-              <Route path='/ConfirmedOrders' exact component={ConfirmedBids} />
-              <Route path='/pendingorders' exact component={PendingOrders} />
-              <Route path='/cancelledBids' exact component={CancelledBids} />
-              <Route path='/ordersCompleted' component={OrdersCompleted} />
-              <Route path='/awaitingconformation2' component={AwaitingConformation2} />
-              <Route path='/' component={OrderEntry} />
-              <Route path='/changeBidAwaiting' component={ChangeBidAwaiting} /> 
-              <Route path='/cancelBidAwaiting' component={CancelBidAwaiting} />
 
-    </div>
-    </Switch>
-       {/* akarsh-footer */}
-           <Footer />
+                {/* akarsh kinks */}
+                <Route path='/allbids'>
+                  <Allbids/>
+                </Route>
+                <Route path='/deliveryform'>
+                  <Deliveryform/>
+                </Route>   
+				      </div>
+
+              </Switch>
+			        {/* <div sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
+                <Footer />
+              </div> */}
+            </Grid>
+          </Grid>
+        </ThemeProvider>
+
+      </center>
     </Router>
   );
 }
 
 export default App;
+
+
+
+
+  
