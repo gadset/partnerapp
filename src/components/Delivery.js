@@ -1,13 +1,12 @@
 
 
 import React, { useEffect, useState } from 'react';
-import styled from '@emotion/styled';
-import { Button, Grid, Typography, Box } from '@mui/material';
-import ConfirmedBidsBox from './ConfirmedBidsBox';
+import { Grid, Typography, Box } from '@mui/material';
 import axios from 'axios';
+import DeliveryBox from './DeliveryBox';
 
 
-function ConfirmedBids() {
+function Delivery() {
 
     const [data, setData] = useState([]);
 
@@ -18,7 +17,7 @@ function ConfirmedBids() {
             const id = '65074f7ebbca59502d1d2aee';
 
             try {
-                const res = await axios.get('http://localhost:8003/users/getquotes', {
+                const res = await axios.get('http://localhost:8003/users/delivered', {
                     params: { id },
                 });
 
@@ -42,7 +41,7 @@ function ConfirmedBids() {
                     lineHeight='18.77px'
                     textAlign='left'
                 >
-                    Bid Confirmed by the Customer
+                    Delivered Orders
                 </Typography>
             </Grid>
 
@@ -59,7 +58,7 @@ function ConfirmedBids() {
                         </Typography>
                     ) : (
                         data.map((data, index) => (
-                            <ConfirmedBidsBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate}/>
+                            <DeliveryBox key={index} phone={data.device} issue={data.issue} payment={data.paymentdone} />
                         ))
                     )
                 }
@@ -69,4 +68,4 @@ function ConfirmedBids() {
     )
 }
 
-export default ConfirmedBids;
+export default Delivery;

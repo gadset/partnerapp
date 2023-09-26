@@ -190,28 +190,7 @@ const handleDateChange = (newDate) => {
   const handleFileRemove = (fileToRemove) => {
     setSelectedFiles((prevFiles) => prevFiles.filter(file => file !== fileToRemove));
   };
-  // const handleImageUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = (e) => {
-  //       setSignatureImage(e.target.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
 
-//   const handleClearSignature = () => {
-//     setSignatureImage(null);
-//   };
-  const handleNameChange = (event) => {
-    const newValue = event.target.value;
-    setName(newValue); 
-  };
-
-  // const handleClearSignature = () => {
-  //   setSignatureImage(null);
-  // };
   const handleSave = () => {
     const newData = {
       selectedFiles: selectedFiles,
@@ -230,26 +209,8 @@ const handleDateChange = (newDate) => {
   };
   const onSubmit = async(data) => {
     const signatureImage = signatureRef.current.toDataURL();
-
     setSignatureData(signatureImage);
-    // const newData = {
-    //   selectedValue,
-    //   gadgetType,
-    //   warantyGiven,
-    //   paymentMode,
-    //   deliveredBy,
-    //   selectedDate,
-    //   entername,
-    //   number,
-    //   email,
-    //   invoiceno,
-    //   amount,
-    //   gadgetModel,
-    //   serviceDone,
-    //   signatureData,
-    // };
-  //  setFormData(newData);
-    // console.log(newData);
+    console.log(signatureImage);
     
 	await fetch(process.env.REACT_APP_BACKEND + `order/delivery`, {
           method: 'POST',

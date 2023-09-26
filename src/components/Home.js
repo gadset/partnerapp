@@ -68,7 +68,7 @@ function Home() {
         
         { number: 6, names: "Order Completed" , link: '/ordersCompleted'},
         // { number: 7, names: "Delivery Pending" , link: '/confirmedBids'},
-        { number: 8, names: "Delivered", link: '/confirmedBids' },
+        { number: 8, names: "Delivered", link: '/delivery' },
         // { number: 9, names: "Confirmed Payment", link: '/confirmedBids' },
         // { number: 10, names: "After Service Payments", link: '/confirmedBids' },
         // { number: 11, names: "Warranty Clame", link: '/confirmedBids' },

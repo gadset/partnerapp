@@ -1,8 +1,7 @@
-import React, {useState, useRef, useEffect} from 'react'
-import { Box, Grid , Typography, Button, TextField, InputAdornment, Divider,Switch, FormControlLabel,
-Select, InputBase, MenuItem,FormControl
- } from '@mui/material'
+import React, {useState, useEffect} from 'react'
+import { Box, Grid , Typography, Button, TextField, InputAdornment, Divider, FormGroup, FormControlLabel, } from '@mui/material'
 import OrderEntryAutocomplete from './OrderEntryAutocomplete'
+import './EntryInspection.css';
 import './OrderEntry.css'
 import styled from '@emotion/styled';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
@@ -10,34 +9,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { BiLink } from "react-icons/bi";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import './EntryInspection.css';
 import SignatureCanvas from 'react-signature-canvas';
 import CancelSharpIcon from '@mui/icons-material/CancelSharp';
-import { useTheme } from '@mui/material/styles';
-import SwitchButton from './SwitchButton';
-import { useForm, Controller } from 'react-hook-form';
+import Switch from '@mui/material/Switch';
+import axios from 'axios';
 
-  const StyledSelect = styled(Select)`
-  background-color: #F7F7F7;
-  border: 1px solid #B7B7B7;
-  border-radius: 5px;
-  height: 30px;
-  &:before,
-  &:after {
-    border-bottom: none !important;
-  }
-  
-  & .MuiSelect-select {
-    padding: 6px 10px;
-    font-family: Work Sans;
-    font-size: 12px;
-    font-weight: 300;
-    line-height: 14px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: ${props => props.selectedValue === 'Select' ? '#33333380' : '#000'};
-  }
-`;
 
 const SubmitButton = styled(Button) `
     text-transform: none;
@@ -132,122 +108,57 @@ const StyledButton = styled(Button)`
 `;
 
 const locations = [
-    { label: 'Vizag', year: 1994 },
-    { label: 'Hyderabad', year: 1972 },
-    { label: 'Guntur', year: 1974 },
-    { label: 'Tirupati', year: 2008 },
-    { label: 'chirala', year: 1957 },
-    { label: "Tuni", year: 1993 },
-    { label: 'Rajamundry', year: 1994 },
+    { label: 'Vizag'},
+    { label: 'Hyderabad' },
+    { label: 'Guntur',},
+    { label: 'Tirupati' },
+    { label: 'chirala' },
+    { label: "Tuni" },
+    { label: 'Rajamundry' },
 ]
 
 const reparing = [
     { label : 'Power Button' },
-    { label : 'Network' },
     { label : 'Ear Speaker' },
-    { label : 'Volume Down Button' },
+    { label : 'Network' },
     { label : 'Mic' },
     { label : 'Touch' },
     { label : 'Fingerprint Sensor' },
+    { label : 'Volume Up Button' },
     { label : 'Volume Down Button' },
+    { label : 'Charging Pin' },
     { label : 'Front Camera' },
     { label : 'Rear Camera' },
-    { label : 'Speaker' },
-    { label : 'Charging Pin' },
     { label : 'Headphone jack' },
     { label : 'Flash Light' },
     { label : 'Proximity Sensor' },
-    { label : 'LCD' },
     { label : 'Auto Rotation' },
+    { label : 'LCD' },
+    { label : 'Speaker' },
     { label : 'Brightness' },
     { label : 'Ringer' },
-    { label : 'Brightness' },
-
 ]
 
-const MaterialUISwitch = styled(Switch) (({ theme }) => ({
-    width: 62,
-    height: 34,
-    padding: 7,
-    '& .MuiSwitch-switchBase': {
-      margin: 1,
-      padding: 0,
-      transform: 'translateX(6px)',
-      '&.Mui-checked': {
-        color: '#fff',
-        transform: 'translateX(22px)',
-        '& .MuiSwitch-thumb:before': {
-          backgroundImage: `url('/photos/like.png')`,
-        },
-        '& + .MuiSwitch-track': {
-          opacity: 1,
-          backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
-        },
-      },
-    },
-
-    '& .MuiSwitch-thumb': {
-    //   backgroundColor: theme.palette.mode === 'dark' ? '#003892' : '#001e3c',
-      width: 32,
-      height: 32,
-      '&:before': {
-        content: "''",
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        left: 0,
-        top: 0,
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundImage: `url('/photos/thumbs-down-silhouette (1).png')`,
-      },
-    },
-    '& .MuiSwitch-track': {
-      opacity: 1,
-      backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
-      borderRadius: 20 / 2,
-    },
-}));
-
 function EntryInspection() {
-	const {
-    register,
-    handleSubmit,
-	control,
-    formState: { errors },
-  } = useForm();
+    const [orderNo, setOrderNo] = useState('');
+    const [phoneCondition, setPhoneCondition] = useState('');
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [url, setURL] = useState('');
     const [data, setData] = useState(null);
-    const [width, setWidth] = useState('');
-    const [orderNo, setOrderNo] = useState('');
-    const [phoneCondition, setPhoneCondition] = useState('');
+    const [signatureData, setSignatureData] = useState(null);
     const [inspection, setInspection] = useState('');
-    const [switches, setSwitches] = useState([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
-    const [formData, setFormData] = useState(null);
-    const [powerButton, setPowerButton] = useState('');
-    const [network, setNetwork] = useState('');
-    const [Earspeaker, setEarspeaker] = useState('');
-    const [volumedown, setVolumeDown] = useState('');
-    const [mic, setMic] = useState('');
-    const [touch, setTouch] = useState('');
-    const [Fingerprint, setFingerprint] = useState('');
-    const [frontcamera, setFrontcamera] = useState('');
-    const [rearcamera, setRearcamera] = useState('');
-    const [Speaker, setSpeaker] = useState('');
-    const [chargingpin, setChargingpin] = useState('');
-    const [headphone, setHeadphone] = useState('');
-    const [flashlight, setFlashlight] = useState('');
-    const [proximitysensor, setProximitysensor] = useState('');
-    const [lcd, setLCD] = useState('');
-    const [autorotation, setAutorotation] = useState('');
-    const [Brightness, setBrightness] = useState('');
-    const [ringer, setRinger] = useState('');
+    const [whatsWorking, setWhatsWorking] = useState(
+        reparing.reduce((acc, data) => {
+          acc[data.label] = false;
+          return acc;
+        }, {})
+    );
 
 
-    const theme = useTheme();
+    const [width, setWidth] = useState('');
+    const [formData, setFormData] = useState('');
 
-    const signatureRef = React.useRef();
+
     function handledWindowSizeChange() {
         setWidth(window.innerWidth);
     }
@@ -258,8 +169,9 @@ function EntryInspection() {
         }
     }, [])
     const isMobile = width <= 768;
-    const [signatureData, setSignatureData] = useState(null);
+    
 
+    const signatureRef = React.useRef();
     const clearSignature = () => {
         signatureRef.current.clear();
         setSignatureData(null);
@@ -282,6 +194,12 @@ function EntryInspection() {
         toast.info('Changes discarded', { autoClose: 2500 });
     };
 
+    const handleSignatureChange = () => {
+        const signatureImage = signatureRef.current.toDataURL();
+        setSignatureData(signatureImage);
+        console.log(signatureImage);// You can log it here for immediate feedback
+    };
+
     const handleSave = () => {
         const newData = {
           selectedFiles: selectedFiles,
@@ -298,43 +216,44 @@ function EntryInspection() {
         setPhoneCondition('')
         clearSignature()
         handleCancel()
-        // setSwitches([false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false])
-        // handleCancel()
+        setWhatsWorking('')
     }
 
-    // const handleSwitchToggle = (index) => {
-    //     const newSwitches = [...switches];
-    //     newSwitches[index] = !newSwitches[index];
-    //     setSwitches(newSwitches);
-    //     console.log('clicked')
-    // }
 
-	const handleSwitchToggle = (name) => {
-   control[name] = !control[name];
-    }
-
-    const onSubmit = (data) => {
-        const signatureData = signatureRef.current.toDataURL();
-        // const imageFile = imageInputRef.current.files[0];
-
-        setSignatureData(signatureData)
-        // setURL(imageFile)
-
-        // const newData = {
-        //     orderNo,
-        //     phoneCondition,
-        //     inspection,
-        //     signatureData,
-        //     url,
-        //     switches
-        // }
-        // setFormData(newData);
-		console.log(data);
-	console.log(signatureData)
-     //   console.log(formData);
-        // clearForm()
+    const handleToggle = (event) => {
+        const { name, checked } = event.target;
+        setWhatsWorking({ ...whatsWorking, [name]: checked });
     };
 
+    const handleSubmit = () => {
+        const signatureImage = signatureRef.current.toDataURL();
+        setSignatureData(signatureImage);
+        console.log(signatureImage);
+        const fromInfo = [{
+            orderNo,
+            phoneCondition,
+            data,
+            whatsWorking,
+            signatureImage,
+            inspection
+        }]
+        console.log(fromInfo)
+
+        const id = '650752e9b0b67fd6b4a7ae50';
+        try {
+            const res = axios.post('http://localhost:8003/order/entryInspection', {id, fromInfo} , {
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log(res.data);
+            console.log('entered')
+            clearForm();
+        } catch (error) {
+            console.error('Fetch error', error);
+        }
+    }
 
 
   return (
@@ -366,22 +285,11 @@ function EntryInspection() {
                         </Typography>
                     </Grid>
                     <Grid>
-						  {/* <InputBase className='inputbase' placeholder="enter order" id='order' 
-					{...register('order')}
-					// value={amount} 
-                     //   onChange={(event) => setAmount(event.target.value)}
-					 /> */}
-                        <OrderEntryAutocomplete 
-						options={locations} 
-						{...register('order')}
-						// value={orderNo} 
-						// setValue={setOrderNo}
-						 />
+                        <OrderEntryAutocomplete options={locations} value={orderNo} setValue={setOrderNo} />
                     </Grid>
                 </Grid>
 
-                <Grid container style={{display: 'flex', flexDirection: 'column'}} >
-					<FormControl fullWidth>
+                <Grid container style={{display: 'flex', flexDirection: 'column'}}>
                     <Grid item sx={{padding: 0}}>
                         <Typography
                             fontFamily='Work Sans'
@@ -393,29 +301,8 @@ function EntryInspection() {
                             Phone Condition
                         </Typography>
                     </Grid>
-					</FormControl>
                     <Grid>
-
-						   {/* <StyledSelect style={{height:'30px'}}
-                        labelId="condition"
-                        label='condition'
-						{...register('condition')}
-                        // value={deliveredBy}
-                        // onChange={(event) => setDeliveredby(event.target.value)}
-                        // displayEmpty
-                        // selectedValue={deliveredBy}
-                        // renderValue={() => <span>{deliveredBy}</span>}
-                        >
-                        <MenuItem value="Dead" >Dead</MenuItem>
-                        <MenuItem value="dead not working">dead not working</MenuItem>
-                        <MenuItem value="ok" >ok</MenuItem>
-                    </StyledSelect> */}
-						 
-                        <OrderEntryAutocomplete options={locations} 
-						{...register('phoneCondition')}
-						// value={phoneCondition} 
-						// setValue={setPhoneCondition} 
-						/>
+                        <OrderEntryAutocomplete options={locations} value={phoneCondition} setValue={setPhoneCondition} />
                     </Grid>
                 </Grid>
 
@@ -485,6 +372,7 @@ function EntryInspection() {
                                 ))}
                             </Grid>
                         </Grid>
+
                         <Typography style={{width:'100%',textAlign:'center',fontSize: '12px',fontFamily: 'Work Sans',marginTop:'5px',marginBottom:'5px',
                                 fontWeight: '400',
                                 lineHeight: '14.08px',
@@ -547,34 +435,34 @@ function EntryInspection() {
                         sx={{
                             display: 'flex',
                             flexWrap: 'wrap',
-                            marginTop: '0px',
                             width: '100%',
+                            margin: '5px 0'
                         }}
                         spacing={2}
                         container
-
                     >
-                        
-                        {reparing.map((label, index) => (
-							    <Controller
-        name={label.label} 
-		key={index} // Replace with your desired field name
-        control={control}
-        // defaultValue={false} // Initial value of the Switch
-        render={({ field }) => (
-          <SwitchButton
-            {...field}
-            color="primary"
-			name={label.label}
-			 onChange={() => handleSwitchToggle(label.label)}
-          />
-        )}
-      />
-                            // <SwitchButton checked={label} {...register(`${label.label}`)} onChange={() => handleSwitchToggle(index)} xs={3} md={4} xl={4} key={index} name={label.label} />
-                        ))}
 
+                        {reparing.map((data) => (
+                            <Grid className='switches' sx={{margin:'5px', border: '0px 0px 1px 0px'}}>
+                                <FormControlLabel
+                                    key={data.label}
+                                    control={
+                                        <Switch
+                                        checked={whatsWorking[data.label]}
+                                        onChange={handleToggle}
+                                        variant='solid'
+                                        name={data.label}
+                                        />
+                                    }
+                                    label={data.label}
+                                    color='success'
+                                    labelPlacement='top'
+                                />
+                            </Grid>
+                        ))}
                     </Grid>
                 </Grid>
+
 
                 <Grid item sx={{padding: 0, margin: '10px 0 5px 0'}}>
                     <Typography
@@ -601,12 +489,7 @@ function EntryInspection() {
                         </Typography>
                     </Grid>
                     <Grid>
-                        <OrderEntryAutocomplete 
-						options={locations}
-						{...register('inspectionDone')}
-						//  value={inspection}
-						//   setValue={setInspection} 
-						  />
+                        <OrderEntryAutocomplete options={locations} value={inspection} setValue={setInspection} />
                     </Grid>
                 </Grid>
 
@@ -639,18 +522,19 @@ function EntryInspection() {
                     <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                          
                         <SignatureCanvas
-                          ref={signatureRef}
-                          penColor="black"
-                          canvasProps={{ height: 180, width:width<=335?250:width<=405?250:300 }}
-                          sx={{borderBottom:'1px solid #000', marginBottom: '10px'}}
-
+                            ref={signatureRef}
+                            penColor="black"
+                            canvasProps={{ height: 180, width: width <= 335 ? 250 : width <= 405 ? 250 : 300 }}
+                            sx={{ borderBottom: '1px solid #000', marginBottom: '10px' }}
+                            onChange={handleSignatureChange}
                         />
                     </Grid>
                     <Divider variant={'middle'} style={{marginBottom: '15px', backgroundColor: '#000000'}} />
                 </Grid>
 
-                <SubmitButton   onClick={handleSubmit((data) =>onSubmit(data))}  sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#505050'}, margin: '40px 0px 10px 0'}} variant='contained'>Submit</SubmitButton>
+                <SubmitButton onClick={handleSubmit}  sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#505050'}, margin: '40px 0px 10px 0'}} variant='contained'>Submit</SubmitButton>
                 <ResetButton onClick={clearForm} sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#B7B7B7'}, margin: '0'}} variant='contained'>Reset</ResetButton>
+
 
             </Grid>
 

@@ -32,13 +32,12 @@ import Demo from './components/getlocation';
 import { ToastContainer } from 'react-toastify';
 import Orders from './Orders/Orders';
 import Allbids from './components/Allbids';
-//import Footer from './Navbar/Footer';
 import Deliveryform from './components/Deliveryform';
 import EntryInspection from './components/EntryInspection';
 import theme from './theme';
 import ExitInspection from './components/ExitInspection';
 import Footer from './components/Footer';
-
+import Delivery from './components/Delivery';
 
 function App() {
 
@@ -93,6 +92,7 @@ function App() {
                 <Route path='/cancelBidAwaiting' component={CancelBidAwaiting} />
                 <Route path='/entryInspection' component={EntryInspection} />
                 <Route path='/exitInspection' exact component={ExitInspection} />
+                <Route path='/delivery' exact component={Delivery} />
 
                 {/* venkatesh links */}
                 {/* <Route path='/orders'>
