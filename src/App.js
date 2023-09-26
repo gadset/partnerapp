@@ -110,9 +110,9 @@ function App() {
 				      </div>
 
               </Switch>
-			        {/* <div sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
+			        <div sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
                 <Footer />
-              </div> */}
+              </div>
             </Grid>
           </Grid>
         </ThemeProvider>
