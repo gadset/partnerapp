@@ -13,6 +13,8 @@ import SignatureCanvas from 'react-signature-canvas';
 import CancelSharpIcon from '@mui/icons-material/CancelSharp';
 import Switch from '@mui/material/Switch';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 const SubmitButton = styled(Button) `
@@ -108,13 +110,9 @@ const StyledButton = styled(Button)`
 `;
 
 const locations = [
-    { label: 'Vizag'},
-    { label: 'Hyderabad' },
-    { label: 'Guntur',},
-    { label: 'Tirupati' },
-    { label: 'chirala' },
-    { label: "Tuni" },
-    { label: 'Rajamundry' },
+    { label: 'Dead'},
+    { label: 'On' },
+    { label: 'Display dead but phone on',},
 ]
 
 const reparing = [
@@ -157,6 +155,10 @@ function EntryInspection() {
 
     const [width, setWidth] = useState('');
     const [formData, setFormData] = useState('');
+
+	const location = useLocation();
+	const history = useHistory();
+  	const id = location?.state?.id;
 
 
     function handledWindowSizeChange() {
@@ -229,19 +231,18 @@ function EntryInspection() {
         const signatureImage = signatureRef.current.toDataURL();
         setSignatureData(signatureImage);
         console.log(signatureImage);
-        const fromInfo = [{
-            orderNo,
+        const fromInfo = {
+			id,
             phoneCondition,
             data,
             whatsWorking,
             signatureImage,
             inspection
-        }]
+        }
         console.log(fromInfo)
 
-        const id = '650752e9b0b67fd6b4a7ae50';
         try {
-            const res = axios.post('http://localhost:8003/order/exitInspection', {id, fromInfo} , {
+            const res = axios.post(process.env.REACT_APP_BACKEND + 'order/exit', {id, fromInfo} , {
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
                     'Content-Type': 'application/json'
@@ -250,6 +251,7 @@ function EntryInspection() {
             console.log(res.data);
             console.log('entered')
             clearForm();
+			history.push('/home');
         } catch (error) {
             console.error('Fetch error', error);
         }
@@ -285,7 +287,9 @@ function EntryInspection() {
                         </Typography>
                     </Grid>
                     <Grid>
-                        <OrderEntryAutocomplete options={locations} value={orderNo} setValue={setOrderNo} />
+						<TextField value={id}
+							disabled />
+                        {/* <OrderEntryAutocomplete options={locations} value={orderNo} setValue={setOrderNo} /> */}
                     </Grid>
                 </Grid>
 
@@ -489,7 +493,8 @@ function EntryInspection() {
                         </Typography>
                     </Grid>
                     <Grid>
-                        <OrderEntryAutocomplete options={locations} value={inspection} setValue={setInspection} />
+						<TextField value={inspection} onChange={(event) => setInspection(event.target.value)} />
+                        {/* <OrderEntryAutocomplete options={locations} value={inspection} setValue={setInspection} /> */}
                     </Grid>
                 </Grid>
 
@@ -534,8 +539,6 @@ function EntryInspection() {
 
                 <SubmitButton onClick={handleSubmit}  sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#505050'}, margin: '40px 0px 10px 0'}} variant='contained'>Submit</SubmitButton>
                 <ResetButton onClick={clearForm} sx={{borderRadius: 5, fontSize: 12, '&:hover': { backgroundColor: '#B7B7B7'}, margin: '0'}} variant='contained'>Reset</ResetButton>
-
-
             </Grid>
 
         </Box>

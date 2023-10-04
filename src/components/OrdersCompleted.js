@@ -12,15 +12,13 @@ function OrdersCompleted() {
 
     useEffect(() => {
         const Getdata = async() => {
-            const id = '65074f7ebbca59502d1d2aee';
+            const partnerid = JSON.parse(localStorage.getItem('partnerid'));
 
             try {
-                const res = await axios.get('http://localhost:8003/users/completedquotes', {
-                    params: { id },
+                const res = await axios.get(process.env.REACT_APP_BACKEND  + `order/getorders?partnerid=${partnerid}&status=done&delivery=${false}`, {
                 });
-
                 console.log('Value of res', res);
-                const data = res.data;
+                const data = res?.data?.objects;
                 setData(data);
             } catch (error) {
                 console.error(error);
@@ -62,8 +60,8 @@ function OrdersCompleted() {
                             No Completed Orders.
                         </Typography>
                     ) : (
-                        data.map((data, index) => (
-                            <OrdersCompletedBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate}/>
+                        data?.map((data, index) => (
+                            <OrdersCompletedBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate} id={data._id}/>
                         ))
                     )
                 }

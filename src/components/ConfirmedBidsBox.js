@@ -8,12 +8,12 @@ import Timer from './Timer';
 import { Link } from 'react-router-dom';
 
 
-const ConfirmBidsBox = ({phone,issue, textDecorationNone}) => {
+const ConfirmBidsBox = ({phone,issue, textDecorationNone, id}) => {
 
     return (
         <Box container sx={{ margin: '10px 0'}}>
             <Grid container style={{display: 'flex',justifyContent:'center' ,flexDirection: 'column', padding: '15px 10px', border: '1px solid #A19F9F' ,backgroundColor: '#DEDEDE', borderRadius: '5px', position: 'relative', textDecorationNone}}>
-                <Link to='/entryInspection'>
+                <Link to={{pathname : '/entryInspection', state : {"id" : id}}} >
                     <Grid style={{padding: "5px 10px", backgroundColor: '#333333', border: '1px solid #333333', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '22px', position: 'absolute', float:'right', right: '20px', bottom: '-10px'}}>
                         <Typography
                             fontFamily='Work Sans'

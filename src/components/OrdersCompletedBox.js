@@ -20,7 +20,7 @@ const ButtonDelivery = styled(Button) `
     padding: '10px 5px';
 `
 
-const OrdersCompletedBox = ({phone,issue,delivery,}) => {
+const OrdersCompletedBox = ({phone,issue,delivery,id}) => {
 
     return (
         <Box container sx={{ margin: '20px 0 30px 0'}}>
@@ -28,7 +28,7 @@ const OrdersCompletedBox = ({phone,issue,delivery,}) => {
                 <Grid container xs={14} style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: '5px', height: '22px', position: 'absolute', right: 0, left: 0, margin: '0 auto', bottom: '-10px'}}>
             
                     <Grid item xs={6} style={{padding: 0}}>
-						<Link to="/deliveryform">
+						<Link to={{pathname : '/deliveryform', state : {"id" : id}}}>
 							  <ButtonDelivery variant='contained' sx={{backgroundColor: '#333333' , '&:hover' : {backgroundColor: '#333333'}}}>Fill Delivery Form</ButtonDelivery>
 						</Link>
                     </Grid>

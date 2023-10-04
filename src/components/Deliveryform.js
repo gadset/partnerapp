@@ -22,6 +22,8 @@ import { useForm, Controller } from 'react-hook-form';
 import {  InputLabel, Container, FormControlLabel, Switch } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 import './deliveryform.css';
+import { useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function Deliveryform() {
 	  const {
@@ -47,6 +49,9 @@ export default function Deliveryform() {
     const [data, setData] = useState(null);
     const [formData, setFormData] = useState(null);
     const signatureRef = React.useRef();
+	const location = useLocation();
+	const history = useHistory();
+  	const id = location?.state?.id;
     function handledWindowSizeChange() {
         setWidth(window.innerWidth);
     }
@@ -220,7 +225,7 @@ const handleDateChange = (newDate) => {
           }, 
           body : JSON.stringify({
 			formdata : {...data , signatureImage},
-			id: "650752e9b0b67fd6b4a7ae50",
+			id: id,
 		  })   
         }).then(response => {
           if (!response.ok) {
@@ -234,6 +239,7 @@ const handleDateChange = (newDate) => {
 	console.log(signatureImage)
 
     clearForm();
+	history.push('/home');
   };
 
   const handleReset = () => {
@@ -265,12 +271,13 @@ const handleDateChange = (newDate) => {
           <Box sx={{width: isMobile ? '100%' : '400px',}}>
              <Grid container>
               <Grid item>
-                <Typography style={{fontWeight: 500, fontSize: '14px', color: '#000', fontFamily: 'Work sans', lineHeight: '16.42px'}}>Order Entry</Typography>
+                <Typography style={{fontWeight: 500, fontSize: '14px', color: '#000', fontFamily: 'Work sans', lineHeight: '16.42px'}}>Delivery Form</Typography>
               </Grid>
               <Grid container sx={{display:'flex',flexDirection:'column',marginTop:'17px',gap:'10px'}}>
                 <Grid item sx={{width:'100%',}}><FormControl fullWidth >
-                    <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Order now</Typography>
-                    <StyledSelect
+                    <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Complete Delivery</Typography>
+					<TextField value={id} disabled/>
+                    {/* <StyledSelect
                         style={{ height: '30px' }}
                         labelId="order-number"
                         label="Order Number"
@@ -286,7 +293,7 @@ const handleDateChange = (newDate) => {
                         <MenuItem value="Blue">Blue</MenuItem>
                         <MenuItem value="Green">Green</MenuItem>
                         <MenuItem value="Yellow">Yellow</MenuItem>
-                    </StyledSelect>
+                    </StyledSelect> */}
 
                 </FormControl></Grid>
                 <Grid item sx={{width:'100%',}}>
@@ -335,7 +342,7 @@ const handleDateChange = (newDate) => {
 						{...register('email')} />
                 </Grid>
                 <Grid item sx={{width:'100%',}}>
-                    <Typography  style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Date and time</Typography>
+                 {/*    <Typography  style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Date and time</Typography>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <MobileDateTimePicker
                         className='datepicker'
@@ -343,7 +350,7 @@ const handleDateChange = (newDate) => {
                         // onChange={handleDateChange}
 						{...register('date')}
                       />
-                    </LocalizationProvider>
+                    </LocalizationProvider> */}
                     </Grid>
                 {/* <Grid item sx={{width:'100%',}}>
                     <Typography  style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Invoice no</Typography>
@@ -425,21 +432,7 @@ const handleDateChange = (newDate) => {
                 </Grid>
                 <Grid item sx={{width:'100%',}}><FormControl fullWidth >
                     <Typography sx={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Delivered by</Typography>
-                    <StyledSelect style={{height:'30px'}}
-                        labelId="deliveredby"
-                        label='Delivered by'
-						{...register('delivery')}
-                        // value={deliveredBy}
-                        // onChange={(event) => setDeliveredby(event.target.value)}
-                        // displayEmpty
-                        // selectedValue={deliveredBy}
-                        // renderValue={() => <span>{deliveredBy}</span>}
-                        >
-                        <MenuItem value="UPI" >UPI</MenuItem>
-                        <MenuItem value="Cards">Cards</MenuItem>
-                        <MenuItem value="Net Banking" >Net Banking</MenuItem>
-                        <MenuItem value="cash on delivery" >Cash on Delivery</MenuItem>
-                    </StyledSelect>
+                    <TextField  label='' {...register('delivery')} />
                 </FormControl></Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Service done</Typography>

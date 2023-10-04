@@ -10,19 +10,12 @@ import axios from 'axios';
 function ConfirmedBids() {
 
     const [data, setData] = useState([]);
-
-    console.log('Vaue')
-    
+	const partnerid = JSON.parse(localStorage.getItem('partnerid'));
     useEffect(()=> {
         const Getdata = async() => {
-            const id = '65074f7ebbca59502d1d2aee';
-
             try {
-                const res = await axios.get('http://localhost:8003/users/getquotes', {
-                    params: { id },
-                });
-
-                const data = res.data;
+                const res = await axios.get(process.env.REACT_APP_BACKEND + `order/getorders?partnerid=${partnerid}&status=no&delivery=${false}`, );
+                const data = res?.data?.objects || [];
                 setData(data);
                 console.log(data);
             } catch (error) {
@@ -30,7 +23,7 @@ function ConfirmedBids() {
             }
         }
         Getdata();
-    }, [])
+    }, [partnerid])
 
     return (
         <Box style={{display: 'flex', flexDirection: 'column', padding: '10px 30px', backgroundColor: '#FFFFFF'}}>
@@ -58,8 +51,9 @@ function ConfirmedBids() {
                             There is no bids to Display.
                         </Typography>
                     ) : (
-                        data.map((data, index) => (
-                            <ConfirmedBidsBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate}/>
+                        data?.map((data, index) => (
+							// pass data as a prop and change all the things once
+                            <ConfirmedBidsBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate} id={data._id}/>
                         ))
                     )
                 }

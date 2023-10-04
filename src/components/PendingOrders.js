@@ -13,11 +13,11 @@ function PendingOrders() {
 
     useEffect(() => {
         const Getdata = async() => {
-            const id = '65074f7ebbca59502d1d2aee';
+            const partnerid = JSON.parse(localStorage.getItem('partnerid'));
 
             try {
-                const res = await axios.get('http://localhost:8003/users/pendingbids', {
-                    params: { id },
+                const res = await axios.get(process.env.REACT_APP_BACKEND  + 'users/pendingbids', {
+                    params: { partnerid },
                 });
 
                 console.log('Value of res', res);
@@ -64,7 +64,7 @@ function PendingOrders() {
                         </Typography>
                     ) : (
                         data.map((data, index) => (
-                            <PendingOrdersBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate}/>
+                            <PendingOrdersBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate} id={data._id}/>
                         ))
                     )
                 }

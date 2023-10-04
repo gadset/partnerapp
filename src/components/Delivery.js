@@ -17,7 +17,7 @@ function Delivery() {
             const id = '65074f7ebbca59502d1d2aee';
 
             try {
-                const res = await axios.get('http://localhost:8003/users/delivered', {
+                const res = await axios.get(process.env.REACT_APP_BACKEND + 'users/delivered', {
                     params: { id },
                 });
 

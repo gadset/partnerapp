@@ -15,7 +15,7 @@ function CancelledBids() {
         const Getdata = async() => {
             const id = '64dd0c4aa11521155128628a';
             try {
-                const res = await axios.get('http://localhost:8003/users/missedbids', {
+                const res = await axios.get(process.env.REACT_APP_BACKEND + 'users/missedbids', {
                     params: { id },
                 });
 

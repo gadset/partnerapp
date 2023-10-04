@@ -4,15 +4,15 @@ import { TextField} from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import './OrderEntry.css'
 
-const OrderEntryAutocomplete = ({value, options}) => {
+const OrderEntryAutocomplete = ({value, options, setValue}) => {
 
     return(
         <Grid>
             <Autocomplete
                  value={value}
-                // onChange={(event, newValue) => {
-                //     setValue(newValue);
-                // }}
+                onChange={(event, newValue) => {
+                    setValue(newValue);
+                }}
                 blurOnSelect
                 sx={{
                     '& .MuiOutlinedInput-root': {

@@ -18,9 +18,7 @@ export default function Allbids() {
     const [newbiddata,setNewbidata]=useState();
     const open = Boolean(newBidClick);
     const id = open ? 'simple-popover' : undefined;
-    const partneridJSON = localStorage.getItem('partnerid');
-    const partnerid = JSON.parse(partneridJSON);
-
+    const partnerid =JSON.parse(localStorage.getItem('partnerid'));
 // Now, `partnerid` contains the value you stored in localStorage
 
 
@@ -37,8 +35,8 @@ export default function Allbids() {
     useEffect(() => {
     const getallbids = async () => {
         try {
-        const response = await axios.get('http://localhost:8003/users/getallbids');
-          setallbids(response.data.allbids);
+        const response = await axios.get( process.env.REACT_APP_BACKEND + `users/getquotes?id=${partnerid}`);
+          setallbids(response.data.objects);
           console.log(allbids)
         } catch (err) {
         console.error(err);
@@ -62,7 +60,7 @@ export default function Allbids() {
             const {amount,warranty,service,BidAmount}=data;
             console.log({id,partnerid,amount,warranty,service})
         try {
-             const resp = await axios.post('http://localhost:8003/users/submitquote',{id,partnerid,amount,warranty,service});
+             const resp = await axios.post(process.env.REACT_APP_BACKEND + 'users/submitquote',{id,partnerid,amount,warranty,service});
              console.log(resp);
             } catch (err) {
             console.error(err);

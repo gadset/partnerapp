@@ -137,7 +137,7 @@ if(isloggedin){
                "percentage" : Math.floor(Math.random() * 50)+50,
                }
 
-               fetch('http://localhost:8003/partner', {
+               fetch(process.env.REACT_APP_BACKEND + 'partner', {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json, text/plain, */*',

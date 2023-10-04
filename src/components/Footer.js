@@ -9,9 +9,14 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { ImHome } from 'react-icons/im';
 import { IconContext } from 'react-icons';
+import {
+  Link
+} from "react-router-dom";
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function Footer() {
     const Mobile = useMediaQuery('(max-width:400px)');
+	const history = useHistory();
   return (
     <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width: '100%' }}>
       <Paper>
@@ -85,6 +90,7 @@ export default function Footer() {
             }}
           />
           <BottomNavigationAction
+		  onClick={history.push('/home')}
             label="Home"
             icon={
               <IconContext.Provider value={{ size: '23px' }}>
@@ -101,6 +107,7 @@ export default function Footer() {
             }}
           />
         </BottomNavigation>
+		
       </Paper>
     </Box>
   );

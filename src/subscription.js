@@ -16,7 +16,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 function sendSubscription(subscription) {
-  return fetch(`http://localhost:8003/message/subscribepartner`, {
+  return fetch(process.env.REACT_APP_BACKEND + `message/subscribepartner`, {
     method: 'POST',
     body: JSON.stringify(subscription),
     headers: {

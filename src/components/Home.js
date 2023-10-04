@@ -104,7 +104,7 @@ function Home() {
   return (
         <Grid container sx={{ ...customScrollbarStyle ,display: 'flex', position: 'relative' ,flexDirection: 'column', justifyContent: 'center', alignItems:'center', width: '100%', margin: '0px auto'}}>
             <Grid container spacing={2} sx={{overflowX: 'hidden', width: '90%', margin: '30px auto' ,  opacity: 1}}>
-                <Grid item style={{width:'100%', border: '1px solid #B7B7B7', borderRadius: '5px', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: '5px' }}>
+                {/* <Grid item style={{width:'100%', border: '1px solid #B7B7B7', borderRadius: '5px', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: '5px' }}>
                     <Grid container style={{display: 'flex', flexDirection: 'column', width: '80%', justifyContent: 'center', alignItems: 'flex-start', padding: '10px 10px 10px 20px' }}>
                         <Typography style={{fontWeight: '500', fontSize: '24px', color: '#333333', fontFamily: 'Work Sans', lineHeight: '1'}} >
                             New Bid Arrived
@@ -120,7 +120,7 @@ function Home() {
                             <NotificationsActiveOutlinedIcon  style={{height: '40px', width: '40px'}} />
                         </IconButton>
                     </Grid>
-                </Grid>
+                </Grid> */}
                 <Grid container columnSpacing={2} columns={12.5} rowSpacing={2}   sx={{width: '100%', margin: '5px auto', display: 'flex', justifyContent: 'space-between'}} >
                     {data1.map((bids, index) => (
                         <Grid key={index} item style={{padding: '0px'}} xs={6}><HomeBox count={bids.number} boxname={bids.names} link={bids.link} /></Grid>
