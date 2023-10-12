@@ -130,7 +130,7 @@ const Demo = ({setaddress}) => {
           }
           const [mapInfo, setMapInfo] = useState(null);
           const [selected, setSelected] = useState(null);
-          const handleMapLoad = (map: any) => 
+          const handleMapLoad = (map) => 
           setTimeout(() => setMapInfo(map), 100);
     
 
@@ -148,7 +148,7 @@ const Demo = ({setaddress}) => {
           });
           const center = useMemo(() => ({ lat: 18.572390, lng: 83.353170 }), []);
 
-    return status!=true ? (
+    return status!==true ? (
         <div>{status}</div>
     ) :  (
         <Grid container sx={{display:'flex', justifyContent:'center', margin:'5px', marginBottom:'40px'}} >

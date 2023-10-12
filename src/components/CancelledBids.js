@@ -13,10 +13,10 @@ function CancelledBids() {
 
     useEffect(() => {
         const Getdata = async() => {
-            const id = '64dd0c4aa11521155128628a';
+            const partnerid = "650bd4a4ac0a5accf3316114";
             try {
                 const res = await axios.get('http://localhost:8003/users/missedbids', {
-                    params: { id },
+                    params: { partnerid },
                 });
 
                 console.log('Value of res', res);
@@ -64,7 +64,7 @@ function CancelledBids() {
                         </Typography>
                     ) : (
                         data.map((data, index) => (
-                            <CancelledBidsBox key={index} textDecorationNone={true}  phone={data.model} issue={data.issu} bid={data.bid} date={data.biddate}/>
+                            <CancelledBidsBox key={index} textDecorationNone={true}  model={data.model} issue={data.issu} bid={data.bid} date={data.biddate} device={data.device}/>
                         ))
                     )
                 }

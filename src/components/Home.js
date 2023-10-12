@@ -9,22 +9,22 @@ import ButtonSubmit from './SubmitBox/submitBUtton';
 import Modal from '@mui/material/Modal';
 import styled from '@emotion/styled';
 import './Home.css';
-
+import axios from 'axios'
+import Failurebutton from './SubmitBox/Failurebutton';
 const Container = styled(Grid) `
     position: 'absolute',
     transform: 'translated(-50%, -50%)',
     bgcolor: 'background.paper'
 `
 
-
-
 function Home() {
 
     const [winheight, setWinHeight] = useState(window.innerHeight);
     const [newBidClick, setNewBidClick] = useState(false);
     const [successButton, setSuccessButton] = useState(false);
+    const [failureButton, setFailureButton] = useState(false);
     const [newBiddata, setNewBidData] = useState({});
-
+    const [statenow,setstatenow]=useState(false)
     function handledWindowSizeChange() {
         setWinHeight(window.innerHeight);
     }
@@ -35,8 +35,7 @@ function Home() {
             window.addEventListener('resize', handledWindowSizeChange);
         }
     }, [])
-
-
+    const partnerid = "650bd4a4ac0a5accf3316114";
     const bids = 10;
     const names = 'pending';
 
@@ -58,22 +57,22 @@ function Home() {
 
 
     const isMobile = width <= 768;
-
-    const data1 = [
-        // { number: 2, names: "Awaiting Conformation", link: '/awaitingConfirmation' },
-        { number: 3, names: "All bids", link: '/allbids' },
-        { number: 5, names: "Missed Bids" , link: '/cancelledBids'},,
-        { number: 1, names: "Confirmed Orders" , link: '/ConfirmedOrders'},
-        { number: 4, names: "Pending/ Reparing" , link: '/pendingorders'},
+    const [data1,setData1] = useState([
         
-        { number: 6, names: "Order Completed" , link: '/ordersCompleted'},
+        { number: 0, names: "All bids", link: '/allBids' },
+        { number: 0, names: "Missed Bids" , link: '/cancelledBids'},
+        { number: 0, names: "Awaiting Conformation", link: '/awaitingConfirmation' },
+        { number: 0, names: "Confirmed Orders" , link: '/confirmedOrders'},
+        { number: 0, names: "Pending/ Reparing" , link: '/pendingOrders'},
+        
+        { number: 0, names: "Order Completed" , link: '/ordersCompleted'},
         // { number: 7, names: "Delivery Pending" , link: '/confirmedBids'},
-        { number: 8, names: "Delivered", link: '/confirmedBids' },
+        { number: 0, names: "Delivered", link: '/deliveredBids' },
         // { number: 9, names: "Confirmed Payment", link: '/confirmedBids' },
         // { number: 10, names: "After Service Payments", link: '/confirmedBids' },
         // { number: 11, names: "Warranty Clame", link: '/confirmedBids' },
-    ]
-
+    ])
+    
     const handleOpenNewBid = (event) => {
         setNewBidClick(true)
     }
@@ -85,22 +84,65 @@ function Home() {
     const handleSuccessSubmit = (e) => {
         setSuccessButton(true);
     }
+    const handlefailureSubmit = (e) => {
+        setFailureButton(true);
+    }
     const handleCloseSubmit = (e) => {
         setSuccessButton(false);
+        setFailureButton(false)
         setNewBidClick(false);
     }
 
-    const handleNewBidData = (data) => {
-        setNewBidData(data);
-        handleSuccessSubmit();
+    const handleNewBidData = async(data) => {
+        // setNewBidData(data);
+        console.log(data)
+        const id=newBiddata._id;
+        const {amount,warranty,service}=data;
+        console.log({id,partnerid,amount,warranty,service})
+        try {
+             const resp = await axios.post('http://localhost:8003/users/submitquote',{id,partnerid,amount,warranty,service});
+             console.log(resp);
+             handleSuccessSubmit();
+            } catch (err) {
+            console.error(err);
+             handlefailureSubmit()
+            }
+
+        
     }
 
     const customScrollbarStyle = {
-        msOverflowStyle: 'none', // Hide scrollbar for Internet Explorer
-        scrollbarWidth: 'none', // Hide scrollbar for Firefox
+        msOverflowStyle: 'none', 
+        scrollbarWidth: 'none', 
         overflow: 'hidden'
     };
+    const [count,setCount]=useState([]);
+    useEffect(() => {
+        const start = async () => {
+          try {
+            
+            const bidsdata = await axios.get(`http://localhost:8003/users/getpartnerdata?partnerid=${partnerid}`);
+            console.log(bidsdata.data)
+            setNewBidData(bidsdata.data.newestBid);
+            setData1([
+                { number: bidsdata.data.all,names: "All bids",link: '/allBids',},
+                {number: bidsdata.data.missed,names: "Missed Bids",link: '/cancelledBids',},
+                {number: bidsdata.data.awaiting,names: "Awaiting Confirmation",link: '/awaitingConfirmation',},
+                {number: bidsdata.data.confirmed,names: "Confirmed Orders",link: "/confirmedOrders",},
+                {number: bidsdata.data.repairing,names: "Pending/Repairing",link: "/pendingOrders",},
+                {number: bidsdata.data.ordercompleted,names: "Order Completed",link: "/ordersCompleted",},
+                {number: bidsdata.data.delivered,names: "Delivered",link: "/deliveredBids",},
+              ]);
+          } catch (err) {
+            console.log(err);
+          }
+          
+        }
 
+        start();
+        setstatenow(true)
+      }, []);
+      
   return (
         <Grid container sx={{ ...customScrollbarStyle ,display: 'flex', position: 'relative' ,flexDirection: 'column', justifyContent: 'center', alignItems:'center', width: '100%', margin: '0px auto'}}>
             <Grid container spacing={2} sx={{overflowX: 'hidden', width: '90%', margin: '30px auto' ,  opacity: 1}}>
@@ -121,21 +163,23 @@ function Home() {
                         </IconButton>
                     </Grid>
                 </Grid>
+                {statenow===true?
                 <Grid container columnSpacing={2} columns={12.5} rowSpacing={2}   sx={{width: '100%', margin: '5px auto', display: 'flex', justifyContent: 'space-between'}} >
                     {data1.map((bids, index) => (
                         <Grid key={index} item style={{padding: '0px'}} xs={6}><HomeBox count={bids.number} boxname={bids.names} link={bids.link} /></Grid>
                     ))}
-
-                </Grid>
+                
+                </Grid> :<></>
+                }
             </Grid>
          
 
             <Modal
-                open={open}
+                open={newBidClick}
                 onClose={handleCloseNewBid}
             >
                 <Grid sx={{padding: '0', width: isMobile ? '90%' : '370px',display: 'flex', justifyContent: 'center', margin: 'auto', border: '0px', position: "absolute", bottom: '60px', right: '0', left: '0', border: '1px solid #FFFFFF', borderRadius: '5px'}}>
-                    <NewBid  sendDatatoParent={handleNewBidData} />
+                    <NewBid  sendDatatoParent={handleNewBidData} biddata={newBiddata}/>
                 </Grid>
             </Modal>
             <Modal
@@ -143,7 +187,15 @@ function Home() {
                 onClose={handleCloseSubmit}
             >
                 <Grid sx={{padding: '0', width: isMobile ? '90%' : '370px',display: 'flex', justifyContent: 'center', margin: 'auto', border: '0px', position: "absolute", bottom: '42%', right: '0', left: '0', border: '1px solid #FFFFFF', borderRadius: '5px'}}>
-                    <ButtonSubmit buttonClick={handleCloseSubmit} link={'/'}/>
+                    <ButtonSubmit buttonClick={handleCloseSubmit} link={'/home'}/>
+                </Grid>
+            </Modal>
+            <Modal
+                open={failureButton}
+                onClose={handleCloseSubmit}
+            >
+                <Grid sx={{padding: '0', width: isMobile ? '90%' : '370px',display: 'flex', justifyContent: 'center', margin: 'auto', border: '0px', position: "absolute", bottom: '42%', right: '0', left: '0', border: '1px solid #FFFFFF', borderRadius: '5px'}}>
+                    <Failurebutton buttonClick={handleCloseSubmit} link={'/home'}/>
                 </Grid>
             </Modal>
         </Grid>

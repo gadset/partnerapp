@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import store from './store'
 import * as serviceWorker from './serviceWorker';
 import { SubscribeUser } from './subscription';
-
+import firebaseConfig from './components/firebase.config'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -22,16 +22,16 @@ import theme from './theme';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBULQBdwnrNopZghLLXL1dHrPZvRDXMe68",
-  authDomain: "gadset-customer.firebaseapp.com",
-  databaseURL: "https://gadset-customer-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "gadset-customer",
-  storageBucket: "gadset-customer.appspot.com",
-  messagingSenderId: "853423138437",
-  appId: "1:853423138437:web:fe04fa006927f44b1aabec",
-  measurementId: "G-FLJ0KC5E98"
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBULQBdwnrNopZghLLXL1dHrPZvRDXMe68",
+//   authDomain: "gadset-customer.firebaseapp.com",
+//   databaseURL: "https://gadset-customer-default-rtdb.asia-southeast1.firebasedatabase.app",
+//   projectId: "gadset-customer",
+//   storageBucket: "gadset-customer.appspot.com",
+//   messagingSenderId: "853423138437",
+//   appId: "1:853423138437:web:fe04fa006927f44b1aabec",
+//   measurementId: "G-FLJ0KC5E98"
+// };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

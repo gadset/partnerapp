@@ -2,7 +2,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
-import NotificationCount from './components/NotificationCount';
+// import NotificationCount from './components/NotificationCount';
 import Home from './components/Home';
 import { Grid } from '@mui/material';
 import NewBid from './components/NewBid';
@@ -18,7 +18,7 @@ import AwaitingConformation2 from './components/AwaitingConfirmation2';
 import OrderEntry from './components/OrderEntry';
 import ChangeBidAwaiting from './components/ChangeBidAwaiting';
 import CancelBidAwaiting from './components/CancelBidAwaiting';
-import { PostAdd } from '@mui/icons-material';
+// import { PostAdd } from '@mui/icons-material';
 import Postbid from './components/postbidding';
 import {
   BrowserRouter as Router,
@@ -28,16 +28,17 @@ import {
   Redirect
 } from "react-router-dom";
 import LoginForm from './components/signinpage';
-import Demo from './components/getlocation';
-import { ToastContainer } from 'react-toastify';
-import Orders from './Orders/Orders';
+// import Demo from './components/getlocation';
+// import { ToastContainer } from 'react-toastify';
+// import Orders from './Orders/Orders';
 import Allbids from './components/Allbids';
-//import Footer from './Navbar/Footer';
+// import Footer from './Navbar/Footer';
 import Deliveryform from './components/Deliveryform';
 import EntryInspection from './components/EntryInspection';
 import theme from './theme';
 import ExitInspection from './components/ExitInspection';
-import Footer from './components/Footer';
+import DeliveredBid from './components/DeliveredBid';
+// import Footer from './components/Footer';
 
 
 function App() {
@@ -66,7 +67,7 @@ function App() {
               <Navbar />
               <Switch>
                 {/* <ToastContainer /> */}
-				      <div style={{overflowY : 'hidden'}}>
+				      <div style={{overflowY : 'hidden',marginBottom:'40px'}}>
                 <Route path='/addbid'>
                     <Postbid/>
                 </Route>
@@ -93,7 +94,7 @@ function App() {
                 <Route path='/cancelBidAwaiting' component={CancelBidAwaiting} />
                 <Route path='/entryInspection' component={EntryInspection} />
                 <Route path='/exitInspection' exact component={ExitInspection} />
-
+                <Route path='/deliveredBids' component={DeliveredBid} />
                 {/* venkatesh links */}
                 {/* <Route path='/orders'>
                   <Orders/>
@@ -108,15 +109,11 @@ function App() {
                   <Deliveryform/>
                 </Route>   
 				      </div>
-
               </Switch>
-			        {/* <div sx={{position:'sticky', bottom: '0', display: 'flex', justifyContent: 'center'}}>
-                <Footer />
-              </div> */}
+             {/* <Footer /> */}
             </Grid>
           </Grid>
         </ThemeProvider>
-
       </center>
     </Router>
   );
@@ -124,7 +121,3 @@ function App() {
 
 export default App;
 
-
-
-
-  

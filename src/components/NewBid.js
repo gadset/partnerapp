@@ -25,8 +25,6 @@ const SubmitButtom = styled(Button) `
     font-family: Work Sans;
 
 `
-
-
 function NewBid({sendDatatoParent,biddata}) {
     const [width, setWidth] = useState(window.innerWidth);
     const [serviceType, setServiceType] = useState("");

@@ -20,7 +20,7 @@ function Navbar() {
   const isMobile = true;
   // const theme = useTheme();
 
-  const notificationCount = 9;
+  const notificationCount =7;
 
   return (
       <Box
