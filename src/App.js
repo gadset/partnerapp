@@ -38,7 +38,7 @@ import EntryInspection from './components/EntryInspection';
 import theme from './theme';
 import ExitInspection from './components/ExitInspection';
 import DeliveredBid from './components/DeliveredBid';
-// import Footer from './components/Footer';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -110,7 +110,7 @@ function App() {
                 </Route>   
 				      </div>
               </Switch>
-             {/* <Footer /> */}
+             <Footer />
             </Grid>
           </Grid>
         </ThemeProvider>

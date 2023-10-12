@@ -35,7 +35,8 @@ function Home() {
             window.addEventListener('resize', handledWindowSizeChange);
         }
     }, [])
-    const partnerid = "650bd4a4ac0a5accf3316114";
+    const partnerid =JSON.parse(localStorage.getItem('partnerid'))
+    
     const bids = 10;
     const names = 'pending';
 

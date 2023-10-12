@@ -11,7 +11,7 @@ import ButtonSubmit from './SubmitBox/submitBUtton';
 import axios from 'axios';
 
 export default function Allbids() {
-    const partnerid = "650bd4a4ac0a5accf3316114";
+    const partnerid =JSON.parse(localStorage.getItem('partnerid'))
     const [width, setWidth] = useState(window.innerWidth);
     const [newBidClick, setNewBidClick] = useState(false);
     const [successButton, setSuccessButton] = useState(false);

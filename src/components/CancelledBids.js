@@ -13,7 +13,7 @@ function CancelledBids() {
 
     useEffect(() => {
         const Getdata = async() => {
-            const partnerid = "650bd4a4ac0a5accf3316114";
+            const partnerid =JSON.parse(localStorage.getItem('partnerid'))
             try {
                 const res = await axios.get('http://localhost:8003/users/missedbids', {
                     params: { partnerid },

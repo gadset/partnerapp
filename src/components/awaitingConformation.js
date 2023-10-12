@@ -11,7 +11,7 @@ import ConfirmationBox from './confirmationBox';
 
 function AwaitingConformation() {
     const [dataNewBids,setdataNewBids] = useState([]);
-    const partnerid = "650bd4a4ac0a5accf3316114";
+    const partnerid =JSON.parse(localStorage.getItem('partnerid'))
     useEffect(() => {
         const Getdata = async() => {
             
