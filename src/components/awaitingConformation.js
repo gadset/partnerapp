@@ -3,24 +3,32 @@ import Box from '@mui/material/Box';
 import Grid  from '@mui/material/Grid';
 import { Modal, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 import ConfirmationBox from './confirmationBox';
-import PersonOtherBid from './personOtherBid';
-import CancelBidAwaiting from './CancelBidAwaiting';
-import ChangeBidAwaiting from './ChangeBidAwaiting';
+// import PersonOtherBid from './personOtherBid';
+// import CancelBidAwaiting from './CancelBidAwaiting';
+// import ChangeBidAwaiting from './ChangeBidAwaiting';
 
 function AwaitingConformation() {
+    const [dataNewBids,setdataNewBids] = useState([]);
+    const partnerid =JSON.parse(localStorage.getItem('partnerid'))
+    useEffect(() => {
+        const Getdata = async() => {
+            
+            try {
+                const res = await axios.get('http://localhost:8003/users/awaitingbids', {
+                    params: { partnerid },
+                });
+                console.log(res.data)
+                setdataNewBids(res.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        Getdata();
+    }, [])
 
- 
-
-    const dataNewBids = [
-        {phone: 'iPhone X', issue: 'Camera not working, Battery replacement , ', bid: 7500, biddate : '2023-08-27T00:00:00'},
-        {phone: 'Oppo A52', issue: 'Display broken, Battery replacement', bid: 4500, biddate : '2023-08-27T00:00:00'},
-        {phone: 'oneplus Nord c', issue: 'Display broken, touch not working', bid: 6500, biddate : '2023-08-28T00:00:00'},
-        {phone: 'iPhone 14 pro max', issue: 'Camera not working, Battery replacement', bid: 10000, biddate : '2023-08-29T00:00:00'},
-        {phone: 'Samsung Z flip', issue: 'Display broken, Battery replacement', bid: 12000, biddate : '2023-08-30T00:00:00'}
-    ];
-    
-
+    // console.log(dataNewBids)
   return (
     <Box style={{display: 'flex', flexDirection: 'column', padding: '10px 30px', backgroundColor: '#FFFFFF'}}>
         <Grid item sx={{padding: 0, margin: '10px 0 5px 0'}}>
@@ -35,9 +43,9 @@ function AwaitingConformation() {
             </Typography>
         </Grid>
         <Grid container style={{display: 'flex', flexDirection: 'column', margin: '0'}} >
-            {dataNewBids.map((data, index) => (
+            { dataNewBids.length===0 ? <Typography></Typography> : dataNewBids.map((data, index) => (
                 // <Link to='/'>
-                    <ConfirmationBox key={index}  phone={data.phone} issue={data.issue} bid={data.bid} date={data.biddate} />
+                    <ConfirmationBox key={index}  model={data.model} device={data.device} issue={data.issu} bid={data.bid} date={data.biddate} />
                 // </Link>
             ))}
         </Grid>

@@ -63,7 +63,46 @@ const ConfirmBidsBox = ({phone,issue, textDecorationNone, id}) => {
                             color='#333333'
                             textAlign='left'
                         >
-                            {phone}
+                            {device}
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid container style={{display: 'flex', flexDirection: 'row', margin: '3px 0'}}>
+                    <Grid item xs={2.2}>
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                            textDecorationNone={true}
+                        >
+                            Model
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={0.5} style={{display:'flex', justifyContent: 'center', alignItems: 'top'}}>
+                        <Typography
+                                fontFamily='Work Sans'
+                                fontWeight='400'
+                                fontSize='14px'
+                                lineHeight='16.42px'
+                                color='#333333'
+                                textAlign='left'
+                            >
+                            :
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={9.3}>
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                        >
+                            {model}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -93,16 +132,22 @@ const ConfirmBidsBox = ({phone,issue, textDecorationNone, id}) => {
                         </Typography>
                     </Grid>
                     <Grid item xs={9.3}>
-                        <Typography
-                            fontFamily='Work Sans'
-                            fontWeight='400'
-                            fontSize='14px'
-                            lineHeight='16.42px'
-                            color='#333333'
-                            textAlign='left'
-                        >
-                            {issue}
-                        </Typography>
+                    {issue.map((issu, index) => (
+                            <Grid
+                                item
+                                key={index}
+                                sx={{
+                                    fontFamily: 'Work Sans',
+                                    fontWeight: 400,
+                                    fontSize: '14px',
+                                    lineHeight: '16.42px',
+                                    color: '#333333',
+                                    textAlign: 'left',
+                                    whiteSpace: 'pre-line'
+                                }}>
+                                {issu}
+                            </Grid>
+                        ))}
                     </Grid>
                 </Grid>
             </Grid>

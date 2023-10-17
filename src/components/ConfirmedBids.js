@@ -8,9 +8,15 @@ import axios from 'axios';
 
 
 function ConfirmedBids() {
-
-    const [data, setData] = useState([]);
-	const partnerid = JSON.parse(localStorage.getItem('partnerid'));
+    const dataNewBids = [
+        {device: 'iPhone X', issu: ['Camera not working', 'Battery replacement'], bid: 7500,},
+        {device: 'Oppo A52', issu: ['Display broken', 'Battery replacement'], bid: 4500,},
+        {device: 'oneplus Nord c', issu: ['Display broken', 'touch not working'], bid: 6500,},
+        {device: 'iPhone 14 pro max', issu: ['Camera not working', 'Battery replacement'], bid: 10000,},
+        {device: 'Samsung Z flip', issu: ['Display broken', 'Battery replacement'], bid: 12000,}
+    ]
+    const [data, setData] = useState(dataNewBids);
+const partnerid = JSON.parse(localStorage.getItem('partnerid'));
     useEffect(()=> {
         const Getdata = async() => {
             try {

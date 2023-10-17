@@ -14,11 +14,11 @@ import {
 } from "react-router-dom";
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-export default function Footer() {
+export default function Footer(){
     const Mobile = useMediaQuery('(max-width:400px)');
 	const history = useHistory();
   return (
-    <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width: '100%' }}>
+    <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width: '100%' ,display: 'flex', flexGrow:1, alignItems: 'center', justifyContent:'flex-start',}}>
       <Paper>
         <BottomNavigation
           sx={{
@@ -49,7 +49,7 @@ export default function Footer() {
           />
           <BottomNavigationAction
             label="Whatsapp"
-            icon={<WhatsAppIcon />}
+            icon={<WhatsAppIcon style={{fontSize:'23px'}}/>}
             style={{ color: '#333333' }}
             sx={{
                 padding:Mobile? 0:'auto', 
@@ -79,7 +79,7 @@ export default function Footer() {
           />
           <BottomNavigationAction
             label="Profile"
-            icon={<AccountCircleOutlinedIcon />}
+            icon={<AccountCircleOutlinedIcon style={{fontSize:'23px'}}/>}
             style={{ color: '#333333' }}
             sx={{
                 padding:Mobile? 0:'auto',

@@ -14,7 +14,7 @@ import { width } from '@mui/system';
 export default function Footer() {
     const Mobile = useMediaQuery('(max-width:400px)');
   return (
-    <Box sx={{ zIndex: 999, width: 'auto !important' }}>
+    <Box sx={{ zIndex: 999, display:'flex',flexGrow:1,flexDirection:'column' }}>
       <Paper>
         <BottomNavigation
           sx={{

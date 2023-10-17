@@ -1,76 +1,19 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithPhoneNumber } from "firebase/auth"
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid, Typography } from '@mui/material';
-import { auth, firestoredb } from "../index";
-import { doc, setDoc, getFirestore,addDoc, collection, getDoc } from "firebase/firestore"; 
-import { Link , useHistory, useLocation} from 'react-router-dom';
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { messaging } from "../index";
-import {Row, Col, Toast} from 'react-bootstrap';
+import { Link , useHistory} from 'react-router-dom';
 import Demo from "./getlocation";
 import { useDispatch } from "react-redux";
 import { setAddressValue, setallValue, setemailValue, setnameValue } from "../reduxslice";
 import { Form, Alert } from "react-bootstrap";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-import {
-    signInWithPhoneNumber,
-    RecaptchaVerifier,
-  } from "firebase/auth";
+import {auth} from './firebase.config'
+import {RecaptchaVerifier} from 'firebase/auth'
 import Phonenumber from "../Login/Phonenumber.js";
 import { setMobileValue } from "../reduxslice";
 import { toast } from "react-toastify";
 import { SubscribeUser } from '../subscription.js';
-
-export const gettoken = (setTokenFound) => {
-  return getToken(messaging, {vapidKey: 'BGv0240OnB9TXCS1EnZSRkTDc31iMchcnB4StYyTjKV0VNnmQnauwLkK-n3xV3aY9g5lNff5-b31ymOsesZAMW8'}).then((currentToken) => {
-    if (currentToken) {
-      console.log('current token for client: ', currentToken);
-      setTokenFound(true);
-      // Track the token -> client mapping, by sending to backend server
-      // show on the UI that permission is secured
-    } else {
-      console.log('No registration token available. Request permission to generate one.');
-      setTokenFound(false);
-      // shows on the UI that permission is required 
-    }
-  }).catch((err) => {
-    console.log('An error occurred while retrieving token. ', err);
-    // catch error while creating client token
-  });
-}
-
-export const onMessageListener = () =>
-  new Promise((resolve) => {
-    onMessage(messaging, (payload) => {
-      resolve(payload);
-    });
-});
-
-function setUpRecaptha(number) {
-  // var appVerifier = new RecaptchaVerifier('recaptcha-container');
-     const recaptchaVerifier = new RecaptchaVerifier(
-       "recaptcha-container",
-       {"size" : "invisible"},
-       auth
-     );
-     recaptchaVerifier.render();
-     console.log('function called')
-     return signInWithPhoneNumber(auth, number, recaptchaVerifier);
- 
-   // let out ;
-   //   const recaptchaVerifier = new RecaptchaVerifier('sendotp', {
-   //     'size': 'invisible',
-   //     'callback': (response) => {
-   //       // reCAPTCHA solved, allow signInWithPhoneNumber.
-   //       out = signInWithPhoneNumber(auth, number, recaptchaVerifier);
-   //     }
-   //   }, auth);
-   //   // recaptchaVerifier.render();
-   //    return out;
-    ;
-   }
-
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -99,16 +42,6 @@ if(isloggedin){
  toast.success("already logged in");
 }
   }, []);
-// gettoken(setTokenFound);
-
-// onMessageListener().then(payload => {
-//   setShow(true);
-//   setNotification({title: "hello partner", body: "new quote available"})
-//   console.log(payload);
-//   console.log("hello");
-// }).catch(err => console.log('failed: ', err));
-
-
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -154,26 +87,40 @@ if(isloggedin){
                   });
                 });
   };
-
-  const getOtp = async (e) => {
+  function onCaptchaVerifier(){
+    if(!window.recaptchaVerifier){
+      window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+        'size': 'normal',
+        'callback': (response) => {
+          getOtp()
+        },
+        'expired-callback': () => {
+          // Response expired. Ask user to solve reCAPTCHA again.
+          // ...
+        }
+      },auth);
+    }
+  }
+  function getOtp(e){
     e.preventDefault();
-    console.log(number);
-    setError("");
+    onCaptchaVerifier()
     if (number === "" || number === undefined)
       return setError("Please enter a valid phone number!");
-    try {
-      dispatch(setMobileValue(number));
-      const response = await setUpRecaptha(number);
-      setResult(response);
-      console.log(response);
+    
+    const appVerifier = window.recaptchaVerifier;
+    dispatch(setMobileValue(number));
+    console.log(number)
+    const auth = getAuth();
+    signInWithPhoneNumber(auth, number, appVerifier)
+    .then((confirmationResult) => {
       setFlag(true);
-    } catch (err) {
+      setResult(confirmationResult);
+    }).catch((err) => {
+      console.error(err);
       setError(err.message);
-    }
-
-    console.log(error);
-  };
-
+    });
+    
+  }
 
   const verifyOtp = async (e) => {
     e.preventDefault();
@@ -183,47 +130,8 @@ if(isloggedin){
       await result.confirm(otp);
       setverified(true);
       alert("number verified");
-//       const docRef = doc(firestoredb, "Partners", number );
-//       const data = {
-//         "email" : "email",
-//         "name" : "venk",
-//         "address" : "shusus",
-//         };
-//       setDoc(docRef, data);
-// console.log('signin successful')
       console.log(number);
-      // const docRef = doc(firestoredb, "Partners", number);
-      // console.log(docRef);
-      // const docSnap = await getDoc(docRef);   
-      // if(docSnap.exists()){
-      //   console.log(docSnap.data()['address']);
-      //   dispatch(setAddressValue(docSnap.data()['address']));
-      //   dispatch(setnameValue(docSnap.data()['name']));
-      //   dispatch(setemailValue(docSnap.data()['email']));
-      //   console.log('signin successful');
-      //   history.push({
-      //      pathname : '/addbid',
-      //      state : {number : number}
-      //   })
-      // }
-      // else{
-        setloggedin(true);
-    //  }
-      // const auth= getAuth();
-      // const user = auth.currentUser;
-      // var uid;
-      // if(user){
-      //   uid = user.uid;
-      // }
-      // const docRef = await addDoc(collection(firestoredb, "Users"), {
-      //  "number" : number,    
-      // "uid" : uid,
-      // });   
-      // history.push({
-      //   pathname : '/service',
-      //   state : {total : total}
-      // })
-
+      setloggedin(true);
     } catch (err) {
       setError(err.message);
     }
@@ -283,7 +191,9 @@ if(isloggedin){
               placeholder="Enter OTP"
               onChange={(e) => setOtp(e.target.value)}
               size='small'
+              autoFocus
             />
+            {/* <otpInput OTPLength={6} otpType='number' disabled={false} autofocus onChange={(e) => setOtp(e.target.value)}></otpInput> */}
           </Form.Group>
           <div className="button-right">
             <Link to="/">
