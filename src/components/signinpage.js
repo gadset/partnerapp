@@ -1,4 +1,4 @@
-import { getAuth, signInWithPhoneNumber } from "firebase/auth"
+import { signInWithPhoneNumber } from "firebase/auth"
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid, Typography } from '@mui/material';
 import { Link , useHistory} from 'react-router-dom';
@@ -110,7 +110,6 @@ if(isloggedin){
     const appVerifier = window.recaptchaVerifier;
     dispatch(setMobileValue(number));
     console.log(number)
-    const auth = getAuth();
     signInWithPhoneNumber(auth, number, appVerifier)
     .then((confirmationResult) => {
       setFlag(true);
