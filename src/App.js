@@ -48,7 +48,6 @@ function App() {
   function handledWindowSizeChange() {
     setWidth(window.innerWidth);
   }
-
   useEffect(()=> {
     window.addEventListener('resize', handledWindowSizeChange);
     return () => {
@@ -62,7 +61,7 @@ function App() {
     <Router>
       <center>
         <ThemeProvider theme={theme}>
-          <Grid className='App' style={{justifyContent: 'center', display: 'flex', flexDirection:'column', width: isMobile ? '100%' : '400px'}}>
+          <Grid className='App' style={{justifyContent: 'center', display: 'flex', flexDirection:'column', width: isMobile? '100%':'400px'}}>
             <Grid style={{width: '100%', top: '0', zIndex: '0'}}>
               <Navbar />
               <Switch>
@@ -110,7 +109,7 @@ function App() {
                 </Route>   
 				      </div>
               </Switch>
-             <Footer />
+              <Footer/>
             </Grid>
           </Grid>
         </ThemeProvider>

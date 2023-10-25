@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { Paper } from '@mui/material';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -12,9 +12,22 @@ import { IconContext } from 'react-icons';
 
 export default function Footer(){
     const Mobile = useMediaQuery('(max-width:400px)');
+    const [width, setWidth] = useState(window.innerWidth);
+
+  function handledWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+  useEffect(()=> {
+    window.addEventListener('resize', handledWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handledWindowSizeChange);
+    }
+  }, [])
+
+  const isMobile = width <= 768;
   return (
-    <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width: '100%' ,display: 'flex', flexGrow:1, alignItems: 'center', justifyContent:'flex-start',}}>
-      <Paper>
+    <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width:isMobile? '100%':'400px' ,display: 'flex', flexGrow:1, alignItems: 'center', justifyContent:'space-between',}}>
+      <Paper sx={{width:'100%'}}>
         <BottomNavigation
           sx={{
             backgroundColor: '#F2F2F2',

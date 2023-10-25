@@ -123,6 +123,7 @@ if(isloggedin){
   }
 
   const verifyOtp = async (e) => {
+    
     e.preventDefault();
     setError("");
     if (otp === "" || otp === null) return;
