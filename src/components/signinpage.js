@@ -103,10 +103,10 @@ if(isloggedin){
   }
   function getOtp(e){
     e.preventDefault();
-    onCaptchaVerifier()
+    
     if (number === "" || number === undefined)
       return setError("Please enter a valid phone number!");
-    
+    onCaptchaVerifier()
     const appVerifier = window.recaptchaVerifier;
     dispatch(setMobileValue(number));
     console.log(number)
