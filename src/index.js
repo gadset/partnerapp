@@ -34,11 +34,11 @@ import theme from './theme';
 // };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const firestoredb = getFirestore(app);
-const analytics = getAnalytics(app);
-export const auth = getAuth();
-export const messaging = getMessaging(app);
+// const app = initializeApp(firebaseConfig);
+// export const firestoredb = getFirestore(app);
+// const analytics = getAnalytics(app);
+// export const auth = getAuth();
+// export const messaging = getMessaging(app);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
