@@ -90,7 +90,7 @@ if(isloggedin){
   function onCaptchaVerifier(){
     if(!window.recaptchaVerifier){
       window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-        'size': 'normal',
+        'size': 'invisible',
         'callback': (response) => {
           getOtp()
         },
