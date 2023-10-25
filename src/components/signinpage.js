@@ -1,4 +1,4 @@
-import { getAuth, signInWithPhoneNumber } from "firebase/auth"
+import { signInWithPhoneNumber } from "firebase/auth"
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid, Typography } from '@mui/material';
 import { Link , useHistory} from 'react-router-dom';
@@ -90,7 +90,7 @@ if(isloggedin){
   function onCaptchaVerifier(){
     if(!window.recaptchaVerifier){
       window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-        'size': 'normal',
+        'size': 'invisible',
         'callback': (response) => {
           getOtp()
         },
@@ -103,14 +103,13 @@ if(isloggedin){
   }
   function getOtp(e){
     e.preventDefault();
-    onCaptchaVerifier()
+    
     if (number === "" || number === undefined)
       return setError("Please enter a valid phone number!");
-    
+    onCaptchaVerifier()
     const appVerifier = window.recaptchaVerifier;
     dispatch(setMobileValue(number));
     console.log(number)
-    const auth = getAuth();
     signInWithPhoneNumber(auth, number, appVerifier)
     .then((confirmationResult) => {
       setFlag(true);
