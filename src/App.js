@@ -19,7 +19,7 @@ import OrderEntry from './components/OrderEntry';
 import ChangeBidAwaiting from './components/ChangeBidAwaiting';
 import CancelBidAwaiting from './components/CancelBidAwaiting';
 // import { PostAdd } from '@mui/icons-material';
-import Postbid from './components/postbidding';
+// import Postbid from './components/postbidding';
 import {
   BrowserRouter as Router,
   Switch,
@@ -67,9 +67,9 @@ function App() {
               <Switch>
                 {/* <ToastContainer /> */}
 				      <div style={{overflowY : 'hidden',marginBottom:'40px'}}>
-                <Route path='/addbid'>
+                {/* <Route path='/addbid'>
                     <Postbid/>
-                </Route>
+                </Route> */}
                 <Route exact path='/'>
                   <LoginForm/>
                 </Route>
