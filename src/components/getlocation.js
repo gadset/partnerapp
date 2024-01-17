@@ -156,14 +156,14 @@ const Demo = ({setaddress}) => {
           <Map location={location} zoomLevel={10}/>
           </Grid> */}
         <Grid item>
-        <div style={{height:'80vh', width:'100vw'}}>
+        <div style={{width:'100vw'}}>
       {!isLoaded ? (
         <h1>Loading...</h1>
       ) : (
-  <div style={{height:'80%', width:'90%'}} >
+  <div style={{width:'90%'}} >
       <Button onClick={handleusecurrentlocation}>Use my current location</Button>
-      <PlacesAutocomplete setSelected={setSelected} />
-        <GoogleMap
+      <PlacesAutocomplete setSelected={setaddress} />
+        {/* <GoogleMap
           mapContainerClassName="map-container"
           center={latlng}
           zoom={17}
@@ -173,7 +173,7 @@ const Demo = ({setaddress}) => {
 />
         </GoogleMap>
 
-        <Button onClick={handleaddresssubmit}>Confirm address</Button>
+        <Button onClick={handleaddresssubmit}>Confirm address</Button> */}
       </div>
       )}
     </div>

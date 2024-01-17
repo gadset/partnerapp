@@ -60,17 +60,32 @@ export const nameSlice = createSlice({
       },
     },
   })
+
+  export const partnerIdSlice = createSlice({
+    name: 'partnerId',
+    initialState: {
+      value: '',
+    },
+    reducers: {
+      setPartnerIdValue: (state, action) => {
+        state.value = action.payload
+      },
+    },
+  })
+
 //actions
 export const {setAddressValue} = addressSlice.actions
 export const {setnameValue} = nameSlice.actions
 export const {setemailValue} = emailSlice.actions
 export const {setMobileValue} = mobileSlice.actions
 export const {setallValue} = allSlice.actions
+export const {setPartnerIdValue} = allSlice.actions
 //reducers
 const addressReducer = addressSlice.reducer
 const nameReducer = nameSlice.reducer
 const emailreducer = emailSlice.reducer
 const mobileReducer = mobileSlice.reducer
 const allReducer = allSlice.reducer
+const partnerIdReducer = partnerIdSlice.reducer
 
-export {addressReducer, nameReducer, emailreducer, mobileReducer, allReducer};
+export {addressReducer, nameReducer, emailreducer, mobileReducer, allReducer, partnerIdReducer};

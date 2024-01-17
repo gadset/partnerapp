@@ -18,8 +18,8 @@ export default function Footer(){
     const Mobile = useMediaQuery('(max-width:400px)');
 	const history = useHistory();
   return (
-    <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width: '100%' ,display: 'flex', flexGrow:1, alignItems: 'center', justifyContent:'flex-start',}}>
-      <Paper>
+    <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width: '100%' ,display: 'flex',alignItems: 'center', justifyContent:'center',}}>
+      <Paper sx={{width : '100%'}}>
         <BottomNavigation
           sx={{
             backgroundColor: '#F2F2F2',
