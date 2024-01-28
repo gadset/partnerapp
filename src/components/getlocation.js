@@ -161,8 +161,8 @@ const Demo = ({setaddress}) => {
         <h1>Loading...</h1>
       ) : (
   <div style={{width:'90%'}} >
-      <Button onClick={handleusecurrentlocation}>Use my current location</Button>
       <PlacesAutocomplete setSelected={setaddress} />
+	  <Button onClick={handleusecurrentlocation}>Use my current location</Button>
         {/* <GoogleMap
           mapContainerClassName="map-container"
           center={latlng}

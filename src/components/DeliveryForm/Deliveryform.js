@@ -221,7 +221,8 @@ const handleDateChange = (newDate) => {
           method: 'POST',
           headers: {
             'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+			'x-token' : localStorage.getItem('token'),
           }, 
           body : JSON.stringify({
 			formdata : {...data , signatureImage},

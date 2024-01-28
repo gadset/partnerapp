@@ -16,6 +16,9 @@ function OrdersCompleted() {
 
             try {
                 const res = await axios.get(process.env.REACT_APP_BACKEND  + `order/getorders?partnerid=${partnerid}&status=done&delivery=${false}`, {
+					headers : {
+						'x-token' : localStorage.getItem('token'),
+					}
                 });
                 console.log('Value of res', res);
                 const data = res?.data?.objects;

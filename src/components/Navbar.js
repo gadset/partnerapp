@@ -9,17 +9,30 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import './style.css';
 import NotificationCount from './NotificationCount';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 // import { useTheme } from "@emotion/react";
 //import theme from '../theme';
 
 
 function Navbar() {
 
-  // width <=768
+	const [anchorElNav, setAnchorElNav] = React.useState(false);
+	const history = useHistory();
   const isMobile = true;
-  // const theme = useTheme();
 
   const notificationCount = 9;
+
+    const handleOpenNavMenu = (event) => {
+  //  setAnchorElNav(event.currentTarget);
+  setAnchorElNav(true);
+  };
+    const handleCloseNavMenu = (nextlink) => {
+  //  setAnchorElNav(null);
+  setAnchorElNav(false);
+  history.push({
+    pathname: nextlink
+  })
+  };
 
   return (
       <Box
@@ -54,7 +67,7 @@ function Navbar() {
                     </IconButton> */}
                     <NotificationCount count={notificationCount} />
                   </Grid>
-                  <Grid item>
+                  {/* <Grid item>
                     <IconButton
                       size='large'
                       color='inherit'
@@ -62,7 +75,7 @@ function Navbar() {
                     >
                       <MenuIcon style={{height: '30px', width: '30px'}} />
                     </IconButton>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
             </Toolbar>

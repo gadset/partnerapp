@@ -19,6 +19,9 @@ function Delivery() {
 
             try {
                 const res = await axios.get(process.env.REACT_APP_BACKEND + `order/getorders?partnerid=${partnerid}&status=done&delivery=${true}`, {
+					headers : {
+						'x-token' : localStorage.getItem('token'),
+					}
                 });
 
                 const data = res?.data?.objects || [];

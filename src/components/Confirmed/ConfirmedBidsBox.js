@@ -8,7 +8,7 @@ import Timer from '../Timer';
 import { Link } from 'react-router-dom';
 
 
-const ConfirmBidsBox = ({phone,issue, textDecorationNone, id}) => {
+const ConfirmBidsBox = ({device,issue, textDecorationNone, id, model}) => {
 
     return (
         <Box container sx={{ margin: '10px 0'}}>
@@ -55,7 +55,7 @@ const ConfirmBidsBox = ({phone,issue, textDecorationNone, id}) => {
                         </Typography>
                     </Grid>
                     <Grid item xs={9.3}>
-                        {/* <Typography
+                        <Typography
                             fontFamily='Work Sans'
                             fontWeight='400'
                             fontSize='14px'
@@ -64,7 +64,7 @@ const ConfirmBidsBox = ({phone,issue, textDecorationNone, id}) => {
                             textAlign='left'
                         >
                             {device}
-                        </Typography> */}
+                        </Typography>
                     </Grid>
                 </Grid>
                 <Grid container style={{display: 'flex', flexDirection: 'row', margin: '3px 0'}}>
@@ -94,7 +94,7 @@ const ConfirmBidsBox = ({phone,issue, textDecorationNone, id}) => {
                         </Typography>
                     </Grid>
                     <Grid item xs={9.3}>
-                        {/* <Typography
+                        <Typography
                             fontFamily='Work Sans'
                             fontWeight='400'
                             fontSize='14px'
@@ -103,7 +103,7 @@ const ConfirmBidsBox = ({phone,issue, textDecorationNone, id}) => {
                             textAlign='left'
                         >
                             {model}
-                        </Typography> */}
+                        </Typography>
                     </Grid>
                 </Grid>
                 <Grid container style={{display: 'flex', flexDirection: 'row', margin: '3px 0'}}>

@@ -18,7 +18,7 @@ export default function Footer(){
     const Mobile = useMediaQuery('(max-width:400px)');
 	const history = useHistory();
   return (
-    <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width: '100%' ,display: 'flex',alignItems: 'center', justifyContent:'center',}}>
+    <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width: '100%' ,display: 'flex',alignItems: 'center', justifyContent:'center',left: 0}}>
       <Paper sx={{width : '100%'}}>
         <BottomNavigation
           sx={{
@@ -60,7 +60,7 @@ export default function Footer(){
 
             }}
           />
-          <BottomNavigationAction
+          {/* <BottomNavigationAction
             label="Chat"
             icon={
               <IconContext.Provider value={{ size: '23px' }}>
@@ -76,9 +76,10 @@ export default function Footer(){
                 size:'23px'
 
             }}
-          />
+          /> */}
           <BottomNavigationAction
             label="Profile"
+			onClick={() => history.push('/profile')}
             icon={<AccountCircleOutlinedIcon style={{fontSize:'23px'}}/>}
             style={{ color: '#333333' }}
             sx={{
@@ -90,7 +91,7 @@ export default function Footer(){
             }}
           />
           <BottomNavigationAction
-		  onClick={history.push('/home')}
+		  onClick={() => history.push('/home')}
             label="Home"
             icon={
               <IconContext.Provider value={{ size: '23px' }}>

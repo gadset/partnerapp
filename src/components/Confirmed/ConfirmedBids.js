@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { Button, Grid, Typography, Box } from '@mui/material';
 import ConfirmedBidsBox from './ConfirmedBidsBox';
 import axios from 'axios';
-
+import { useCookies } from 'react-cookie';
 
 function ConfirmedBids() {
     const dataNewBids = [
@@ -15,12 +15,18 @@ function ConfirmedBids() {
         {device: 'iPhone 14 pro max', issu: ['Camera not working', 'Battery replacement'], bid: 10000,},
         {device: 'Samsung Z flip', issu: ['Display broken', 'Battery replacement'], bid: 12000,}
     ]
-    const [data, setData] = useState(dataNewBids);
+    const [data, setData] = useState([]);
 	const partnerid = JSON.parse(localStorage.getItem('partnerid'));
+	const [cookies] = useCookies([]);
     useEffect(()=> {
         const Getdata = async() => {
             try {
-                const res = await axios.get(process.env.REACT_APP_BACKEND + `order/getorders?partnerid=${partnerid}&status=no&delivery=${false}`, );
+                const res = await axios.get(process.env.REACT_APP_BACKEND + `order/getorders?partnerid=${partnerid}&status=no&delivery=${false}`,
+				{
+					headers : {
+						'x-token' : localStorage.getItem('token'),
+					}
+				} );
                 const data = res?.data?.objects || [];
                 setData(data);
                 console.log(data);
@@ -29,7 +35,7 @@ function ConfirmedBids() {
             }
         }
         Getdata();
-    }, [partnerid])
+    }, [])
 
     return (
         <Box style={{display: 'flex', flexDirection: 'column', padding: '10px 30px', backgroundColor: '#FFFFFF'}}>
@@ -47,7 +53,7 @@ function ConfirmedBids() {
 
             <Grid container style={{display: 'flex', flexDirection: 'column', margin: '0'}} >
                 {
-                    data.length === 0 ? (
+                    data?.length === 0 ? (
                         <Typography
                             fontFamily='Work Sans'
                             fontSize='20px'
@@ -59,7 +65,7 @@ function ConfirmedBids() {
                     ) : (
                         data?.map((data, index) => (
 							// pass data as a prop and change all the things once
-                            <ConfirmedBidsBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate} id={data._id}/>
+                            <ConfirmedBidsBox key={index} textDecorationNone={true} model={data?.model} device={data.device} issue={data.issue} bid={data.bid} date={data.biddate} id={data._id}/>
                         ))
                     )
                 }

@@ -18,6 +18,9 @@ function PendingOrders() {
             try {
                 const res = await axios.get(process.env.REACT_APP_BACKEND  + `order/getorders?partnerid=${partnerid}&status=repairing&delivery=${false}`, {
                     params: { partnerid },
+					headers : {
+						'x-token' : localStorage.getItem('token'),
+					}
                 });
 
                 const data = res?.data?.objects || [];
@@ -64,7 +67,7 @@ function PendingOrders() {
                         </Typography>
                     ) : (
                         data.map((data, index) => (
-                            <PendingOrdersBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate} id={data._id}/>
+                            <PendingOrdersBox key={index} textDecorationNone={true}  phone={data.device} model={data?.model} issue={data.issue} bid={data.bid} date={data.biddate} id={data._id}/>
                         ))
                     )
                 }

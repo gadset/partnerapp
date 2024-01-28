@@ -8,7 +8,7 @@ import Timer from '../Timer';
 import { Link } from 'react-router-dom';
 
 
-const PendingOrdersBox = ({phone,issue, textDecorationNone, id}) => {
+const PendingOrdersBox = ({phone,issue, textDecorationNone, id, model}) => {
 
     return (
         <Box container sx={{ margin: '10px 0'}}>
@@ -63,6 +63,45 @@ const PendingOrdersBox = ({phone,issue, textDecorationNone, id}) => {
                             textAlign='left'
                         >
                             {phone}
+                        </Typography>
+                    </Grid>
+                </Grid>
+				  <Grid container style={{display: 'flex', flexDirection: 'row', margin: '3px 0'}}>
+                    <Grid item xs={3}>
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                            textDecorationNone={true}
+                        >
+                            Model 
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={0.5} style={{display:'flex', justifyContent: 'center', alignItems: 'top'}}>
+                        <Typography
+                                fontFamily='Work Sans'
+                                fontWeight='400'
+                                fontSize='14px'
+                                lineHeight='16.42px'
+                                color='#333333'
+                                textAlign='left'
+                            >
+                            :
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={8.5}>
+                        <Typography
+                            fontFamily='Work Sans'
+                            fontWeight='400'
+                            fontSize='14px'
+                            lineHeight='16.42px'
+                            color='#333333'
+                            textAlign='left'
+                        >
+                            {model}
                         </Typography>
                     </Grid>
                 </Grid>

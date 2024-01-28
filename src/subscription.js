@@ -1,5 +1,5 @@
 
-const convertedVapidKey = urlBase64ToUint8Array("BMQOKdrpuYRNgI3wXtDoQstTJEt1rnO9w6b9KM3MnJek8V4DH72OYNYoACbpveEVg_1snYmI8EZIdJV_5qjfMo4")
+const convertedVapidKey = urlBase64ToUint8Array("BJs-1rAgTehzrIsAOwkqNHiwhTNB2Iudrw5XRzAen9wFcpcvICqVzpxwA7vwdyT1grGNOaKW9kdconwzjnHWWIg")
 
 function urlBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - base64String.length % 4) % 4)
@@ -16,16 +16,21 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 function sendSubscription(subscription) {
-  return fetch(process.env.REACT_APP_BACKEND + `message/subscribepartner`, {
+   try{
+	return fetch(process.env.REACT_APP_BACKEND + `message/subscribepartner`, {
     method: 'POST',
     body: JSON.stringify(subscription),
     headers: {
       'Content-Type': 'application/json'
     }
   })
+  }
+  catch(error) {
+	console.log(error);
+  }
 }
 
-export function SubscribeUser(partnerid) {
+export function SubscribeUser({partnerid}) {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(function(registration) {
       if (!registration.pushManager) {
@@ -34,7 +39,7 @@ export function SubscribeUser(partnerid) {
       }
 
       registration.pushManager.getSubscription().then(function(existedSubscription) {
-        if (existedSubscription === null) {
+        // if (existedSubscription === null) {
           console.log('No subscription detected, make a request.')
           registration.pushManager.subscribe({
             applicationServerKey: convertedVapidKey,
@@ -43,7 +48,7 @@ export function SubscribeUser(partnerid) {
             localStorage.setItem("subscription" , JSON.stringify(newSubscription));
             const obj = {
                 subscription : newSubscription,
-                partnerid : partnerid
+                user : partnerid
             }
             console.log('New subscription added.')
             sendSubscription(obj)
@@ -54,15 +59,15 @@ export function SubscribeUser(partnerid) {
               console.error('An error ocurred during the subscription process.', e)
             }
           })
-        } else {
-          console.log('Existed subscription detected.');
-          localStorage.setItem("subscription" , JSON.stringify(existedSubscription));
-          const obj = {
-            subscription : existedSubscription,
-            partnerid : partnerid
-        }
-          sendSubscription(obj);
-        }
+        // } else {
+        //   console.log('Existed subscription detected.');
+        //   localStorage.setItem("subscription" , JSON.stringify(existedSubscription));
+        //   const obj = {
+        //     subscription : existedSubscription,
+        //     user : partnerid
+        // }
+        //   sendSubscription(obj);
+        // }
       })
     })
       .catch(function(e) {
