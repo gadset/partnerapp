@@ -136,7 +136,8 @@ function Home() {
   }, []);
 
   useEffect(()=> {
-	 const start = async () => {
+
+	const start = async () => {
 		if(localStorage.getItem('token')){
 			 try {
         const bidsdata = await axios.get(
@@ -179,17 +180,24 @@ function Home() {
       } catch (err) {
         console.log(err);
       }
-
 		}
     };
+	let interval = setInterval(() => {
+		start();
+	}, 60*1000*3) ;
 	start();
+	return () => {
+		clearInterval(interval);
+	};
+
+	// start();
   }, []);
 
 
   useEffect(() => {
     async function getId() {
 	if(localStorage.getItem('token')){
-try{
+	try{
 		const resi = await axios.get(
         process.env.REACT_APP_BACKEND + "partner/getId",
         {
@@ -198,6 +206,11 @@ try{
           },
         }
       );
+	  console.log(resi);
+	   if(resi?.data?.isTokenExpired === true){
+		history.push('/login');
+			localStorage.removeItem('token')
+	 }
       dispatch(setPartnerIdValue(resi?.id));
       localStorage.setItem("partnerid", resi?.id);
 	}
@@ -206,11 +219,11 @@ try{
 		toast.error("Error in getting details");
 	}
 	}
-	
     }
 
     getId();
   }, []);
+
 
   return (
     <Grid

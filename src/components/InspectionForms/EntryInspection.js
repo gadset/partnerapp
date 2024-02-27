@@ -118,6 +118,21 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const StyledTypography  = styled(Typography)`
+
+&& {
+  font-family: "Work Sans";
+  font-size: 14px;
+  color: #000000;
+  line-height: 14.08px;
+  text-align: left;
+  padding-bottom: 8px;
+  padding-top: 12px;
+
+}
+ 
+`
+
 const locations = [
   { label: "Dead" },
   { label: "On" },
@@ -296,33 +311,27 @@ function EntryInspection() {
         >
           <Grid container style={{ display: "flex", flexDirection: "column" }}>
             <Grid item sx={{ padding: 0 }}>
-              <Typography
-                fontFamily="Work Sans"
-                fontSize="12px"
-                color="#000000"
-                lineHeight="14.08px"
-                textAlign="left"
+              <StyledTypography
               >
                 Order No
-              </Typography>
+              </StyledTypography>
             </Grid>
             <Grid>
-              <TextField value={id} disabled />
+              <TextField 
+  value={id} 
+  disabled 
+  style={{ width: '100%', }} 
+/>
               {/* <OrderEntryAutocomplete options={locations} value={orderNo} setValue={setOrderNo} /> */}
             </Grid>
           </Grid>
 
           <Grid container style={{ display: "flex", flexDirection: "column" }}>
             <Grid item sx={{ padding: 0 }}>
-              <Typography
-                fontFamily="Work Sans"
-                fontSize="12px"
-                color="#000000"
-                lineHeight="14.08px"
-                textAlign="left"
+              <StyledTypography
               >
                 Phone Condition
-              </Typography>
+              </StyledTypography>
             </Grid>
             <Grid>
               <OrderEntryAutocomplete
@@ -344,12 +353,14 @@ function EntryInspection() {
                     lineHeight: "14px",
                     letterSpacing: "0em",
                     textAlign: "left",
+					paddingBottom :"8px",
+					paddingTop : "12px"
                   }}
                 >
                   *Note :
                 </Typography>
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={10} sx={{paddingTop : "12px"}}>
                 <Typography
                   style={{
                     fontFamily: "Work Sans",
@@ -446,89 +457,84 @@ function EntryInspection() {
                 </Grid>
               </Grid>
 
-              <Typography
-                style={{
-                  width: "100%",
-                  textAlign: "center",
-                  fontSize: "12px",
-                  fontFamily: "Work Sans",
-                  marginTop: "5px",
-                  marginBottom: "5px",
-                  fontWeight: "400",
-                  lineHeight: "14.08px",
-                  letterSpacing: "0em",
-                }}
-              >
-                or
-              </Typography>
-              <Grid container sx={{ display: "flex", flexDirection: "column" }}>
-                <Grid item>
-                  <Typography
-                    style={{
-                      width: "100%",
-                      textAlign: "left",
-                      fontSize: "12px",
-                      fontFamily: "Work Sans",
-                      fontWeight: "400",
-                      lineHeight: "14.08px",
-                      letterSpacing: "0em",
-                    }}
-                  >
-                    Web URL
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <TextField
-                    className="textfeild2"
-                    value={url}
-                    onChange={(event) => setURL(event.target.value)}
-                    placeholder="https://images.unsplash.com/.."
-                    id="standard-start-adornment"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Box
-                            sx={{
-                              fontSize: "12px",
-                              color: "#333",
-                              borderRight: "1px solid #B7B7B7",
-                              padding: "0 5px",
-                            }}
-                          >
-                            <BiLink
-                              style={{ fontSize: "18px", marginTop: "4px" }}
-                            />
-                          </Box>
-                        </InputAdornment>
-                      ),
-                    }}
-                    variant="standard"
-                  />
-                </Grid>
-                <Grid item sx={{ textAlign: "Right", marginTop: "15px" }}>
-                  <StyledCancelButton onClick={handleCancel}>
-                    Cancel
-                  </StyledCancelButton>
-                  <StyledSaveButton onClick={handleSave}>Save</StyledSaveButton>
-                  <ToastContainer
-                    position="bottom-right"
-                    className="custom-toast-container"
-                  />
-                </Grid>
-              </Grid>
+				{/* <Typography
+					style={{
+					width: "100%",
+					textAlign: "center",
+					fontSize: "12px",
+					fontFamily: "Work Sans",
+					marginTop: "5px",
+					marginBottom: "5px",
+					fontWeight: "400",
+					lineHeight: "14.08px",
+					letterSpacing: "0em",
+					}}
+				>
+					or
+				</Typography>
+				<Grid container sx={{ display: "flex", flexDirection: "column" }}>
+					<Grid item>
+					<Typography
+						style={{
+						width: "100%",
+						textAlign: "left",
+						fontSize: "12px",
+						fontFamily: "Work Sans",
+						fontWeight: "400",
+						lineHeight: "14.08px",
+						letterSpacing: "0em",
+						}}
+					>
+						Web URL
+					</Typography>
+					</Grid>
+					<Grid item>
+					<TextField
+						className="textfeild2"
+						value={url}
+						onChange={(event) => setURL(event.target.value)}
+						placeholder="https://images.unsplash.com/.."
+						id="standard-start-adornment"
+						InputProps={{
+						startAdornment: (
+							<InputAdornment position="start">
+							<Box
+								sx={{
+								fontSize: "12px",
+								color: "#333",
+								borderRight: "1px solid #B7B7B7",
+								padding: "0 5px",
+								}}
+							>
+								<BiLink
+								style={{ fontSize: "18px", marginTop: "4px" }}
+								/>
+							</Box>
+							</InputAdornment>
+						),
+						}}
+						variant="standard"
+					/>
+					</Grid>
+					<Grid item sx={{ textAlign: "Right", marginTop: "15px" }}>
+					<StyledCancelButton onClick={handleCancel}>
+						Cancel
+					</StyledCancelButton>
+					<StyledSaveButton onClick={handleSave}>Save</StyledSaveButton>
+					<ToastContainer
+						position="bottom-right"
+						className="custom-toast-container"
+					/>
+					</Grid>
+				</Grid> */}
             </Box>
           </Grid>
 
           <Grid container sx={{ padding: 0, margin: "10px 0 5px 0" }}>
-            <Typography
-              fontFamily="Work Sans"
-              fontSize="16px"
-              fontWeight="400"
-              lineHeight="18.77px"
-              textAlign="left"
+            <StyledTypography
             >
-              whats working and whats not
-            </Typography>
+              Whats working and whats not
+            </StyledTypography>
           </Grid>
           <Grid item>
             <Grid
@@ -537,6 +543,7 @@ function EntryInspection() {
                 flexWrap: "wrap",
                 width: "100%",
                 margin: "5px 0",
+				justifyContent :'center'
               }}
               spacing={2}
               container
@@ -544,7 +551,7 @@ function EntryInspection() {
               {reparing.map((data) => (
                 <Grid
                   className="switches"
-                  sx={{ margin: "5px", border: "0px 0px 1px 0px" }}
+                  sx={{ margin: "3px", border: "0px 0px 1px 0px", width: '31%', }}
                 >
                   <FormControlLabel
                     key={data.label}
@@ -565,7 +572,7 @@ function EntryInspection() {
             </Grid>
           </Grid>
 
-          <Grid item sx={{ padding: 0, margin: "10px 0 5px 0" }}>
+          {/* <Grid item sx={{ padding: 0, margin: "10px 0 5px 0" }}>
             <Typography
               fontFamily="Work Sans"
               fontSize="16px"
@@ -575,39 +582,30 @@ function EntryInspection() {
             >
               Section
             </Typography>
-          </Grid>
+          </Grid> */}
 
           <Grid container style={{ display: "flex", flexDirection: "column" }}>
             <Grid item sx={{ padding: 0 }}>
-              <Typography
-                fontFamily="Work Sans"
-                fontSize="12px"
-                color="#000000"
-                lineHeight="14.08px"
-                textAlign="left"
+              <StyledTypography
               >
                 Inspection Done By
-              </Typography>
+              </StyledTypography>
             </Grid>
             <Grid>
               <TextField
                 value={inspection}
                 onChange={(event) => setInspection(event.target.value)}
+				style={{ width: '100%', }} 
               />
               {/* <OrderEntryAutocomplete options={locations} value={inspection} setValue={setInspection} /> */}
             </Grid>
           </Grid>
 
           <Grid item sx={{ padding: 0, margin: "10px 0 5px 0" }}>
-            <Typography
-              fontFamily="Work Sans"
-              fontSize="16px"
-              fontWeight="400"
-              lineHeight="18.77px"
-              textAlign="left"
+            <StyledTypography
             >
               Signature
-            </Typography>
+            </StyledTypography>
           </Grid>
 
           <Grid

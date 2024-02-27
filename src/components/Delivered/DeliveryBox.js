@@ -8,7 +8,7 @@ import Timer from '../Timer';
 import { Link } from 'react-router-dom';
 
 
-const DeliveryBox = ({phone,issue,payment}) => {
+const DeliveryBox = ({phone,issue,amount}) => {
 
     return (
         <Box container sx={{ margin: '10px 0'}}>
@@ -113,7 +113,7 @@ const DeliveryBox = ({phone,issue,payment}) => {
                                 color='#333333'
                                 textAlign='left'
                             >
-                            :
+                             :
                         </Typography>
                     </Grid>
                     <Grid item xs={9.3}>
@@ -125,7 +125,7 @@ const DeliveryBox = ({phone,issue,payment}) => {
                             color='#333333'
                             textAlign='left'
                         >
-                            ₹{payment}
+                            ₹{amount}
                         </Typography>
                     </Grid>
                     

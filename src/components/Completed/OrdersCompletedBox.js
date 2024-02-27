@@ -20,7 +20,7 @@ const ButtonDelivery = styled(Button) `
     padding: '10px 5px';
 `
 
-const OrdersCompletedBox = ({phone,issue,delivery,id}) => {
+const OrdersCompletedBox = ({phone,issue,delivery,id, amount}) => {
 
     return (
         <Box container sx={{ margin: '20px 0 30px 0'}}>
@@ -149,7 +149,7 @@ const OrdersCompletedBox = ({phone,issue,delivery,id}) => {
                             color='#333333'
                             textAlign='left'
                         >
-                            {delivery}
+                            {delivery ? "Delivered" : "Not Delivered"}
                         </Typography>
                     </Grid>
                 </Grid>

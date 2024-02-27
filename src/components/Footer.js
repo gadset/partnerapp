@@ -17,6 +17,15 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 export default function Footer(){
     const Mobile = useMediaQuery('(max-width:400px)');
 	const history = useHistory();
+
+	const handleWhatsappClick = () => {
+      window.location.href = 'https://wa.me/+918069409279';
+    }
+
+    const handleCallClick = () => {
+      window.location.href = 'tel:+919620543935';
+    }
+
   return (
     <Box sx={{ zIndex: 999,position:'fixed',bottom:'0', width: '100%' ,display: 'flex',alignItems: 'center', justifyContent:'center',left: 0}}>
       <Paper sx={{width : '100%'}}>
@@ -32,6 +41,7 @@ export default function Footer(){
         >
           <BottomNavigationAction
             label="Call"
+			onClick={handleCallClick}
             icon={
               <IconContext.Provider value={{ size: '23px' }}>
                 <IoCallOutline />
@@ -51,6 +61,7 @@ export default function Footer(){
             label="Whatsapp"
             icon={<WhatsAppIcon style={{fontSize:'23px'}}/>}
             style={{ color: '#333333' }}
+			onClick={handleWhatsappClick}
             sx={{
                 padding:Mobile? 0:'auto', 
                 minWidth:Mobile? '60px':'80px', 

@@ -182,6 +182,21 @@ const StyledSaveButton = styled(Button)`
     }
   }
 `;
+
+const StyledTypography  = styled(Typography)`
+
+&& {
+  font-family: "Work Sans";
+  font-size: 14px;
+  color: #000000;
+  line-height: 14.08px;
+  text-align: left;
+  padding-bottom: 8px;
+  padding-top: 12px;
+
+}
+ 
+`
 const [selectedFiles, setSelectedFiles] = useState([]);
 const handleDateChange = (newDate) => {
   setSelectedDate(newDate);
@@ -431,10 +446,14 @@ const handleDateChange = (newDate) => {
                   //      onChange={(event) => setGadgetmodel(event.target.value)}
 						/>
                 </Grid>
-                <Grid item sx={{width:'100%',}}><FormControl fullWidth >
+                <Grid item sx={{width:'100%',}}>
                     <Typography sx={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Delivered by</Typography>
-                    <TextField  label='' {...register('delivery')} />
-                </FormControl></Grid>
+                      <InputBase className='inputbase' placeholder="Delivered person" id='delivery' 
+					{...register('delivery')}
+					//value={serviceDone} 
+                      //  onChange={(event) => setServicedone(event.target.value)}
+						/>
+				</Grid>
                 <Grid item sx={{width:'100%',}}>
                     <Typography style={{width:'100%',fontFamily: 'Work sans',fontWeight: 400, fontSize: '12px', color: '#000', lineHeight: '14.08px'}}>Service done</Typography>
                     <InputBase className='inputbase' placeholder="Type Issue" id='servicedone' 
@@ -480,7 +499,7 @@ const handleDateChange = (newDate) => {
                     </Grid>
                 </Grid>
                 <Grid item>
-                    <Box style={{backgroundColor: '#F5F5F5',borderRadius:'5px',padding:'17px'}}>
+                    <Box style={{borderRadius:'5px'}}>
                         <Grid container sx={{display:'flex',flexDirection:'row' ,gap:'5px'}}>
                             <Grid item xs={5}>
                                 <label>
@@ -509,11 +528,11 @@ const handleDateChange = (newDate) => {
                                 ))}
                             </Grid>
                         </Grid>
-                        <Typography style={{width:'100%',textAlign:'center',fontSize: '12px',fontFamily: 'Work Sans',marginTop:'5px',marginBottom:'5px',
+                        {/* <Typography style={{width:'100%',textAlign:'center',fontSize: '12px',fontFamily: 'Work Sans',marginTop:'5px',marginBottom:'5px',
                                 fontWeight: '400',
                                 lineHeight: '14.08px',
-                                letterSpacing: '0em',}}>or</Typography>
-                        <Grid container sx={{display:'flex',flexDirection:'column'}}>
+                                letterSpacing: '0em',}}>or</Typography> */}
+                        {/* <Grid container sx={{display:'flex',flexDirection:'column'}}>
                          <Grid item><Typography style={{width:'100%',textAlign:'left',fontSize: '12px',fontFamily: 'Work Sans',
                                 fontWeight: '400',
                                 lineHeight: '14.08px',
@@ -548,7 +567,7 @@ const handleDateChange = (newDate) => {
                           <StyledSaveButton onClick={handleSave}>Save</StyledSaveButton>
                           <ToastContainer position="bottom-right" className="custom-toast-container"/>
                          </Grid>
-                        </Grid>
+                        </Grid> */}
                         
                     </Box>
                     

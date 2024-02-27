@@ -64,7 +64,7 @@ function OrdersCompleted() {
                         </Typography>
                     ) : (
                         data?.map((data, index) => (
-                            <OrdersCompletedBox key={index} textDecorationNone={true}  phone={data.device} issue={data.issue} bid={data.bid} date={data.biddate} id={data._id}/>
+                            <OrdersCompletedBox key={index} textDecorationNone={true}  phone={data.device} delivery={data?.delivery} amount ={data?.amount} issue={data.issue} bid={data.bid} date={data.biddate} id={data._id}/>
                         ))
                     )
                 }

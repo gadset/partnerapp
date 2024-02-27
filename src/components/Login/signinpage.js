@@ -71,8 +71,7 @@ function LoginForm() {
   };
 
   const handleSubmit = async () => {
-	const addStr = `${address?.flatNumber}, ${address?.landmark}, ${address?.city}, ${address?.state}, ${address?.pinCode}`;
-    dispatch(setAddressValue(addStr));
+    dispatch(setAddressValue(address));
     dispatch(setnameValue(name));
     dispatch(setemailValue(email));
     // e.preventDefault();
@@ -80,7 +79,7 @@ function LoginForm() {
     const data = {
       email: email,
       name: name,
-      address: addStr,
+      address: address,
       number: number,
       rating: Math.floor(Math.random() * 3) + 2,
       percentage: Math.floor(Math.random() * 50) + 50,
@@ -325,8 +324,9 @@ function LoginForm() {
 				email = {email}
 				setEmail = {setEmail}
 				address = {address}
-				setAddress = {setaddress}
+				setaddress = {setaddress}
 				handleSubmit={handleSubmit}
+				number={number}
 	/>
 
 }

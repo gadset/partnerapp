@@ -16,7 +16,6 @@ function Delivery() {
         const Getdata = async() => {
 			const partnerid = JSON.parse(localStorage.getItem('partnerid'));
 
-
             try {
                 const res = await axios.get(process.env.REACT_APP_BACKEND + `order/getorders?partnerid=${partnerid}&status=done&delivery=${true}`, {
 					headers : {
@@ -61,7 +60,7 @@ function Delivery() {
                         </Typography>
                     ) : (
                         data.map((data, index) => (
-                            <DeliveryBox key={index} phone={data.device} issue={data.issue} payment={data.paymentdone} />
+                            <DeliveryBox key={index} phone={data.device} issue={data.issue} amount={data.amount} />
                         ))
                     )
                 }

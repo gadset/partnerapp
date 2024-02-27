@@ -10,6 +10,16 @@ import { useDispatch } from "react-redux";
 import { useTheme } from "@emotion/react";
 // import Geocode from "react-geocode";
 import { toast } from "react-toastify";
+import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  setAddressValue,
+  setallValue,
+  setemailValue,
+  setnameValue,
+  setPartnerIdValue,
+} from "../../reduxslice.js";
+import { SubscribeUser } from "../../subscription.js";
 
 const DetailsPage = ({
 				name,
@@ -17,8 +27,9 @@ const DetailsPage = ({
 				email,
 				setEmail,
 				address,
-				setAddress,
+				setaddress,
 				handleSubmit,
+				number
 }) => {
   const [pinCode, setPinCode] = useState("");
   const [flatNumber, setFlatNumber] = useState("");
@@ -29,17 +40,48 @@ const DetailsPage = ({
 
 const [place, setplace] = useState("")
 const [latlng, setlatlng] = useState({});
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [cookies, setCookies] = useCookies(["token"]);
 //   Geocode.setApiKey("AIzaSyBKIByYCgUyIZYIfQUchm4ZVtowK0tvfhg");
 
   const handlenext = () => {
-	setAddress({
-		pinCode,
-		flatNumber,
-		landmark,
-		city,
-		state
-	})
-	handleSubmit();
+	const addStr = `${flatNumber}, ${landmark}, ${city}, ${state}, ${pinCode}`;
+	setaddress(addStr)
+	dispatch(setAddressValue(addStr));
+    dispatch(setnameValue(name));
+    dispatch(setemailValue(email));
+    // e.preventDefault();
+    //  const docRef = doc(firestoredb, "Partners", number);
+    const data = {
+      email: email,
+      name: name,
+      address: addStr,
+      number: number,
+      rating: Math.floor(Math.random() * 3) + 2,
+      percentage: Math.floor(Math.random() * 50) + 50,
+    };
+
+    fetch(process.env.REACT_APP_BACKEND + "partner/partnerlogin", {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        //   localStorage.setItem('partnerid', JSON.stringify(json.id));
+        //   SubscribeUser(json.id);
+        setCookies("token", json?.token);
+		localStorage.setItem("token", json?.token);
+		SubscribeUser({partnerid : json?.id});
+        history.push({
+          pathname: "/home",
+        });
+      });
   }
   return (
     <Grid container sx={{ marginLeft: 0, width: "100%", display:'flex', flexDirection:'column', alignItems:'center' ,marginBottom: '30px',}}>

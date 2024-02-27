@@ -12,6 +12,8 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { toast } from "react-toastify";
+import sendWhatsappMsg from "../Sendmessage/sendWhatsappmsg";
 
 export default function Allbids() {
   // const partnerid =JSON.parse(localStorage.getItem('partnerid'))
@@ -82,6 +84,19 @@ export default function Allbids() {
           },
         }
       );
+
+	  const data = resp?.data;
+	  if(data?.message === "successful"){
+		toast.success(data?.message);
+		sendWhatsappMsg({
+		templateParams : [data?.device, data?.model],
+		destination : `+91${data?.customerphone}`,
+		campaignName : 'Partner added bid - Customer Notification'
+	  })
+	  }
+	  else{
+		toast.success(data?.message);
+	  }
     } catch (err) {
       console.error(err);
     }
